@@ -1,0 +1,1255 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Panel VYNTRA — Laura</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy: #0D1F40;
+  --cobalt: #2563EB;
+  --cobalt-soft: #6BA8F5;
+  --sand: #F1EFE8;
+  --black: #111111;
+  --white: #FFFFFF;
+  --sw: 240px;
+  --green: #16a34a;
+  --yellow: #d97706;
+  --red: #dc2626;
+  --gbg: #dcfce7;
+  --ybg: #fef3c7;
+  --rbg: #fee2e2;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:'Inter',Helvetica,sans-serif; background:var(--sand); color:var(--black); display:flex; min-height:100vh; }
+
+/* ── SIDEBAR ── */
+.sidebar {
+  width:var(--sw); background:var(--navy); min-height:100vh;
+  display:flex; flex-direction:column; position:fixed; top:0; left:0; z-index:100;
+}
+.sb-logo { padding:26px 22px 18px; border-bottom:1px solid rgba(255,255,255,.08); }
+.sb-logo-name { font-family:Georgia,serif; font-size:20px; font-weight:bold; color:#fff; letter-spacing:1px; }
+.sb-logo-name span { color:var(--cobalt); }
+.sb-logo-sub { font-size:11px; color:var(--cobalt-soft); margin-top:2px; }
+.sb-user { padding:14px 22px; border-bottom:1px solid rgba(255,255,255,.08); display:flex; align-items:center; gap:10px; }
+.sb-avatar { width:38px; height:38px; background:var(--cobalt); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:15px; font-weight:700; color:#fff; flex-shrink:0; }
+.sb-uname { font-size:14px; font-weight:600; color:#fff; }
+.sb-urole { font-size:11px; color:var(--cobalt-soft); }
+.sb-nav { padding:14px 0; flex:1; }
+.nav-item {
+  display:flex; align-items:center; gap:12px; padding:12px 22px;
+  cursor:pointer; color:rgba(255,255,255,.55); font-size:14px; font-weight:500;
+  border-left:3px solid transparent; transition:all .15s;
+  user-select:none;
+}
+.nav-item:hover { background:rgba(255,255,255,.05); color:#fff; }
+.nav-item.active { background:rgba(37,99,235,.18); color:#fff; border-left-color:var(--cobalt); }
+.nav-icon { font-size:17px; width:22px; text-align:center; }
+.sb-footer { padding:14px 22px; border-top:1px solid rgba(255,255,255,.08); font-size:11px; color:rgba(255,255,255,.3); line-height:1.5; }
+.sb-footer strong { color:rgba(255,255,255,.5); }
+
+/* ── MAIN ── */
+.main { margin-left:var(--sw); flex:1; padding:32px 36px 48px; }
+.section { display:none; }
+.section.active { display:block; }
+
+/* page header */
+.ph { margin-bottom:26px; }
+.ph-title { font-family:Georgia,serif; font-size:26px; font-weight:bold; color:var(--navy); margin-bottom:3px; }
+.ph-sub { font-size:13px; color:#777; }
+.update-badge {
+  display:inline-flex; align-items:center; gap:6px; background:#fff;
+  border:1px solid #e5e7eb; border-radius:20px; padding:4px 12px;
+  font-size:12px; color:#666; margin-top:8px;
+}
+.udot { width:7px; height:7px; border-radius:50%; background:var(--green); animation:pulse 2s infinite; }
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.4} }
+
+/* ── MONITOREO: summary ── */
+.sum-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:16px; margin-bottom:26px; }
+.sum-card { background:#fff; border-radius:12px; padding:20px; box-shadow:0 1px 6px rgba(0,0,0,.06); }
+.sum-label { font-size:10px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; color:#aaa; margin-bottom:8px; }
+.sum-val { font-family:Georgia,serif; font-size:30px; font-weight:bold; color:var(--navy); margin-bottom:2px; }
+.sum-note { font-size:12px; color:#888; }
+.sum-note.up { color:var(--green); }
+.sum-note.down { color:var(--red); }
+.sum-note.warn { color:var(--yellow); }
+
+/* ── CLIENT CARDS ── */
+.clients-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:20px; }
+.cc {
+  background:#fff; border-radius:14px; padding:24px;
+  box-shadow:0 1px 8px rgba(0,0,0,.07); border-top:4px solid var(--cobalt);
+}
+.cc.alerta { border-top-color:var(--yellow); }
+.cc.critico { border-top-color:var(--red); }
+.cc-head { display:flex; align-items:flex-start; justify-content:space-between; margin-bottom:16px; }
+.cc-info { display:flex; align-items:center; gap:12px; }
+.cc-initial {
+  width:46px; height:46px; background:var(--navy); border-radius:10px;
+  display:flex; align-items:center; justify-content:center;
+  font-family:Georgia,serif; font-size:18px; font-weight:bold; color:var(--cobalt-soft);
+  flex-shrink:0;
+}
+.cc-name { font-size:16px; font-weight:700; color:var(--navy); margin-bottom:2px; }
+.cc-sector { font-size:12px; color:#999; }
+.sb-tag { padding:4px 10px; border-radius:20px; font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.5px; }
+.sb-tag.normal { background:var(--gbg); color:var(--green); }
+.sb-tag.alerta { background:var(--ybg); color:var(--yellow); }
+.sb-tag.critico { background:var(--rbg); color:var(--red); }
+.alert-bar {
+  background:var(--ybg); border:1px solid #fcd34d; border-radius:8px;
+  padding:8px 12px; font-size:12px; color:#92400e; margin-bottom:14px;
+  display:flex; align-items:center; gap:6px;
+}
+.metrics-g { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-bottom:14px; }
+.m-item { background:var(--sand); border-radius:8px; padding:11px; text-align:center; }
+.m-lbl { font-size:10px; font-weight:700; color:#aaa; letter-spacing:1px; text-transform:uppercase; margin-bottom:4px; }
+.m-val { font-size:20px; font-weight:700; color:var(--navy); line-height:1; }
+.m-unit { font-size:11px; color:#bbb; }
+.plat-row { display:flex; gap:6px; margin-bottom:12px; }
+.plat { font-size:11px; font-weight:700; padding:3px 8px; border-radius:4px; }
+.plat.meta { background:#EEF2FF; color:#3730a3; }
+.plat.google { background:#FEF2F2; color:#dc2626; }
+.plat.tiktok { background:#F0FDF4; color:#166534; }
+.cc-notes { font-size:13px; color:#666; border-top:1px solid #f0f0f0; padding-top:12px; line-height:1.5; }
+
+/* ── TEMPLATES (WA + EMAIL) ── */
+.tpl-list { display:flex; flex-direction:column; gap:16px; }
+.tpl-card { background:#fff; border-radius:14px; padding:24px; box-shadow:0 1px 6px rgba(0,0,0,.06); }
+.tpl-head { display:flex; align-items:center; justify-content:space-between; margin-bottom:12px; flex-wrap:wrap; gap:8px; }
+.tpl-title { font-size:15px; font-weight:700; color:var(--navy); }
+.tpl-tag { font-size:11px; font-weight:700; padding:3px 10px; border-radius:20px; }
+.tpl-tag.prospecto { background:#EEF2FF; color:#3730a3; }
+.tpl-tag.cliente { background:var(--gbg); color:var(--green); }
+.tpl-tag.cobro { background:var(--ybg); color:#92400e; }
+.tpl-tag.onboarding { background:#f3e8ff; color:#7e22ce; }
+.tpl-body {
+  font-size:13.5px; color:#444; line-height:1.75; background:var(--sand);
+  border-radius:8px; padding:16px; white-space:pre-wrap; margin-bottom:14px;
+  font-family:'Helvetica Neue',sans-serif;
+}
+.copy-btn {
+  background:var(--navy); color:#fff; border:none; border-radius:8px;
+  padding:8px 20px; font-size:13px; font-weight:600; cursor:pointer; transition:background .15s;
+}
+.copy-btn:hover { background:#1a2f5a; }
+.copy-btn.copied { background:var(--green); }
+
+/* email extra */
+.email-subject-lbl { font-size:10px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; color:#aaa; margin-bottom:2px; }
+.email-subject-txt { font-size:15px; font-weight:700; color:var(--navy); margin-bottom:14px; }
+
+/* ── CHECKLISTS ── */
+.cl-list { display:flex; flex-direction:column; gap:20px; }
+.cl-card { background:#fff; border-radius:14px; padding:24px; box-shadow:0 1px 6px rgba(0,0,0,.06); }
+.cl-head { display:flex; align-items:center; justify-content:space-between; margin-bottom:18px; padding-bottom:16px; border-bottom:1px solid #f0f0f0; flex-wrap:wrap; gap:10px; }
+.cl-name { font-size:17px; font-weight:700; color:var(--navy); }
+.drive-btn {
+  display:inline-flex; align-items:center; gap:6px; background:#1a73e8;
+  color:#fff; border:none; border-radius:8px; padding:8px 16px;
+  font-size:13px; font-weight:600; cursor:pointer; text-decoration:none;
+  transition:background .15s;
+}
+.drive-btn:hover { background:#1557b0; }
+.drive-btn.pending { background:#999; }
+.prog-wrap { margin-bottom:16px; }
+.prog-meta { display:flex; justify-content:space-between; font-size:12px; color:#888; margin-bottom:5px; }
+.prog-bg { background:#f0f0f0; border-radius:4px; height:6px; }
+.prog-fill { background:var(--cobalt); height:6px; border-radius:4px; transition:width .3s; }
+.cl-items { display:flex; flex-direction:column; gap:8px; }
+.cl-item { display:flex; align-items:center; gap:10px; padding:9px 11px; border-radius:8px; cursor:pointer; transition:background .1s; }
+.cl-item:hover { background:var(--sand); }
+.cl-item input[type=checkbox] { width:17px; height:17px; accent-color:var(--cobalt); cursor:pointer; flex-shrink:0; }
+.cl-item-lbl { font-size:14px; color:#333; flex:1; transition:color .15s; }
+.cl-item input:checked ~ .cl-item-lbl { text-decoration:line-through; color:#bbb; }
+
+/* ── RESPONSABILIDADES ── */
+.resp-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:16px; }
+.resp-card { background:#fff; border-radius:14px; padding:24px; box-shadow:0 1px 6px rgba(0,0,0,.06); border-left:4px solid var(--cobalt); }
+.resp-num { font-size:11px; font-weight:700; color:var(--cobalt); letter-spacing:2px; text-transform:uppercase; margin-bottom:6px; }
+.resp-title { font-family:Georgia,serif; font-size:16px; font-weight:bold; color:var(--navy); margin-bottom:8px; }
+.resp-desc { font-size:13px; color:#555; line-height:1.65; }
+
+/* ── MOBILE NAV ── */
+.mob-nav {
+  display:none; position:fixed; bottom:0; left:0; right:0;
+  background:var(--navy); border-top:1px solid rgba(255,255,255,.1);
+  z-index:100; padding:6px 0 env(safe-area-inset-bottom,6px);
+}
+.mob-nav-inner { display:flex; justify-content:space-around; }
+.mob-item { display:flex; flex-direction:column; align-items:center; gap:2px; padding:6px 10px; cursor:pointer; color:rgba(255,255,255,.45); font-size:10px; font-weight:500; transition:color .15s; }
+.mob-item.active { color:var(--cobalt-soft); }
+.mob-item .mi { font-size:19px; }
+
+/* ── CHAT ── */
+.chat-wrap { display:flex; flex-direction:column; height:calc(100vh - 200px); min-height:500px; }
+.chat-url-bar {
+  background:#fff; border-radius:12px; padding:10px 16px;
+  margin-bottom:14px; display:flex; align-items:center; gap:10px;
+  box-shadow:0 1px 4px rgba(0,0,0,.06);
+}
+.url-dot { width:9px; height:9px; border-radius:50%; flex-shrink:0; transition:background .3s; }
+.url-dot.on { background:var(--green); box-shadow:0 0 0 3px rgba(22,163,74,.15); }
+.url-dot.off { background:#ccc; }
+.url-text { font-size:13px; color:#555; flex:1; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.url-btn { background:var(--sand); border:none; border-radius:8px; padding:6px 14px; font-size:12px; font-weight:600; color:#444; cursor:pointer; white-space:nowrap; }
+.url-btn:hover { background:#e5e3db; }
+.chat-msgs {
+  flex:1; overflow-y:auto; background:#fff; border-radius:14px;
+  padding:20px; margin-bottom:14px; display:flex; flex-direction:column; gap:10px;
+  box-shadow:0 1px 6px rgba(0,0,0,.06);
+}
+.chat-empty { text-align:center; color:#bbb; font-size:14px; margin:auto; line-height:1.8; }
+.chat-empty strong { display:block; font-size:16px; color:#999; margin-bottom:6px; }
+.msg { display:flex; flex-direction:column; max-width:82%; }
+.msg.user { align-self:flex-end; }
+.msg.ai { align-self:flex-start; }
+.msg-bubble { padding:12px 16px; border-radius:16px; font-size:14px; line-height:1.65; word-break:break-word; }
+.msg.user .msg-bubble { background:var(--cobalt); color:#fff; border-bottom-right-radius:4px; }
+.msg.ai .msg-bubble { background:var(--sand); color:var(--black); border-bottom-left-radius:4px; }
+.msg-time { font-size:11px; color:#ccc; margin-top:3px; }
+.msg.user .msg-time { text-align:right; }
+.typing-bubble { padding:12px 16px; background:var(--sand); border-radius:16px; border-bottom-left-radius:4px; display:inline-flex; gap:5px; align-items:center; }
+.typing-bubble span { width:7px; height:7px; background:#bbb; border-radius:50%; animation:tbounce .9s ease-in-out infinite; }
+.typing-bubble span:nth-child(2) { animation-delay:.18s; }
+.typing-bubble span:nth-child(3) { animation-delay:.36s; }
+@keyframes tbounce { 0%,60%,100%{transform:translateY(0)} 30%{transform:translateY(-7px)} }
+.chat-input-row { display:flex; gap:10px; align-items:flex-end; }
+.chat-input {
+  flex:1; border:2px solid #e5e7eb; border-radius:12px; padding:12px 16px;
+  font-size:14px; font-family:inherit; resize:none; outline:none;
+  transition:border-color .15s; max-height:120px; min-height:48px; line-height:1.5;
+}
+.chat-input:focus { border-color:var(--cobalt); }
+.send-btn {
+  width:48px; height:48px; background:var(--cobalt); color:#fff; border:none;
+  border-radius:12px; cursor:pointer; font-size:20px; transition:background .15s;
+  display:flex; align-items:center; justify-content:center; flex-shrink:0;
+}
+.send-btn:hover { background:#1a52d9; }
+.send-btn:disabled { background:#d1d5db; cursor:not-allowed; }
+
+/* ── RESPONSIVE ── */
+@media(max-width:900px) {
+  .sum-grid { grid-template-columns:repeat(2,1fr); }
+  .clients-grid { grid-template-columns:1fr; }
+}
+@media(max-width:768px) {
+  .sidebar { display:none; }
+  .mob-nav { display:block; }
+  .main { margin-left:0; padding:20px 16px 90px; }
+  .sum-grid { grid-template-columns:repeat(2,1fr); }
+  .resp-grid { grid-template-columns:1fr; }
+  .ph-title { font-size:22px; }
+}
+@media(max-width:420px) {
+  .m-val { font-size:17px; }
+  .sum-val { font-size:24px; }
+}
+
+/* ── AGENDA ── */
+.agenda-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:20px; flex-wrap:wrap; gap:12px; }
+.agenda-filters { display:flex; gap:8px; }
+.af-btn { padding:7px 16px; border-radius:20px; border:2px solid #e5e7eb; background:#fff; font-size:13px; font-weight:600; cursor:pointer; color:#555; transition:all .15s; }
+.af-btn.active { background:var(--cobalt); color:#fff; border-color:var(--cobalt); }
+.agenda-add-btn { background:var(--navy); color:#fff; border:none; border-radius:10px; padding:9px 18px; font-size:13px; font-weight:600; cursor:pointer; display:flex; align-items:center; gap:6px; transition:background .15s; }
+.agenda-add-btn:hover { background:#1a2f5a; }
+.agenda-empty { text-align:center; padding:48px 0; color:#bbb; font-size:14px; }
+.agenda-empty strong { display:block; font-size:18px; color:#ccc; margin-bottom:6px; }
+.agenda-list { display:flex; flex-direction:column; gap:12px; }
+.ev-card { background:#fff; border-radius:14px; padding:20px 22px; box-shadow:0 1px 6px rgba(0,0,0,.06); display:flex; align-items:flex-start; gap:16px; }
+.ev-icon { font-size:24px; flex-shrink:0; width:40px; text-align:center; }
+.ev-body { flex:1; min-width:0; }
+.ev-title { font-size:15px; font-weight:700; color:var(--navy); margin-bottom:2px; }
+.ev-meta { font-size:12px; color:#888; margin-bottom:4px; }
+.ev-desc { font-size:13px; color:#666; }
+.ev-badges { display:flex; gap:6px; margin-top:6px; flex-wrap:wrap; }
+.ev-badge { font-size:11px; font-weight:700; padding:2px 10px; border-radius:20px; background:var(--sand); color:#555; }
+.ev-badge.reunion { background:#EEF2FF; color:#3730a3; }
+.ev-badge.llamada { background:#F0FDF4; color:#166534; }
+.ev-badge.cobro { background:var(--ybg); color:#92400e; }
+.ev-badge.seguimiento { background:#f3e8ff; color:#7e22ce; }
+.ev-delete { background:none; border:none; cursor:pointer; color:#ddd; font-size:16px; transition:color .15s; flex-shrink:0; padding:4px; }
+.ev-delete:hover { color:var(--red); }
+.modal-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,.5); z-index:200; align-items:center; justify-content:center; }
+.modal-overlay.open { display:flex; }
+.modal { background:#fff; border-radius:18px; padding:30px; width:100%; max-width:480px; margin:16px; }
+.modal-title { font-family:Georgia,serif; font-size:19px; font-weight:bold; color:var(--navy); margin-bottom:20px; }
+.form-group { margin-bottom:14px; }
+.form-label { font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:1px; color:#888; margin-bottom:5px; display:block; }
+.form-input { width:100%; border:2px solid #e5e7eb; border-radius:10px; padding:10px 14px; font-size:14px; font-family:inherit; outline:none; transition:border-color .15s; }
+.form-input:focus { border-color:var(--cobalt); }
+.form-row { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+.modal-actions { display:flex; gap:10px; justify-content:flex-end; margin-top:20px; }
+.btn-cancel { background:var(--sand); border:none; border-radius:10px; padding:10px 20px; font-size:14px; font-weight:600; color:#555; cursor:pointer; }
+.btn-save { background:var(--cobalt); border:none; border-radius:10px; padding:10px 22px; font-size:14px; font-weight:600; color:#fff; cursor:pointer; }
+.btn-save:hover { background:#1a52d9; }
+</style>
+</head>
+<body>
+
+<!-- ═══════════ SIDEBAR ═══════════ -->
+<div class="sidebar">
+  <div class="sb-logo">
+    <div class="sb-logo-name">VYNTRA<span>.</span></div>
+    <div class="sb-logo-sub">Intelligent Systems</div>
+  </div>
+  <div class="sb-user">
+    <div class="sb-avatar">L</div>
+    <div>
+      <div class="sb-uname">Laura</div>
+      <div class="sb-urole">Socia Comercial</div>
+    </div>
+  </div>
+  <nav class="sb-nav">
+    <div class="nav-item active" onclick="show('monitoreo',this)">
+      <span class="nav-icon">📊</span> Monitoreo
+    </div>
+    <div class="nav-item" onclick="show('wa',this)">
+      <span class="nav-icon">💬</span> Plantillas WA
+    </div>
+    <div class="nav-item" onclick="show('correos',this)">
+      <span class="nav-icon">✉️</span> Correos
+    </div>
+    <div class="nav-item" onclick="show('checklists',this)">
+      <span class="nav-icon">✅</span> Checklists
+    </div>
+    <div class="nav-item" onclick="show('tareas',this)">
+      <span class="nav-icon">📋</span> Mis Tareas
+    </div>
+    <div class="nav-item" onclick="show('agenda',this)">
+      <span class="nav-icon">📅</span> Agenda
+    </div>
+    <div class="nav-item" onclick="show('chat',this)">
+      <span class="nav-icon">🤖</span> Chat IA
+    </div>
+  </nav>
+  <div class="sb-footer">
+    <strong>VYNTRA Intelligent Systems</strong><br>
+    +52 614 272 6674<br>
+    vyntra.ex@gmail.com
+  </div>
+</div>
+
+<!-- ═══════════ MOBILE NAV ═══════════ -->
+<div class="mob-nav">
+  <div class="mob-nav-inner">
+    <div class="mob-item active" onclick="show('monitoreo',this,true)"><span class="mi">📊</span>Monitor</div>
+    <div class="mob-item" onclick="show('wa',this,true)"><span class="mi">💬</span>WA</div>
+    <div class="mob-item" onclick="show('correos',this,true)"><span class="mi">✉️</span>Correos</div>
+    <div class="mob-item" onclick="show('checklists',this,true)"><span class="mi">✅</span>Checks</div>
+    <div class="mob-item" onclick="show('tareas',this,true)"><span class="mi">📋</span>Tareas</div>
+    <div class="mob-item" onclick="show('agenda',this,true)"><span class="mi">📅</span>Agenda</div>
+    <div class="mob-item" onclick="show('chat',this,true)"><span class="mi">🤖</span>Chat IA</div>
+  </div>
+</div>
+
+<!-- ═══════════ MAIN ═══════════ -->
+<main class="main">
+
+  <!-- ══ MONITOREO ══ -->
+  <div id="monitoreo" class="section active">
+    <div class="ph">
+      <div class="ph-title">Monitoreo de Campañas</div>
+      <div class="ph-sub">Revisa métricas y alertas de cada cliente activo</div>
+      <div class="update-badge">
+        <div class="udot"></div>
+        <span id="ts">—</span>
+      </div>
+    </div>
+
+    <!-- SUMMARY -->
+    <div class="sum-grid">
+      <div class="sum-card">
+        <div class="sum-label">Clientes Activos</div>
+        <div class="sum-val">4</div>
+        <div class="sum-note">campañas corriendo</div>
+      </div>
+      <div class="sum-card">
+        <div class="sum-label">Alertas Activas</div>
+        <div class="sum-val" style="color:var(--yellow)">1</div>
+        <div class="sum-note warn">Ecotienda CUU</div>
+      </div>
+      <div class="sum-card">
+        <div class="sum-label">Gasto del Día</div>
+        <div class="sum-val">$1,240</div>
+        <div class="sum-note">MXN total</div>
+      </div>
+      <div class="sum-card">
+        <div class="sum-label">ROAS Promedio</div>
+        <div class="sum-val">2.63</div>
+        <div class="sum-note up">↑ vs ayer 2.41</div>
+      </div>
+    </div>
+
+    <!-- CLIENT CARDS — datos editables en el JS al final -->
+    <div class="clients-grid" id="clientsGrid"></div>
+  </div>
+
+  <!-- ══ PLANTILLAS WA ══ -->
+  <div id="wa" class="section">
+    <div class="ph">
+      <div class="ph-title">Plantillas WhatsApp</div>
+      <div class="ph-sub">Copia el mensaje y pégalo directo en WhatsApp</div>
+    </div>
+    <div class="tpl-list">
+
+      <div class="tpl-card">
+        <div class="tpl-head">
+          <div class="tpl-title">Recordatorio de Pago</div>
+          <span class="tpl-tag cobro">Cobranza</span>
+        </div>
+        <div class="tpl-body" id="wa1">Hola [Nombre] 👋
+
+Te escribo de parte de VYNTRA. Tu mensualidad de *$[monto] MXN* vence el *[fecha]*.
+
+Puedes hacer tu pago por transferencia a:
+🏦 [banco] · Cuenta: [número] · CLABE: [clabe]
+A nombre de: [razón social]
+
+En cuanto lo realices avísame para enviarte tu comprobante. 🙌
+
+Cualquier duda, aquí estoy.</div>
+        <button class="copy-btn" onclick="copiar('wa1',this)">Copiar mensaje</button>
+      </div>
+
+      <div class="tpl-card">
+        <div class="tpl-head">
+          <div class="tpl-title">Confirmación de Reunión</div>
+          <span class="tpl-tag cliente">Cliente / Prospecto</span>
+        </div>
+        <div class="tpl-body" id="wa2">Hola [Nombre] 😊
+
+Te confirmo nuestra reunión para el *[día], [fecha] a las [hora]*.
+
+📍 [Zoom / Meet / presencial — dirección]
+🔗 [link si aplica]
+
+La agenda del día:
+• [punto 1]
+• [punto 2]
+• [punto 3]
+
+Si necesitas mover el horario avísame con tiempo. ¡Nos vemos pronto!</div>
+        <button class="copy-btn" onclick="copiar('wa2',this)">Copiar mensaje</button>
+      </div>
+
+      <div class="tpl-card">
+        <div class="tpl-head">
+          <div class="tpl-title">Solicitud de Accesos (Onboarding)</div>
+          <span class="tpl-tag onboarding">Onboarding</span>
+        </div>
+        <div class="tpl-body" id="wa3">Hola [Nombre] 🎉
+
+¡Bienvenido a VYNTRA! Estamos listos para arrancar.
+
+Para comenzar necesitamos acceso a las siguientes plataformas. Te comparto el checklist:
+
+✅ *Meta Business Manager* — agrega a vyntra.ex@gmail.com como administrador
+✅ *Google Ads* — agrega a vyntra.ex@gmail.com con rol administrador
+✅ *Google Analytics (GA4)* — acceso de editor al vyntra.ex@gmail.com
+✅ *Página web* — usuario + contraseña o acceso FTP/hosting
+
+También te compartí una carpeta en Google Drive para que subas:
+📁 Logo en alta resolución (PNG/SVG)
+📁 Fotos de tu negocio o productos
+📁 Brief de tu empresa (si tienes)
+
+🔗 [link carpeta Drive del cliente]
+
+Cualquier duda de cómo dar accesos, con gusto te guío paso a paso. 🚀</div>
+        <button class="copy-btn" onclick="copiar('wa3',this)">Copiar mensaje</button>
+      </div>
+
+      <div class="tpl-card">
+        <div class="tpl-head">
+          <div class="tpl-title">Seguimiento de Propuesta Enviada</div>
+          <span class="tpl-tag prospecto">Prospecto</span>
+        </div>
+        <div class="tpl-body" id="wa4">Hola [Nombre] 👋
+
+Quería saber si tuviste oportunidad de revisar la propuesta que te enviamos el [fecha].
+
+Si tienes alguna pregunta sobre los paquetes, métricas esperadas o cualquier detalle, con mucho gusto lo platicamos. Podemos agendar una llamada rápida de 20 minutos cuando te acomode.
+
+¿Cómo lo ves?</div>
+        <button class="copy-btn" onclick="copiar('wa4',this)">Copiar mensaje</button>
+      </div>
+
+      <div class="tpl-card">
+        <div class="tpl-head">
+          <div class="tpl-title">Alerta de Campaña al Cliente</div>
+          <span class="tpl-tag cobro">Alerta</span>
+        </div>
+        <div class="tpl-body" id="wa5">Hola [Nombre] 🔔
+
+Detectamos una baja en el rendimiento de tu campaña de *[Meta Ads / Google Ads]* hoy.
+
+📉 [métrica] bajó de [valor anterior] a [valor actual]
+
+Nuestro equipo ya está revisando la causa y haciendo ajustes. Te avisamos en cuanto tengamos resolución.
+
+Si tienes alguna pregunta, aquí estoy. ¡Gracias por tu confianza!</div>
+        <button class="copy-btn" onclick="copiar('wa5',this)">Copiar mensaje</button>
+      </div>
+
+      <div class="tpl-card">
+        <div class="tpl-head">
+          <div class="tpl-title">Reporte Semanal Listo</div>
+          <span class="tpl-tag cliente">Cliente Activo</span>
+        </div>
+        <div class="tpl-body" id="wa6">Hola [Nombre] 📈
+
+¡Tu reporte semanal está listo!
+
+Semana del [fecha inicio] al [fecha fin]:
+
+📊 *ROAS:* [x.x] (objetivo: 2.5+)
+💰 *Inversión ejecutada:* $[monto] MXN
+🖱️ *Clics:* [número]
+📣 *Impresiones:* [número]
+🎯 *CTR:* [x.x]%
+
+[Resumen en 1-2 líneas: qué funcionó, qué se ajusta esta semana]
+
+El reporte completo lo puedes ver en tu Drive:
+🔗 [link reporte]
+
+¿Alguna pregunta o comentario?</div>
+        <button class="copy-btn" onclick="copiar('wa6',this)">Copiar mensaje</button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ══ CORREOS ══ -->
+  <div id="correos" class="section">
+    <div class="ph">
+      <div class="ph-title">Plantillas de Correo</div>
+      <div class="ph-sub">Copia asunto y cuerpo para enviar desde tu correo</div>
+    </div>
+    <div class="tpl-list">
+
+      <div class="tpl-card">
+        <div class="tpl-head">
+          <div class="tpl-title">Post-Reunión (mismo día)</div>
+          <span class="tpl-tag prospecto">Prospecto</span>
+        </div>
+        <div class="email-subject-lbl">Asunto</div>
+        <div class="email-subject-txt">Resumen de nuestra reunión — VYNTRA</div>
+        <div class="tpl-body" id="c1">Hola [Nombre],
+
+Gracias por tu tiempo hoy. Fue una conversación muy valiosa y estamos seguros de que podemos generar resultados concretos para [nombre empresa].
+
+Como acordamos, el siguiente paso es:
+→ [acción acordada, ej: "enviarte la propuesta formal antes del jueves"]
+
+Te copiamos la propuesta actualizada: [link o adjunto]
+
+Cualquier pregunta, responde a este correo o escríbeme al WhatsApp.
+
+Quedo al pendiente,
+
+Laura
+Socia Comercial · VYNTRA Intelligent Systems
++52 614 272 6674 · vyntra.ex@gmail.com</div>
+        <button class="copy-btn" onclick="copiar('c1',this)">Copiar cuerpo</button>
+      </div>
+
+      <div class="tpl-card">
+        <div class="tpl-head">
+          <div class="tpl-title">Bienvenida Cliente (tras firma)</div>
+          <span class="tpl-tag onboarding">Onboarding</span>
+        </div>
+        <div class="email-subject-lbl">Asunto</div>
+        <div class="email-subject-txt">Bienvenido a VYNTRA — Próximos pasos</div>
+        <div class="tpl-body" id="c2">Hola [Nombre],
+
+Bienvenido a VYNTRA. A partir de hoy somos parte de tu equipo y nuestro objetivo es generar resultados medibles desde el primer mes.
+
+*Próximos pasos del onboarding:*
+
+1. Accesos a plataformas (checklist adjunto) — plazo: 48 hrs
+2. Subir materiales de marca a Drive — link: [link]
+3. Kickoff de arranque: [fecha y hora] vía [Zoom/presencial]
+
+Nuestro compromiso es tenerte tu primer reporte en los primeros 7 días de campaña activa.
+
+Si en algún momento necesitas algo, responde este correo o escríbeme directo al WhatsApp.
+
+Con gusto en servirte,
+
+Laura
+Socia Comercial · VYNTRA Intelligent Systems
++52 614 272 6674 · vyntra.ex@gmail.com</div>
+        <button class="copy-btn" onclick="copiar('c2',this)">Copiar cuerpo</button>
+      </div>
+
+      <div class="tpl-card">
+        <div class="tpl-head">
+          <div class="tpl-title">Recordatorio de Pago Formal</div>
+          <span class="tpl-tag cobro">Cobranza</span>
+        </div>
+        <div class="email-subject-lbl">Asunto</div>
+        <div class="email-subject-txt">Recordatorio de pago mensual — [mes] · VYNTRA</div>
+        <div class="tpl-body" id="c3">Hola [Nombre],
+
+Te escribo para recordarte que tu mensualidad correspondiente a *[mes]* por $[monto] MXN vence el próximo *[fecha]*.
+
+Datos para transferencia:
+• Banco: [banco]
+• Cuenta: [número]
+• CLABE: [CLABE interbancaria]
+• Beneficiario: [razón social]
+• Concepto: VYNTRA [mes] [empresa]
+
+Al realizar tu pago favor de enviar comprobante a este correo o por WhatsApp para registrarlo de inmediato.
+
+Cualquier duda o aclaración, con gusto te atiendo.
+
+Gracias,
+
+Laura
+Socia Comercial · VYNTRA Intelligent Systems
++52 614 272 6674 · vyntra.ex@gmail.com</div>
+        <button class="copy-btn" onclick="copiar('c3',this)">Copiar cuerpo</button>
+      </div>
+
+      <div class="tpl-card">
+        <div class="tpl-head">
+          <div class="tpl-title">Seguimiento de Propuesta (correo frío)</div>
+          <span class="tpl-tag prospecto">Prospecto</span>
+        </div>
+        <div class="email-subject-lbl">Asunto</div>
+        <div class="email-subject-txt">¿Tuviste oportunidad de revisar la propuesta? — VYNTRA</div>
+        <div class="tpl-body" id="c4">Hola [Nombre],
+
+El [fecha] te enviamos una propuesta personalizada para [nombre empresa]. Quería hacer seguimiento por si surgió alguna pregunta o necesitas ajustar algo.
+
+Nuestras propuestas están construidas para generar retorno medible desde el primer mes, con métricas claras y reportes semanales.
+
+Si gustas, podemos agendar 20 minutos esta semana para resolverlo en persona.
+
+¿Cuándo tienes disponibilidad?
+
+Laura
+Socia Comercial · VYNTRA Intelligent Systems
++52 614 272 6674 · vyntra.ex@gmail.com</div>
+        <button class="copy-btn" onclick="copiar('c4',this)">Copiar cuerpo</button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ══ CHECKLISTS ══ -->
+  <div id="checklists" class="section">
+    <div class="ph">
+      <div class="ph-title">Checklists de Onboarding</div>
+      <div class="ph-sub">Marca cada acceso conforme lo recibes — se guarda automáticamente</div>
+    </div>
+    <div class="cl-list" id="clList"></div>
+  </div>
+
+  <!-- ══ MIS TAREAS ══ -->
+  <div id="tareas" class="section">
+    <div class="ph">
+      <div class="ph-title">Mis Responsabilidades</div>
+      <div class="ph-sub">Definición de tu rol como Socia Comercial de VYNTRA</div>
+    </div>
+    <div class="resp-grid">
+      <div class="resp-card">
+        <div class="resp-num">01</div>
+        <div class="resp-title">Cobranza Mensual</div>
+        <div class="resp-desc">Gestiona el ciclo completo de cobro: aviso 5 días antes, confirmación de pago y seguimiento hasta cierre. Mantiene el flujo de caja sin fricción.</div>
+      </div>
+      <div class="resp-card">
+        <div class="resp-num">02</div>
+        <div class="resp-title">Respuesta a DMs y WhatsApp</div>
+        <div class="resp-desc">Atiende Instagram @vyntra.ex y WhatsApp en menos de 2 horas hábiles. Filtra, califica y responde prospectos y clientes. Escala al área técnica solo lo necesario.</div>
+      </div>
+      <div class="resp-card">
+        <div class="resp-num">03</div>
+        <div class="resp-title">Reuniones y Agendas</div>
+        <div class="resp-desc">Coordina y confirma todas las reuniones. Envía confirmación + agenda 24 horas antes. Cierra cada sesión con un resumen de acuerdos enviado el mismo día.</div>
+      </div>
+      <div class="resp-card">
+        <div class="resp-num">04</div>
+        <div class="resp-title">Solicitud de Accesos</div>
+        <div class="resp-desc">Gestiona la recopilación de accesos en los primeros 2 días tras firma: Business Manager, Google Ads, GA4, web y cualquier plataforma del cliente. Sigue hasta recibirlos todos.</div>
+      </div>
+      <div class="resp-card">
+        <div class="resp-num">05</div>
+        <div class="resp-title">Reuniones de Presentación</div>
+        <div class="resp-desc">Conduce las reuniones de cierre con prospectos. Presenta la propuesta, responde objeciones y guía la decisión. Envía seguimiento el mismo día tras cada reunión.</div>
+      </div>
+      <div class="resp-card">
+        <div class="resp-num">06</div>
+        <div class="resp-title">Monitoreo Diario de Métricas</div>
+        <div class="resp-desc">Revisa cada mañana CPC, ROAS, CTR e impresiones de cada cliente. Marca alerta si alguna métrica cae más del 20% vs. ayer. Registra en el tracker diario.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ AGENDA ══ -->
+  <div id="agenda" class="section">
+    <div class="ph">
+      <div class="ph-title">Agenda VYNTRA</div>
+      <div class="ph-sub">Eventos compartidos con Nexo — reuniones, cobros, seguimientos</div>
+    </div>
+    <div class="agenda-header">
+      <div class="agenda-filters">
+        <button class="af-btn active" onclick="cargarAgenda('hoy',this)">Hoy</button>
+        <button class="af-btn" onclick="cargarAgenda('semana',this)">Esta semana</button>
+        <button class="af-btn" onclick="cargarAgenda('todo',this)">Todo</button>
+      </div>
+      <button class="agenda-add-btn" onclick="abrirModalAgenda()">+ Nuevo evento</button>
+    </div>
+    <div id="agendaList" class="agenda-list">
+      <div class="agenda-empty"><strong>Cargando...</strong></div>
+    </div>
+  </div>
+
+  <!-- Modal nuevo evento -->
+  <div id="modalAgenda" class="modal-overlay">
+    <div class="modal">
+      <div class="modal-title">Nuevo evento</div>
+      <div class="form-group">
+        <label class="form-label">Título *</label>
+        <input id="evTitulo" class="form-input" type="text" placeholder="Ej: Reunión con Cheesy Planet">
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Fecha *</label>
+          <input id="evFecha" class="form-input" type="date">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Hora</label>
+          <input id="evHora" class="form-input" type="time" value="10:00">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Tipo *</label>
+          <select id="evTipo" class="form-input">
+            <option value="reunion">Reunión</option>
+            <option value="llamada">Llamada</option>
+            <option value="cobro">Cobro</option>
+            <option value="seguimiento">Seguimiento</option>
+            <option value="otro">Otro</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Cliente</label>
+          <input id="evCliente" class="form-input" type="text" placeholder="Nombre del cliente">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Notas</label>
+        <input id="evDesc" class="form-input" type="text" placeholder="Notas adicionales (opcional)">
+      </div>
+      <div class="modal-actions">
+        <button class="btn-cancel" onclick="cerrarModalAgenda()">Cancelar</button>
+        <button class="btn-save" onclick="guardarEvento()">Guardar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ CHAT IA ══ -->
+  <div id="chat" class="section">
+    <div class="ph">
+      <div class="ph-title">Chat con IA</div>
+      <div class="ph-sub">Pregúntale cualquier cosa sobre VYNTRA, clientes, campañas o plantillas</div>
+    </div>
+
+    <div class="chat-wrap">
+      <!-- URL BAR -->
+      <div class="chat-url-bar">
+        <div class="url-dot off" id="urlDot"></div>
+        <span class="url-text" id="urlText">Servidor no configurado — haz clic en Configurar</span>
+        <button class="url-btn" onclick="configUrl()">Configurar URL</button>
+      </div>
+
+      <!-- MENSAJES -->
+      <div class="chat-msgs" id="chatMsgs">
+        <div class="chat-empty" id="chatEmpty">
+          <strong>🤖 Asistente VYNTRA</strong>
+          Pregúntame sobre clientes, métricas, plantillas,<br>
+          estrategia comercial o lo que necesites.
+        </div>
+      </div>
+
+      <!-- INPUT -->
+      <div class="chat-input-row">
+        <textarea class="chat-input" id="chatInput" placeholder="Escribe tu pregunta... (Enter para enviar)" rows="1" onkeydown="chatKey(event)" oninput="autoResize(this)"></textarea>
+        <button class="send-btn" id="sendBtn" onclick="sendChat()">➤</button>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<!-- ═══════════ JS ═══════════ -->
+<script>
+// ──────────────────────────────────────────────
+// DATOS — editar aquí para actualizar métricas
+// ──────────────────────────────────────────────
+const DATOS = {
+  ultimaActualizacion: "28 May 2026 · 09:15 AM",
+  clientes: [
+    {
+      id: "cheesy",
+      nombre: "Cheesy Planet",
+      sector: "Restaurante / Delivery",
+      status: "normal",
+      plataformas: ["meta"],
+      alerta: null,
+      metricas: { roas: 2.8, cpc: 4.20, ctr: 2.3, spend: 450 },
+      notas: "Campaña de pizza del mes con buen rendimiento. Aumentar presupuesto jueves-domingo.",
+      drive: "" // pegar link de Google Drive aquí
+    },
+    {
+      id: "ecotienda",
+      nombre: "Ecotienda CUU",
+      sector: "Energía Solar",
+      status: "alerta",
+      plataformas: ["meta","google"],
+      alerta: "ROAS por debajo del objetivo (meta: 2.5). Revisar segmentación de Google.",
+      metricas: { roas: 1.6, cpc: 7.80, ctr: 0.9, spend: 280 },
+      notas: "Campaña de paneles solares. CPC elevado en Google — ajuste pendiente.",
+      drive: "" // pegar link de Google Drive aquí
+    },
+    {
+      id: "santai",
+      nombre: "Santai Wellness",
+      sector: "Spa / 2 sucursales",
+      status: "normal",
+      plataformas: ["meta"],
+      alerta: null,
+      metricas: { roas: 3.4, cpc: 3.10, ctr: 3.2, spend: 320 },
+      notas: "Mejor ROAS del portafolio. Campaña de masajes + membresías funcionando.",
+      drive: "" // pegar link de Google Drive aquí
+    },
+    {
+      id: "ykrental",
+      nombre: "YK Rental CUU",
+      sector: "Renta de Equipo",
+      status: "normal",
+      plataformas: ["meta","google"],
+      alerta: null,
+      metricas: { roas: 2.2, cpc: 5.40, ctr: 1.9, spend: 190 },
+      notas: "Campaña de maquinaria para construcción. Leads de calidad, ciclo de venta largo.",
+      drive: "" // pegar link de Google Drive aquí
+    }
+  ]
+};
+
+// ──────────────────────────────────────────────
+// CHECKLIST ITEMS (mismo para todos los clientes)
+// ──────────────────────────────────────────────
+const CL_ITEMS = [
+  "Contrato firmado y primer pago confirmado",
+  "Business Manager compartido (rol administrador)",
+  "Google Ads — acceso concedido",
+  "GA4 — acceso de editor concedido",
+  "Pixel de Meta instalado en sitio web",
+  "Conversiones configuradas en plataformas",
+  "Brief del negocio recibido",
+  "Logo y materiales de marca en Drive",
+  "Carpeta de Drive compartida con el cliente",
+  "Kickoff agendado y confirmado"
+];
+
+// ─── RENDER CLIENTES ───
+function renderClientes() {
+  const grid = document.getElementById('clientsGrid');
+  const platLabel = { meta:'Meta Ads', google:'Google Ads', tiktok:'TikTok' };
+  grid.innerHTML = DATOS.clientes.map(c => {
+    const plats = c.plataformas.map(p => `<span class="plat ${p}">${platLabel[p]}</span>`).join('');
+    const alertHtml = c.alerta ? `<div class="alert-bar">⚠️ ${c.alerta}</div>` : '';
+    return `
+    <div class="cc ${c.status}">
+      <div class="cc-head">
+        <div class="cc-info">
+          <div class="cc-initial">${c.nombre[0]}</div>
+          <div>
+            <div class="cc-name">${c.nombre}</div>
+            <div class="cc-sector">${c.sector}</div>
+          </div>
+        </div>
+        <span class="sb-tag ${c.status}">${c.status === 'normal' ? 'Normal' : c.status === 'alerta' ? 'Alerta' : 'Crítico'}</span>
+      </div>
+      ${alertHtml}
+      <div class="metrics-g">
+        <div class="m-item">
+          <div class="m-lbl">ROAS</div>
+          <div class="m-val" style="color:${c.metricas.roas >= 2.5 ? 'var(--green)' : c.metricas.roas >= 1.8 ? 'var(--yellow)' : 'var(--red)'}">${c.metricas.roas.toFixed(1)}</div>
+          <div class="m-unit">objetivo 2.5+</div>
+        </div>
+        <div class="m-item">
+          <div class="m-lbl">CPC</div>
+          <div class="m-val">$${c.metricas.cpc.toFixed(2)}</div>
+          <div class="m-unit">MXN</div>
+        </div>
+        <div class="m-item">
+          <div class="m-lbl">CTR</div>
+          <div class="m-val">${c.metricas.ctr.toFixed(1)}%</div>
+          <div class="m-unit">clicks/impr.</div>
+        </div>
+      </div>
+      <div class="plat-row">${plats}</div>
+      <div class="cc-notes">💰 Gasto hoy: <strong>$${c.metricas.spend.toLocaleString()} MXN</strong> &nbsp;·&nbsp; ${c.notas}</div>
+    </div>`;
+  }).join('');
+}
+
+// ─── RENDER CHECKLISTS ───
+function renderChecklists() {
+  const list = document.getElementById('clList');
+  list.innerHTML = DATOS.clientes.map(c => {
+    const key = `vyntra_cl_${c.id}`;
+    const saved = JSON.parse(localStorage.getItem(key) || '{}');
+    const total = CL_ITEMS.length;
+    const done = CL_ITEMS.filter((_, i) => saved[i]).length;
+    const pct = Math.round((done / total) * 100);
+    const driveHtml = c.drive
+      ? `<a href="${c.drive}" target="_blank" class="drive-btn">📁 Ver Drive del cliente</a>`
+      : `<button class="drive-btn pending" title="Agrega el link de Drive en el código">📁 Drive pendiente</button>`;
+    const items = CL_ITEMS.map((item, i) => `
+      <label class="cl-item">
+        <input type="checkbox" ${saved[i] ? 'checked' : ''} onchange="toggleCheck('${c.id}',${i},this)">
+        <span class="cl-item-lbl">${item}</span>
+      </label>`).join('');
+    return `
+    <div class="cl-card">
+      <div class="cl-head">
+        <div class="cl-name">${c.nombre}</div>
+        ${driveHtml}
+      </div>
+      <div class="prog-wrap">
+        <div class="prog-meta"><span>Progreso de onboarding</span><span>${done}/${total} (${pct}%)</span></div>
+        <div class="prog-bg"><div class="prog-fill" id="prog_${c.id}" style="width:${pct}%"></div></div>
+      </div>
+      <div class="cl-items">${items}</div>
+    </div>`;
+  }).join('');
+}
+
+function toggleCheck(clientId, idx, el) {
+  const key = `vyntra_cl_${clientId}`;
+  const saved = JSON.parse(localStorage.getItem(key) || '{}');
+  saved[idx] = el.checked;
+  localStorage.setItem(key, JSON.stringify(saved));
+  const total = CL_ITEMS.length;
+  const done = Object.values(saved).filter(Boolean).length;
+  const pct = Math.round((done / total) * 100);
+  const bar = document.getElementById(`prog_${clientId}`);
+  if (bar) bar.style.width = pct + '%';
+  const meta = bar?.closest('.cl-card')?.querySelector('.prog-meta span:last-child');
+  if (meta) meta.textContent = `${done}/${total} (${pct}%)`;
+}
+
+// ─── COPY TO CLIPBOARD ───
+function copiar(id, btn) {
+  const txt = document.getElementById(id)?.innerText || '';
+  navigator.clipboard.writeText(txt).then(() => {
+    btn.textContent = '✓ Copiado';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = 'Copiar mensaje'; btn.classList.remove('copied'); }, 2000);
+  });
+}
+
+// ─── NAV ───
+function show(id, el, isMobile = false) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  if (!isMobile) {
+    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+    el.classList.add('active');
+  } else {
+    document.querySelectorAll('.mob-item').forEach(n => n.classList.remove('active'));
+    el.classList.add('active');
+  }
+}
+
+// ─── TIMESTAMP ───
+function setTimestamp() {
+  const ts = document.getElementById('ts');
+  if (ts) ts.textContent = `Actualizado: ${DATOS.ultimaActualizacion}`;
+}
+
+// ──────────────────────────────────────────────
+// CHAT IA
+// ──────────────────────────────────────────────
+let chatHistory = [];
+let chatUrl = (localStorage.getItem('vyntra_chat_url') || 'https://army-omission-drearily.ngrok-free.dev').replace(/\/$/, '');
+
+function updateUrlBar() {
+  const dot = document.getElementById('urlDot');
+  const txt = document.getElementById('urlText');
+  if (chatUrl) {
+    dot.className = 'url-dot on';
+    txt.textContent = chatUrl;
+  } else {
+    dot.className = 'url-dot off';
+    txt.textContent = 'Servidor no configurado — haz clic en Configurar';
+  }
+}
+
+function configUrl() {
+  const val = prompt('URL del servidor VYNTRA (ngrok):\nEjemplo: https://xxxx.ngrok-free.app', chatUrl);
+  if (val !== null) {
+    chatUrl = val.trim().replace(/\/$/, '');
+    localStorage.setItem('vyntra_chat_url', chatUrl);
+    updateUrlBar();
+  }
+}
+
+function addBubble(role, text) {
+  const empty = document.getElementById('chatEmpty');
+  if (empty) empty.remove();
+  const c = document.getElementById('chatMsgs');
+  const time = new Date().toLocaleTimeString('es-MX', { hour: '2-digit', minute: '2-digit' });
+  const d = document.createElement('div');
+  d.className = 'msg ' + (role === 'user' ? 'user' : 'ai');
+  d.innerHTML = `<div class="msg-bubble">${text.replace(/</g,'&lt;').replace(/\n/g,'<br>')}</div><div class="msg-time">${time}</div>`;
+  c.appendChild(d);
+  c.scrollTop = c.scrollHeight;
+}
+
+function showTypingIndicator() {
+  const c = document.getElementById('chatMsgs');
+  const d = document.createElement('div');
+  d.className = 'msg ai';
+  d.id = 'typingMsg';
+  d.innerHTML = '<div class="typing-bubble"><span></span><span></span><span></span></div>';
+  c.appendChild(d);
+  c.scrollTop = c.scrollHeight;
+}
+
+function removeTypingIndicator() {
+  const el = document.getElementById('typingMsg');
+  if (el) el.remove();
+}
+
+async function sendChat() {
+  const input = document.getElementById('chatInput');
+  const btn = document.getElementById('sendBtn');
+  const text = input.value.trim();
+  if (!text) return;
+  if (!chatUrl) { configUrl(); return; }
+
+  input.value = '';
+  input.style.height = 'auto';
+  btn.disabled = true;
+
+  chatHistory.push({ role: 'user', content: text });
+  addBubble('user', text);
+  showTypingIndicator();
+
+  try {
+    const res = await fetch(chatUrl + '/api/chat', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'ngrok-skip-browser-warning': 'true', 'Authorization': 'Bearer m87UuFkjCcHIaSL6XMxisgWVDYEGd5tf' },
+      body: JSON.stringify({ messages: chatHistory })
+    });
+    const data = await res.json();
+    removeTypingIndicator();
+    const reply = data.respuesta || ('Error: ' + (data.error || 'Sin respuesta'));
+    chatHistory.push({ role: 'assistant', content: reply });
+    addBubble('assistant', reply);
+  } catch (e) {
+    removeTypingIndicator();
+    const errMsg = '⚠️ No se pudo conectar. Verifica que el servidor esté corriendo y que la URL de ngrok sea correcta.';
+    addBubble('assistant', errMsg);
+  }
+
+  btn.disabled = false;
+  input.focus();
+}
+
+function chatKey(e) {
+  if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendChat(); }
+}
+
+function autoResize(el) {
+  el.style.height = 'auto';
+  el.style.height = Math.min(el.scrollHeight, 120) + 'px';
+}
+
+// ──────────────────────────────────────────────
+// AGENDA
+// ──────────────────────────────────────────────
+const TIPO_ICONO = { reunion:'📅', llamada:'📞', cobro:'💰', seguimiento:'🔔', otro:'📌' };
+const TIPO_LABEL = { reunion:'Reunión', llamada:'Llamada', cobro:'Cobro', seguimiento:'Seguimiento', otro:'Otro' };
+let agendaPeriodo = 'hoy';
+
+function agendaAuth() {
+  return { 'Content-Type': 'application/json', 'ngrok-skip-browser-warning': 'true', 'Authorization': 'Bearer m87UuFkjCcHIaSL6XMxisgWVDYEGd5tf' };
+}
+
+async function cargarAgenda(periodo, btn) {
+  agendaPeriodo = periodo || agendaPeriodo;
+  document.querySelectorAll('.af-btn').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  const list = document.getElementById('agendaList');
+  if (!chatUrl) { list.innerHTML = '<div class="agenda-empty"><strong>Sin servidor</strong>Configura la URL del servidor en Chat IA</div>'; return; }
+  list.innerHTML = '<div class="agenda-empty"><strong>Cargando...</strong></div>';
+  try {
+    const r = await fetch(`${chatUrl}/api/agenda?periodo=${agendaPeriodo}`, { headers: agendaAuth() });
+    const eventos = await r.json();
+    renderAgenda(eventos);
+  } catch {
+    list.innerHTML = '<div class="agenda-empty"><strong>Sin conexión</strong>Verifica que el servidor esté corriendo</div>';
+  }
+}
+
+function renderAgenda(eventos) {
+  const list = document.getElementById('agendaList');
+  if (!eventos.length) {
+    list.innerHTML = '<div class="agenda-empty"><strong>Sin eventos</strong>No hay nada agendado para este período</div>';
+    return;
+  }
+  const fmt = { weekday:'long', year:'numeric', month:'long', day:'numeric', timeZone:'America/Chihuahua' };
+  list.innerHTML = eventos.map(e => {
+    const fecha = new Date(e.fecha + 'T12:00:00').toLocaleDateString('es-MX', fmt);
+    const cliente = e.cliente ? `<span class="ev-badge">${e.cliente}</span>` : '';
+    const desc = e.descripcion ? `<div class="ev-desc">${e.descripcion}</div>` : '';
+    return `<div class="ev-card">
+      <div class="ev-icon">${TIPO_ICONO[e.tipo] || '📌'}</div>
+      <div class="ev-body">
+        <div class="ev-title">${e.titulo}</div>
+        <div class="ev-meta">${fecha} · ${e.hora}</div>
+        ${desc}
+        <div class="ev-badges"><span class="ev-badge ${e.tipo}">${TIPO_LABEL[e.tipo] || e.tipo}</span>${cliente}</div>
+      </div>
+      <button class="ev-delete" onclick="eliminarEvento('${e.id}')" title="Eliminar">✕</button>
+    </div>`;
+  }).join('');
+}
+
+async function eliminarEvento(id) {
+  if (!confirm('¿Eliminar este evento?')) return;
+  await fetch(`${chatUrl}/api/agenda/${id}`, { method:'DELETE', headers: agendaAuth() });
+  cargarAgenda(agendaPeriodo);
+}
+
+function abrirModalAgenda() {
+  document.getElementById('evFecha').value = new Date().toISOString().slice(0, 10);
+  document.getElementById('modalAgenda').classList.add('open');
+}
+function cerrarModalAgenda() { document.getElementById('modalAgenda').classList.remove('open'); }
+
+async function guardarEvento() {
+  const titulo = document.getElementById('evTitulo').value.trim();
+  const fecha  = document.getElementById('evFecha').value;
+  const hora   = document.getElementById('evHora').value || '09:00';
+  const tipo   = document.getElementById('evTipo').value;
+  const cliente = document.getElementById('evCliente').value.trim();
+  const descripcion = document.getElementById('evDesc').value.trim();
+  if (!titulo || !fecha) return alert('Título y fecha son obligatorios');
+  await fetch(`${chatUrl}/api/agenda`, {
+    method: 'POST', headers: agendaAuth(),
+    body: JSON.stringify({ titulo, fecha, hora, tipo, cliente, descripcion })
+  });
+  cerrarModalAgenda();
+  ['evTitulo','evCliente','evDesc'].forEach(id => document.getElementById(id).value = '');
+  cargarAgenda(agendaPeriodo);
+}
+
+document.getElementById('modalAgenda').addEventListener('click', e => {
+  if (e.target === document.getElementById('modalAgenda')) cerrarModalAgenda();
+});
+
+// ──────────────────────────────────────────────
+// PUSH NOTIFICATIONS (Web Push + in-panel toast)
+// ──────────────────────────────────────────────
+function mostrarToast(titulo, cuerpo) {
+  let t = document.getElementById('vyntraToast');
+  if (!t) {
+    t = document.createElement('div');
+    t.id = 'vyntraToast';
+    t.style.cssText = [
+      'position:fixed','top:20px','right:20px','z-index:9999',
+      'background:#0D1F40','color:#fff','border-radius:14px',
+      'padding:18px 22px','box-shadow:0 8px 32px rgba(0,0,0,.35)',
+      'max-width:320px','display:none','border-left:5px solid #2563EB',
+      'font-family:Inter,sans-serif','cursor:pointer','transition:opacity .3s'
+    ].join(';');
+    t.onclick = () => { t.style.display = 'none'; };
+    document.body.appendChild(t);
+  }
+  t.innerHTML = `<div style="font-weight:700;font-size:14px;margin-bottom:5px">🔔 ${titulo}</div><div style="font-size:13px;opacity:.85;line-height:1.5">${cuerpo}</div>`;
+  t.style.display = 'block';
+  clearTimeout(t._timer);
+  t._timer = setTimeout(() => { t.style.opacity = '0'; setTimeout(() => { t.style.display = 'none'; t.style.opacity = '1'; }, 400); }, 7000);
+}
+
+function urlB64ToUint8(base64) {
+  const pad = '='.repeat((4 - base64.length % 4) % 4);
+  const b64 = (base64 + pad).replace(/-/g, '+').replace(/_/g, '/');
+  return Uint8Array.from([...atob(b64)].map(c => c.charCodeAt(0)));
+}
+
+async function initPush() {
+  if (!('serviceWorker' in navigator) || !('PushManager' in window)) return;
+  try {
+    const reg = await navigator.serviceWorker.register('/sw.js');
+
+    // Escuchar mensajes del SW (toast cuando el tab está abierto)
+    navigator.serviceWorker.addEventListener('message', e => {
+      if (e.data?.type === 'PUSH_TOAST') mostrarToast(e.data.titulo, e.data.cuerpo);
+    });
+
+    // Solicitar permiso de notificaciones
+    const perm = await Notification.requestPermission();
+    if (perm !== 'granted') return;
+
+    // Obtener clave VAPID del servidor
+    const kr = await fetch(chatUrl + '/api/push/vapid-key', { headers: { Authorization: 'Bearer m87UuFkjCcHIaSL6XMxisgWVDYEGd5tf', 'ngrok-skip-browser-warning': 'true' } });
+    if (!kr.ok) return;
+    const { publicKey } = await kr.json();
+
+    // Suscribirse si no existe ya
+    let sub = await reg.pushManager.getSubscription();
+    if (!sub) {
+      sub = await reg.pushManager.subscribe({ userVisibleOnly: true, applicationServerKey: urlB64ToUint8(publicKey) });
+    }
+
+    // Registrar suscripción en el servidor
+    await fetch(chatUrl + '/api/push/subscribe', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Authorization: 'Bearer m87UuFkjCcHIaSL6XMxisgWVDYEGd5tf', 'ngrok-skip-browser-warning': 'true' },
+      body: JSON.stringify(sub)
+    });
+    console.log('🔔 Push activado para Laura');
+  } catch(e) { console.warn('Push init:', e.message); }
+}
+
+// Polling inbox cada 30s (para toast in-panel cuando llega mensaje mientras tab está abierto)
+let lastInboxCheck = Date.now();
+setInterval(async () => {
+  if (!chatUrl) return;
+  try {
+    const r = await fetch(`${chatUrl}/api/push/inbox?since=${lastInboxCheck}`, {
+      headers: { Authorization: 'Bearer m87UuFkjCcHIaSL6XMxisgWVDYEGd5tf', 'ngrok-skip-browser-warning': 'true' }
+    });
+    if (!r.ok) return;
+    const msgs = await r.json();
+    lastInboxCheck = Date.now();
+    msgs.forEach(m => mostrarToast(m.titulo, m.cuerpo));
+  } catch {}
+}, 30_000);
+
+// ─── INIT ───
+renderClientes();
+renderChecklists();
+setTimestamp();
+updateUrlBar();
+cargarAgenda('hoy');
+if (chatUrl) initPush();
+</script>
+</body>
+</html>
