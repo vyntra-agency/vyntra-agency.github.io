@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Stonox · Base de Clientes Potenciales</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  :root{
+    --bg:#0f172a; --panel:#ffffff; --ink:#1e293b; --muted:#64748b; --border:#e2e8f0;
+    --accent:#b8893f;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0; font-family:"Segoe UI", system-ui, -apple-system, Arial, sans-serif;
+    background:#f4f5f7; color:var(--ink);
+  }
+  header{
+    background:linear-gradient(135deg,#1e2430,#3a2f25);
+    color:#fff; padding:28px 32px;
+  }
+  header h1{margin:0 0 4px; font-size:24px; letter-spacing:.5px;}
+  header p{margin:0; color:#cbd5e1; font-size:14px;}
+  .stats{display:flex; gap:18px; margin-top:14px; flex-wrap:wrap;}
+  .stat{background:rgba(255,255,255,.08); padding:8px 14px; border-radius:8px; font-size:13px;}
+  .stat b{font-size:16px; display:block;}
+
+  .toolbar{
+    display:flex; gap:10px; align-items:center; flex-wrap:wrap;
+    padding:16px 32px; background:#fff; border-bottom:1px solid var(--border);
+    position:sticky; top:0; z-index:5;
+  }
+  #search{flex:1; min-width:180px; padding:9px 12px; border:1px solid var(--border); border-radius:8px; font-size:14px;}
+  .chip{
+    padding:6px 12px; border-radius:999px; font-size:12.5px; cursor:pointer; user-select:none;
+    border:1px solid var(--border); background:#fff; color:var(--muted); font-weight:600;
+  }
+  .chip.active{color:#fff; border-color:transparent;}
+  button.action{
+    padding:9px 14px; border-radius:8px; border:1px solid var(--border); background:#fff;
+    cursor:pointer; font-size:13px; font-weight:600; color:var(--ink);
+  }
+  button.action:hover{background:#f1f5f9;}
+  button.primary{background:var(--accent); color:#fff; border-color:var(--accent);}
+  button.primary:hover{background:#9c7434;}
+
+  .wrap{padding:18px 32px 60px;}
+  table{width:100%; border-collapse:collapse; background:#fff; border-radius:10px; overflow:hidden; box-shadow:0 1px 3px rgba(0,0,0,.06);}
+  thead th{
+    text-align:left; font-size:11.5px; text-transform:uppercase; letter-spacing:.4px;
+    color:var(--muted); padding:12px 14px; border-bottom:2px solid var(--border); background:#f8fafc;
+    white-space:nowrap;
+  }
+  tbody td{padding:10px 14px; border-bottom:1px solid var(--border); font-size:13.5px; vertical-align:top;}
+  tbody tr:hover{background:#fafaf7;}
+  tbody tr.hidden{display:none;}
+  td[contenteditable="true"]{outline:none; min-width:60px;}
+  td[contenteditable="true"]:focus{background:#fff7e6; box-shadow:inset 0 0 0 1px var(--accent); border-radius:4px;}
+  .badge{
+    display:inline-block; padding:3px 10px; border-radius:999px; font-size:11.5px; font-weight:700; color:#fff; white-space:nowrap;
+  }
+  .sub{display:block; font-size:11px; color:var(--muted); margin-top:2px;}
+  a.weblink{color:var(--accent); text-decoration:none; font-weight:600;}
+  a.weblink:hover{text-decoration:underline;}
+  select.estado{
+    border:1px solid var(--border); border-radius:6px; padding:4px 6px; font-size:12.5px; font-weight:600; background:#fff;
+  }
+  .stars{cursor:pointer; letter-spacing:2px; color:#d8b65a; font-size:14px;}
+  .delrow{color:#b91c1c; cursor:pointer; font-size:12px; font-weight:700; border:none; background:none;}
+  .delrow:hover{text-decoration:underline;}
+  footer{padding:10px 32px 30px; color:var(--muted); font-size:12px;}
+  .footer-note{margin-bottom:14px;}
+  .vyntra-clause{
+    background:#0D1F40; color:#9fb8e8; border-radius:10px; padding:16px 20px;
+    font-size:11.5px; line-height:1.6;
+  }
+  .vyntra-clause strong{color:#fff;}
+  .vyntra-clause .brand{color:#6BA8F5; font-weight:700; letter-spacing:.5px;}
+
+  /* === Responsivo para celular === */
+  @media (max-width: 720px){
+    header{padding:18px 16px;}
+    header h1{font-size:18px;}
+    header p{font-size:12.5px;}
+    .stats{gap:10px;}
+    .stat{padding:7px 11px; font-size:12px;}
+
+    .toolbar{padding:10px 14px; position:static;}
+    #search{min-width:0; width:100%;}
+    .toolbar > #chips{order:3; width:100%;}
+    button.action{flex:1; min-width:90px;}
+
+    .wrap{padding:10px 10px 40px;}
+
+    table, thead, tbody, tr{display:block; width:100%;}
+    thead{display:none;}
+    tbody tr{
+      margin-bottom:12px; border:1px solid var(--border); border-radius:10px;
+      padding:10px 12px; box-shadow:0 1px 3px rgba(0,0,0,.06); background:#fff;
+    }
+    tbody td{
+      display:block; border-bottom:none; padding:6px 0; font-size:13px;
+    }
+    tbody td[data-label]:before{
+      content:attr(data-label); display:block; font-size:10px; text-transform:uppercase;
+      letter-spacing:.4px; color:var(--muted); font-weight:700; margin-bottom:2px;
+    }
+    tbody td:first-child{display:none;}
+    tbody td:last-child{text-align:right;}
+
+    footer{padding:10px 16px 26px;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>🪨 Stonox — Base de Clientes Potenciales</h1>
+  <p>Zona metropolitana de Monterrey, Nuevo León · constructoras, arquitectos, diseñadores, showrooms y más</p>
+  <div class="stats">
+    <div class="stat"><b id="statTotal">0</b>Prospectos</div>
+    <div class="stat"><b id="statPendiente">0</b>Pendientes</div>
+    <div class="stat"><b id="statContactado">0</b>Contactados</div>
+    <div class="stat"><b id="statCerrado">0</b>Cerrados</div>
+  </div>
+</header>
+
+<div class="toolbar">
+  <input id="search" type="text" placeholder="Buscar por empresa, zona o nota...">
+  <div id="chips" style="display:flex; gap:8px; flex-wrap:wrap;"></div>
+  <button class="action" id="addRow">+ Agregar cliente</button>
+  <button class="action" id="exportCsv">⬇ Exportar CSV</button>
+  <button class="action" id="resetData">↺ Restablecer</button>
+</div>
+
+<div class="wrap">
+<table>
+  <thead>
+    <tr>
+      <th style="width:34px;">#</th>
+      <th style="width:150px;">Categoría</th>
+      <th style="width:190px;">Empresa / Contacto</th>
+      <th style="width:160px;">Zona</th>
+      <th style="width:200px;">Sitio web / Teléfono</th>
+      <th>Notas para guion de llamada</th>
+      <th style="width:130px;">Estado</th>
+      <th style="width:70px;">Prioridad</th>
+      <th style="width:30px;"></th>
+    </tr>
+  </thead>
+  <tbody id="tbody"></tbody>
+</table>
+</div>
+
+<footer>
+  <div class="footer-note">
+    Los cambios que hagas aquí (texto, estado, prioridad) se guardan automáticamente en este navegador. Usa "Exportar CSV" para mandarme la versión actualizada y que la incorpore al archivo maestro.
+  </div>
+  <div class="vyntra-clause">
+    <span class="brand">VYNTRA Intelligent Systems</span> — Aviso de material de evaluación: esta herramienta es una <strong>demostración (demo)</strong> preparada para Stonox dentro de un proceso comercial. El diseño, el código y la estructura de esta base de datos son propiedad exclusiva de VYNTRA Intelligent Systems y se comparten <strong>única y exclusivamente con fines de evaluación</strong>. Su recepción, visualización o uso no cede ningún derecho de reproducción, distribución, alojamiento en servidores propios o explotación comercial sobre este material, ni sustituye un contrato de servicio firmado y pagado. © 2026 VYNTRA Intelligent Systems · vyntra.ex@gmail.com
+  </div>
+</footer>
+
+<script>
+const CATS = {
+  "Constructora/Desarrolladora": "#2563eb",
+  "Arquitectos/Despachos": "#7c3aed",
+  "Diseño de interiores": "#db2777",
+  "Remodelación": "#16a34a",
+  "Showroom cocinas": "#d97706",
+  "Showroom baños": "#0d9488",
+  "Hoteles/Restaurantes": "#dc2626"
+};
+
+const DEFAULT_DATA = [
+{cat:"Constructora/Desarrolladora", sub:"Constructora residencial", empresa:"Volumen Construcciones", zona:"San Pedro Garza García", web:"volumenconstrucciones.com", notas:"Diseña y construye casas en NL; verificar teléfono en sitio antes de llamar", estado:"Pendiente", prio:2},
+{cat:"Constructora/Desarrolladora", sub:"Desarrolladora premium", empresa:"U-Calli", zona:"San Pedro Garza García (Hidalgo 526 Nte, Centro)", web:"ucalli.com", notas:"Desarrolladora grande: Montellán, Lítica, Valle de Cumbres Premier, SLS Hotels. Prospecto de volumen alto", estado:"Pendiente", prio:3},
+{cat:"Constructora/Desarrolladora", sub:"Desarrolladora", empresa:"CONDOCASA", zona:"Monterrey", web:"condocasa.mx", notas:"50 años de trayectoria; preguntar por área de compras/proveedores", estado:"Pendiente", prio:2},
+{cat:"Constructora/Desarrolladora", sub:"Desarrolladora premium", empresa:"IDN Desarrollos", zona:"Monterrey / Nuevo León", web:"idn.com.mx", notas:"Enfocada en mercado residencial premium, encaja con perfil de Stonox", estado:"Pendiente", prio:3},
+{cat:"Constructora/Desarrolladora", sub:"Desarrolladora", empresa:"Inter Desarrollos", zona:"Monterrey", web:"interdesarrollos.com.mx", notas:"Verificar proyectos activos antes de llamar", estado:"Pendiente", prio:1},
+{cat:"Constructora/Desarrolladora", sub:"Desarrolladora", empresa:"GP Residencial", zona:"Monterrey", web:"gp-residencial.com", notas:"Revisar proyectos en curso en su sitio para personalizar el pitch", estado:"Pendiente", prio:2},
+{cat:"Constructora/Desarrolladora", sub:"Desarrolladora", empresa:"Marfil Desarrollo", zona:"Área metropolitana de Monterrey", web:"marfil.com", notas:"19 fraccionamientos activos en la zona metropolitana; alto volumen potencial", estado:"Pendiente", prio:3},
+{cat:"Constructora/Desarrolladora", sub:"Desarrolladora vertical/lujo", empresa:"Atlas Desarrollos (Catania Residencial)", zona:"Monterrey", web:"Buscar: Atlas Desarrollos Catania Monterrey", notas:"Desarrollo residencial de lujo", estado:"Pendiente", prio:2},
+{cat:"Constructora/Desarrolladora", sub:"Desarrolladora vertical/lujo", empresa:"Carza Desarrollos (Torre Zafiro, Cantera)", zona:"Monterrey", web:"Buscar: Carza Desarrollos Torre Zafiro", notas:"Especializada en verticales de lujo, buen fit para acabados premium", estado:"Pendiente", prio:2},
+{cat:"Constructora/Desarrolladora", sub:"Constructora", empresa:"Constructora Kaiser de Monterrey", zona:"San Pedro Garza García", web:"Ficha en infoisinfo.com.mx", notas:"Verificar teléfono y vigencia de la empresa", estado:"Pendiente", prio:1},
+{cat:"Constructora/Desarrolladora", sub:"Constructora comercial/corporativa", empresa:"GP Construcción", zona:"Edif. Condominio Acero, Centro de Monterrey", web:"gpconstruccion.com.mx", notas:"60 años de experiencia, ingeniería y construcción de oficinas/corporativos", estado:"Pendiente", prio:2},
+{cat:"Constructora/Desarrolladora", sub:"Constructora comercial/corporativa", empresa:"Grupo Jas", zona:"Monterrey", web:"grupojas.com", notas:"Servicio integral residencial, comercial e industrial desde diseño hasta construcción", estado:"Pendiente", prio:2},
+{cat:"Constructora/Desarrolladora", sub:"Diseño/construcción corporativa", empresa:"SDC Sheridan", zona:"Monterrey", web:"sheridan.com.mx", notas:"Líder en diseño arquitectónico y planeación estética para obra comercial", estado:"Pendiente", prio:1},
+
+{cat:"Arquitectos/Despachos", sub:"Despacho de arquitectura", empresa:"A de Arquitectos", zona:"San Pedro Garza García", web:"adearquitectos.mx", notas:"Arquitectura e interiorismo, obra en Monterrey y EUA", estado:"Pendiente", prio:2},
+{cat:"Arquitectos/Despachos", sub:"Despacho de arquitectura", empresa:"NH Arquitectos", zona:"San Pedro Garza García", web:"nharquitectos.com", notas:"Proyectos residenciales, comerciales e industriales", estado:"Pendiente", prio:2},
+{cat:"Arquitectos/Despachos", sub:"Despacho de arquitectura", empresa:"Garza Arquitectos", zona:"San Pedro Garza García", web:"garzaarquitectos.com", notas:"Más de 100 proyectos, 10 años de experiencia, residencial y comercial", estado:"Pendiente", prio:2},
+{cat:"Arquitectos/Despachos", sub:"Despacho de arquitectura", empresa:"IQ Arquitectos", zona:"San Pedro Garza García", web:"iqarquitectos.com", notas:"Verificar portafolio reciente antes de contactar", estado:"Pendiente", prio:1},
+{cat:"Arquitectos/Despachos", sub:"Despacho de arquitectura", empresa:"Rag Arquitectos", zona:"San Pedro Garza García", web:"Buscar: Rag Arquitectos San Pedro", notas:"Arquitectura moderna; confirmar datos de contacto", estado:"Pendiente", prio:1},
+{cat:"Arquitectos/Despachos", sub:"Despacho de arquitectura", empresa:"GLR Arquitectos (Gilberto L. Rodríguez)", zona:"Monterrey", web:"Buscar: GLR Arquitectos Monterrey", notas:"Proyectos residenciales de alta gama", estado:"Pendiente", prio:2},
+
+{cat:"Diseño de interiores", sub:"Estudio de interiorismo", empresa:"CUKBO", zona:"Monterrey / San Pedro Garza García", web:"cukbo.com", notas:"Diseño interior, construcción y fabricación de muebles, cocinas y baños", estado:"Pendiente", prio:2},
+{cat:"Diseño de interiores", sub:"Estudio de interiorismo", empresa:"Interiorismo MTY", zona:"San Pedro Garza García", web:"interiorismomty.com", notas:"Diseña espacios residenciales y comerciales, incluye remodelaciones", estado:"Pendiente", prio:2},
+{cat:"Diseño de interiores", sub:"Estudio de interiorismo", empresa:"Lirio Blanco Estudio", zona:"Monterrey", web:"lirioblancoestudio.com", notas:"Diseño de cocinas y muebles personalizados, buen fit directo con piedra", estado:"Pendiente", prio:2},
+{cat:"Diseño de interiores", sub:"Estudio de interiorismo", empresa:"Anta Estudio", zona:"Monterrey", web:"antaestudio.com", notas:"Más de 10 años en desarrollos comerciales, residenciales y restauranteros", estado:"Pendiente", prio:2},
+{cat:"Diseño de interiores", sub:"Estudio de interiorismo", empresa:"Valverde Design House", zona:"San Pedro Garza García (Profa Trinidad Dávila 302)", web:"valverdedesignhouse.mx", notas:"Servicio integral de diseño y manufactura, incluye cocinas integrales", estado:"Pendiente", prio:2},
+{cat:"Diseño de interiores", sub:"Arquitectura/interiorismo", empresa:"THE Arquitectos (Gabriel González Romero)", zona:"Monterrey", web:"Buscar: THE Arquitectos Monterrey", notas:"Experiencia en México y España", estado:"Pendiente", prio:1},
+
+{cat:"Remodelación", sub:"Remodelación integral", empresa:"Portarossa", zona:"San Pedro / Monterrey", web:"portarossa.mx", notas:"Remodela fachadas, cocinas, salas y jardines", estado:"Pendiente", prio:2},
+{cat:"Remodelación", sub:"Cocinas y closets", empresa:"Murat Cocinas", zona:"Monterrey", web:"muratcocinas.com", notas:"25+ años en diseño, construcción y remodelación residencial y comercial", estado:"Pendiente", prio:2},
+{cat:"Remodelación", sub:"Remodelación integral", empresa:"ZenHome", zona:"Toda el área metropolitana (MTY, SPGG, Guadalupe, San Nicolás, Apodaca, Sta. Catarina, Escobedo)", web:"zenhome.com.mx", notas:"Cocinas integrales y diseño de interiores en toda la zona metropolitana", estado:"Pendiente", prio:2},
+{cat:"Remodelación", sub:"Remodelación integral", empresa:"Remodelaciones Monterrey", zona:"Monterrey", web:"remodelacionesmonterrey.com", notas:"Remodelación de oficinas, locales, bodegas, casas y departamentos", estado:"Pendiente", prio:1},
+
+{cat:"Showroom cocinas", sub:"Fabricante/showroom", empresa:"Cocinas Integrales GAL", zona:"San Pedro, Monterrey y Escobedo (3 showrooms)", web:"cocinasgal.com.mx", notas:"35 años en el mercado; YA trabajan con mármol, cuarzo y granito — prioridad alta", estado:"Pendiente", prio:3},
+{cat:"Showroom cocinas", sub:"Fabricante/showroom", empresa:"ONORATII", zona:"Área metropolitana de Monterrey", web:"onoratii.com.mx", notas:"+15 años diseñando cocinas y muebles de baño; posible alianza de proveedor", estado:"Pendiente", prio:2},
+{cat:"Showroom cocinas", sub:"Franquicia de cocinas", empresa:"Ixina México (sucursal Monterrey)", zona:"Monterrey", web:"ixinamx.com · Tel. 81 8378 5266", notas:"Cocinas alemanas premium; considerar como cliente o referidor", estado:"Pendiente", prio:2},
+{cat:"Showroom cocinas", sub:"Fabricante/showroom", empresa:"Cocinas y Closets Monterrey (Decor Kitchen)", zona:"Cerro del Mercado Ote. 3702, Col. Fierro, Monterrey", web:"closetsycocinas.com.mx", notas:"Más de 10 años en el negocio de cocinas", estado:"Pendiente", prio:1},
+{cat:"Showroom cocinas", sub:"Cocinas de lujo", empresa:"Mada Studio", zona:"Quadra Towers, Carretera Nacional, Monterrey", web:"madastudio.com.mx", notas:"Cocinas integrales de lujo, perfil ideal para piedra natural premium", estado:"Pendiente", prio:3},
+{cat:"Showroom cocinas", sub:"Fabricante/showroom", empresa:"MUPRO Closets y Cocinas", zona:"Monterrey y área metropolitana", web:"muproclosets.com", notas:"39 años de experiencia, miles de instalaciones", estado:"Pendiente", prio:2},
+
+{cat:"Showroom baños", sub:"Tienda de muebles de baño", empresa:"Baños y Decoraciones", zona:"San Pedro Garza García", web:"banosydecoraciones.com", notas:"Vende muebles de baño, pisos, azulejos y decoración — posible alianza de proveedor", estado:"Pendiente", prio:2},
+{cat:"Showroom baños", sub:"Fabricante de muebles de baño", empresa:"MADO", zona:"San Pedro Garza García y Valle", web:"mado.mx", notas:"Fabricación e instalación de muebles para baño a la medida", estado:"Pendiente", prio:2},
+
+{cat:"Hoteles/Restaurantes", sub:"Hotel boutique (nueva apertura)", empresa:"Kimpton Monterrey (Torre Rise)", zona:"San Pedro Garza García", web:"Buscar: Kimpton Monterrey Torre Rise", notas:"Apertura próxima; contactar al desarrollador/constructor del proyecto para acabados", estado:"Pendiente", prio:3},
+{cat:"Hoteles/Restaurantes", sub:"Hotel boutique", empresa:"Habita MTY", zona:"San Pedro Garza García", web:"myboutiquehotel.com (ficha Habita Monterrey)", notas:"Hotel boutique de diseño; revisar si tienen plan de remodelación", estado:"Pendiente", prio:1},
+{cat:"Hoteles/Restaurantes", sub:"Restaurante (nueva apertura)", empresa:"Monopoly Steakhouse (Áuriga)", zona:"San Pedro Garza García", web:"Buscar: Monopoly Steakhouse Áuriga San Pedro", notas:"Nueva apertura, requiere barra y acabados de cocina", estado:"Pendiente", prio:2},
+{cat:"Hoteles/Restaurantes", sub:"Restaurante (nueva apertura)", empresa:"Via Focolare", zona:"San Pedro Garza García", web:"Buscar: Via Focolare San Pedro", notas:"Nueva apertura, restaurante especializado en focaccia", estado:"Pendiente", prio:1},
+{cat:"Hoteles/Restaurantes", sub:"Restaurante (nueva apertura)", empresa:"Rustico's", zona:"San Pedro Garza García", web:"Buscar: Rustico's San Pedro focaccia", notas:"Nueva apertura; verificar si ya tiene contratista de obra", estado:"Pendiente", prio:1},
+];
+
+const STORAGE_KEY = "stonox_leads_v1";
+let data = [];
+let activeCats = new Set(Object.keys(CATS));
+
+function load(){
+  const saved = localStorage.getItem(STORAGE_KEY);
+  data = saved ? JSON.parse(saved) : JSON.parse(JSON.stringify(DEFAULT_DATA));
+}
+function save(){
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+  updateStats();
+}
+function updateStats(){
+  document.getElementById('statTotal').textContent = data.length;
+  document.getElementById('statPendiente').textContent = data.filter(d=>d.estado==='Pendiente').length;
+  document.getElementById('statContactado').textContent = data.filter(d=>d.estado==='Contactado'||d.estado==='Interesado'||d.estado==='Cita agendada').length;
+  document.getElementById('statCerrado').textContent = data.filter(d=>d.estado==='Cerrado').length;
+}
+
+function renderChips(){
+  const box = document.getElementById('chips');
+  box.innerHTML = '';
+  Object.keys(CATS).forEach(cat=>{
+    const c = document.createElement('div');
+    c.className = 'chip active';
+    c.textContent = cat;
+    c.style.borderColor = CATS[cat];
+    c.style.background = CATS[cat];
+    c.style.color = '#fff';
+    c.onclick = ()=>{
+      if(activeCats.has(cat)){
+        activeCats.delete(cat);
+        c.classList.remove('active');
+        c.style.background = '#fff';
+        c.style.color = CATS[cat];
+      } else {
+        activeCats.add(cat);
+        c.classList.add('active');
+        c.style.background = CATS[cat];
+        c.style.color = '#fff';
+      }
+      renderTable();
+    };
+    box.appendChild(c);
+  });
+}
+
+function starsHtml(prio){
+  let s = '';
+  for(let i=1;i<=3;i++) s += (i<=prio ? '★' : '☆');
+  return s;
+}
+
+function renderTable(){
+  const tbody = document.getElementById('tbody');
+  tbody.innerHTML = '';
+  const q = document.getElementById('search').value.toLowerCase();
+  data.forEach((row, idx)=>{
+    if(!activeCats.has(row.cat)) return;
+    const hay = (row.empresa+' '+row.zona+' '+row.notas+' '+row.sub).toLowerCase();
+    if(q && !hay.includes(q)) return;
+
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td>${idx+1}</td>
+      <td data-label="Categoría"><span class="badge" style="background:${CATS[row.cat]||'#888'}">${row.cat}</span><span class="sub">${row.sub}</span></td>
+      <td data-label="Empresa / Contacto" contenteditable="true" data-field="empresa">${row.empresa}</td>
+      <td data-label="Zona" contenteditable="true" data-field="zona">${row.zona}</td>
+      <td data-label="Sitio web / Teléfono" contenteditable="true" data-field="web">${row.web}</td>
+      <td data-label="Notas" contenteditable="true" data-field="notas">${row.notas}</td>
+      <td data-label="Estado">
+        <select class="estado" data-field="estado">
+          ${["Pendiente","Contactado","Interesado","Cita agendada","Cerrado","No interesado"].map(o=>`<option ${o===row.estado?'selected':''}>${o}</option>`).join('')}
+        </select>
+      </td>
+      <td data-label="Prioridad"><span class="stars" data-field="prio">${starsHtml(row.prio)}</span></td>
+      <td><button class="delrow">✕</button></td>
+    `;
+
+    tr.querySelectorAll('[contenteditable]').forEach(cell=>{
+      cell.addEventListener('input', ()=>{
+        row[cell.dataset.field] = cell.textContent;
+        save();
+      });
+    });
+    tr.querySelector('select.estado').addEventListener('change', e=>{
+      row.estado = e.target.value;
+      save();
+    });
+    tr.querySelector('.stars').addEventListener('click', e=>{
+      row.prio = row.prio >= 3 ? 1 : row.prio + 1;
+      e.target.textContent = starsHtml(row.prio);
+      save();
+    });
+    tr.querySelector('.delrow').addEventListener('click', ()=>{
+      const i = data.indexOf(row);
+      data.splice(i,1);
+      save();
+      renderTable();
+    });
+
+    tbody.appendChild(tr);
+  });
+  updateStats();
+}
+
+document.getElementById('search').addEventListener('input', renderTable);
+
+document.getElementById('addRow').addEventListener('click', ()=>{
+  data.push({cat:"Constructora/Desarrolladora", sub:"", empresa:"Nuevo cliente", zona:"", web:"", notas:"", estado:"Pendiente", prio:1});
+  save();
+  renderTable();
+});
+
+document.getElementById('exportCsv').addEventListener('click', ()=>{
+  const headers = ["Categoria","Subcategoria","Empresa","Zona","Web/Telefono","Notas","Estado","Prioridad"];
+  const rows = data.map(d=>[d.cat,d.sub,d.empresa,d.zona,d.web,d.notas,d.estado,d.prio]);
+  const csv = [headers, ...rows].map(r=>r.map(v=>'"'+String(v).replace(/"/g,'""')+'"').join(',')).join('\n');
+  const blob = new Blob(["﻿"+csv], {type:'text/csv;charset=utf-8;'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = 'Stonox_Clientes_Potenciales_editado.csv';
+  a.click();
+  URL.revokeObjectURL(url);
+});
+
+document.getElementById('resetData').addEventListener('click', ()=>{
+  if(confirm('¿Restablecer la lista a la versión original? Se perderán los cambios guardados en este navegador.')){
+    localStorage.removeItem(STORAGE_KEY);
+    load();
+    renderTable();
+  }
+});
+
+load();
+renderChips();
+renderTable();
+</script>
+</body>
+</html>
