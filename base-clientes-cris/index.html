@@ -76,21 +76,10 @@
   .vyntra-clause strong{color:#fff;}
   .vyntra-clause .brand{color:#6BA8F5; font-weight:700; letter-spacing:.5px;}
 
-  /* === Responsivo para tablet === */
-  @media (min-width: 721px) and (max-width: 1024px){
-    header{padding:22px 20px;}
-    header h1{font-size:20px;}
-    header p{font-size:13px;}
-    .stats{gap:12px;}
-    .toolbar{padding:12px 20px;}
-    .wrap{padding:14px 16px 50px;}
-    table{min-width:760px; font-size:13px;}
-    thead th{padding:10px 12px;}
-    tbody td{padding:8px 12px;}
-  }
+  /* === Responsivo para tablet y celular (formato tarjeta, sin scroll horizontal) === */
+  @media (max-width: 1024px){
+    .wrap{overflow-x:visible;}
 
-  /* === Responsivo para celular === */
-  @media (max-width: 720px){
     header{padding:18px 16px;}
     header h1{font-size:18px;}
     header p{font-size:12.5px;}
@@ -104,7 +93,7 @@
 
     .wrap{padding:10px 10px 40px;}
 
-    table, thead, tbody, tr{display:block; width:100%;}
+    table, thead, tbody, tr{display:block; width:100%; min-width:0;}
     thead{display:none;}
     tbody tr{
       margin-bottom:12px; border:1px solid var(--border); border-radius:10px;
