@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>Base de Clientes Cris · Stonox</title>
+<title>Stonox · Base de Clientes Potenciales</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
   :root{
@@ -43,8 +43,8 @@
   button.primary{background:var(--accent); color:#fff; border-color:var(--accent);}
   button.primary:hover{background:#9c7434;}
 
-  .wrap{padding:18px 32px 60px;}
-  table{width:100%; border-collapse:collapse; background:#fff; border-radius:10px; overflow:hidden; box-shadow:0 1px 3px rgba(0,0,0,.06);}
+  .wrap{padding:18px 32px 60px; overflow-x:auto;}
+  table{width:100%; min-width:900px; border-collapse:collapse; background:#fff; border-radius:10px; overflow:hidden; box-shadow:0 1px 3px rgba(0,0,0,.06);}
   thead th{
     text-align:left; font-size:11.5px; text-transform:uppercase; letter-spacing:.4px;
     color:var(--muted); padding:12px 14px; border-bottom:2px solid var(--border); background:#f8fafc;
@@ -75,6 +75,19 @@
   }
   .vyntra-clause strong{color:#fff;}
   .vyntra-clause .brand{color:#6BA8F5; font-weight:700; letter-spacing:.5px;}
+
+  /* === Responsivo para tablet === */
+  @media (min-width: 721px) and (max-width: 1024px){
+    header{padding:22px 20px;}
+    header h1{font-size:20px;}
+    header p{font-size:13px;}
+    .stats{gap:12px;}
+    .toolbar{padding:12px 20px;}
+    .wrap{padding:14px 16px 50px;}
+    table{min-width:760px; font-size:13px;}
+    thead th{padding:10px 12px;}
+    tbody td{padding:8px 12px;}
+  }
 
   /* === Responsivo para celular === */
   @media (max-width: 720px){
@@ -114,7 +127,7 @@
 <body>
 
 <header>
-  <h1>🪨 Base de Clientes Cris — Stonox</h1>
+  <h1>🪨 Stonox — Base de Clientes Potenciales</h1>
   <p>Zona metropolitana de Monterrey, Nuevo León · constructoras, arquitectos, diseñadores, showrooms y más</p>
   <div class="stats">
     <div class="stat"><b id="statTotal">0</b>Prospectos</div>
