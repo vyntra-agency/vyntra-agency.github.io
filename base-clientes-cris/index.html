@@ -158,7 +158,7 @@
 
 <footer>
   <div class="footer-note">
-    Los cambios que hagas aquí (texto, estado, prioridad) se guardan automáticamente en este navegador. Usa "Exportar CSV" para mandarme la versión actualizada y que la incorpore al archivo maestro.
+    Los cambios que hagas aquí (texto, estado, prioridad) se guardan automáticamente y se sincronizan entre tu celular, laptop y cualquier otro dispositivo donde abras este link. Usa "Exportar CSV" cuando quieras mandarme la versión actualizada.
   </div>
   <div class="vyntra-clause">
     <span class="brand">VYNTRA Intelligent Systems</span> — Aviso de material de evaluación: esta herramienta es una <strong>demostración (demo)</strong> preparada para Stonox dentro de un proceso comercial. El diseño, el código y la estructura de esta base de datos son propiedad exclusiva de VYNTRA Intelligent Systems y se comparten <strong>única y exclusivamente con fines de evaluación</strong>. Su recepción, visualización o uso no cede ningún derecho de reproducción, distribución, alojamiento en servidores propios o explotación comercial sobre este material, ni sustituye un contrato de servicio firmado y pagado. © 2026 VYNTRA Intelligent Systems · vyntra.ex@gmail.com
@@ -228,16 +228,68 @@ const DEFAULT_DATA = [
 ];
 
 const STORAGE_KEY = "stonox_leads_v1";
+const SUPA_URL = "https://phudylxuzskfbcbmagzu.supabase.co";
+const SUPA_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBodWR5bHh1enNrZmJjYm1hZ3p1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE5NzE3OTgsImV4cCI6MjA5NzU0Nzc5OH0.nvytxPcFsGBXywthAx4sixyp6tSGv0LK3T3WZe4BeGg";
+const SUPA_HEADERS = {"apikey": SUPA_KEY, "Authorization": "Bearer " + SUPA_KEY, "Content-Type": "application/json"};
 let data = [];
 let activeCats = new Set(Object.keys(CATS));
+let syncBadgeTimer = null;
 
-function load(){
-  const saved = localStorage.getItem(STORAGE_KEY);
-  data = saved ? JSON.parse(saved) : JSON.parse(JSON.stringify(DEFAULT_DATA));
+function showSyncStatus(msg, isError){
+  let el = document.getElementById('syncStatus');
+  if(!el){
+    el = document.createElement('div');
+    el.id = 'syncStatus';
+    el.style.cssText = "position:fixed; bottom:14px; right:14px; padding:7px 14px; border-radius:8px; font-size:12px; font-weight:600; color:#fff; z-index:50; box-shadow:0 2px 8px rgba(0,0,0,.15);";
+    document.body.appendChild(el);
+  }
+  el.textContent = msg;
+  el.style.background = isError ? "#b91c1c" : "#16a34a";
+  el.style.opacity = "1";
+  clearTimeout(syncBadgeTimer);
+  syncBadgeTimer = setTimeout(()=>{ el.style.opacity = "0"; }, 2000);
 }
+
+async function load(){
+  try{
+    const res = await fetch(SUPA_URL + "/rest/v1/stonox_leads?id=eq.1&select=data", {headers: SUPA_HEADERS});
+    if(!res.ok) throw new Error("HTTP " + res.status);
+    const rows = await res.json();
+    if(rows.length && Array.isArray(rows[0].data) && rows[0].data.length){
+      data = rows[0].data;
+    } else {
+      data = JSON.parse(JSON.stringify(DEFAULT_DATA));
+      await persistRemote();
+    }
+  } catch(e){
+    console.error("No se pudo conectar a la nube, usando copia local de este navegador", e);
+    const saved = localStorage.getItem(STORAGE_KEY);
+    data = saved ? JSON.parse(saved) : JSON.parse(JSON.stringify(DEFAULT_DATA));
+    showSyncStatus("⚠ Sin conexión — usando copia local", true);
+  }
+}
+
+let saveTimer = null;
 function save(){
   localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
   updateStats();
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(persistRemote, 600);
+}
+
+async function persistRemote(){
+  try{
+    const res = await fetch(SUPA_URL + "/rest/v1/stonox_leads?id=eq.1", {
+      method: "PATCH",
+      headers: Object.assign({}, SUPA_HEADERS, {"Prefer": "return=minimal"}),
+      body: JSON.stringify({data: data, updated_at: new Date().toISOString()})
+    });
+    if(!res.ok) throw new Error("HTTP " + res.status);
+    showSyncStatus("☁ Guardado para todos los dispositivos");
+  } catch(e){
+    console.error("No se pudo guardar en la nube", e);
+    showSyncStatus("⚠ No se guardó en la nube, solo en este navegador", true);
+  }
 }
 function updateStats(){
   document.getElementById('statTotal').textContent = data.length;
@@ -353,17 +405,20 @@ document.getElementById('exportCsv').addEventListener('click', ()=>{
   URL.revokeObjectURL(url);
 });
 
-document.getElementById('resetData').addEventListener('click', ()=>{
-  if(confirm('¿Restablecer la lista a la versión original? Se perderán los cambios guardados en este navegador.')){
-    localStorage.removeItem(STORAGE_KEY);
-    load();
+document.getElementById('resetData').addEventListener('click', async ()=>{
+  if(confirm('¿Restablecer la lista a la versión original en TODOS los dispositivos? Se perderán los cambios guardados.')){
+    data = JSON.parse(JSON.stringify(DEFAULT_DATA));
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+    await persistRemote();
     renderTable();
   }
 });
 
-load();
-renderChips();
-renderTable();
+(async function init(){
+  await load();
+  renderChips();
+  renderTable();
+})();
 </script>
 </body>
 </html>
