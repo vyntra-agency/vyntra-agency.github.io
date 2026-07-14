@@ -1,0 +1,1249 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>50x BOOTS — Chihuahua, México</title>
+<style>
+/* ── TOKENS ── */
+:root {
+  --white:      #FFFFFF;
+  --off-white:  #F7F2EC;
+  --warm-light: #EFE7DB;
+  --divider:    #E0D5C8;
+  --copper:     #B86820;
+  --copper-lt:  #D07A30;
+  --copper-dim: #7A4414;
+  --charcoal:   #221408;
+  --mid:        #7A6250;
+  --light-mid:  #A8927C;
+  --dark:       #1A0D06;
+  --dark-s:     #251508;
+  --dark-s2:    #30180A;
+  --dark-border: rgba(200,160,100,.16);
+  --dark-cream:  #EAD9C2;
+  --dark-cream2: #BCA888;
+  --dark-cream3: #8A7460;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; font-size: 16px; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  background: var(--white);
+  color: var(--charcoal);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* ── PREVIEW BANNER ── */
+.preview-banner {
+  background: var(--copper);
+  color: #fff;
+  text-align: center;
+  padding: 8px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+}
+
+/* ── NAV ── */
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: var(--white);
+  border-bottom: 1px solid var(--divider);
+  display: flex;
+  align-items: center;
+  height: 64px;
+  padding: 0;
+}
+.nav-inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  width: 100%;
+  padding: 0 40px;
+  display: flex;
+  align-items: center;
+  gap: 0;
+}
+.nav-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  cursor: pointer;
+  flex-shrink: 0;
+  margin-right: 44px;
+}
+.logo-coin { width: 36px; height: 36px; flex-shrink: 0; }
+.nav-wordmark {
+  display: flex;
+  flex-direction: column;
+  line-height: 1;
+  gap: 2px;
+}
+.nav-brand {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: .05em;
+  color: var(--charcoal);
+}
+.nav-origin {
+  font-size: 8px;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: var(--copper);
+  font-weight: 700;
+}
+.nav-links { display: flex; align-items: center; flex: 1; }
+.nav-link {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--mid);
+  padding: 0 16px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  cursor: pointer;
+  letter-spacing: .02em;
+  transition: color .2s;
+  border: none;
+  background: none;
+  font-family: inherit;
+  white-space: nowrap;
+  position: relative;
+}
+.nav-link:hover { color: var(--charcoal); }
+.nav-link.sale { color: var(--copper); font-weight: 600; }
+.nav-link.sale:hover { color: var(--copper-lt); }
+.nav-actions { margin-left: auto; display: flex; align-items: center; gap: 4px; }
+.nav-action-btn {
+  background: none;
+  border: none;
+  color: var(--mid);
+  padding: 8px 12px;
+  cursor: pointer;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: color .2s;
+  font-family: inherit;
+  letter-spacing: .02em;
+}
+.nav-action-btn:hover { color: var(--charcoal); }
+.nav-cart-count {
+  background: var(--charcoal);
+  color: var(--white);
+  font-size: 10px;
+  font-weight: 700;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+/* Dropdown */
+.dd { position: relative; }
+.dd-menu {
+  display: none;
+  position: absolute;
+  top: 63px;
+  left: -20px;
+  background: var(--white);
+  border: 1px solid var(--divider);
+  border-top: 2px solid var(--charcoal);
+  padding: 22px 24px;
+  width: 480px;
+  box-shadow: 0 12px 40px rgba(0,0,0,.10);
+  z-index: 10;
+}
+.dd:hover .dd-menu { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; }
+.dd-cat {
+  grid-column: 1 / -1;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: var(--copper);
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--divider);
+  margin-bottom: 4px;
+}
+.dd-cat + .dd-cat { margin-top: 10px; }
+.dd-item {
+  font-size: 13px;
+  color: var(--mid);
+  padding: 6px 8px;
+  cursor: pointer;
+  transition: color .15s;
+  display: block;
+}
+.dd-item:hover { color: var(--charcoal); }
+.dd-item.ft { color: var(--charcoal); font-weight: 600; }
+.hamburger { display: none; background: none; border: none; font-size: 22px; cursor: pointer; color: var(--charcoal); margin-left: auto; }
+
+/* ── HERO ── */
+.hero {
+  height: 92vh;
+  min-height: 560px;
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse 65% 75% at 68% 42%, rgba(184,104,32,.18) 0%, transparent 60%),
+    radial-gradient(ellipse 40% 50% at 18% 72%, rgba(200,140,70,.09) 0%, transparent 55%),
+    linear-gradient(170deg, #221005 0%, #1A0D06 50%, #1E1008 100%);
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    repeating-linear-gradient(90deg, rgba(255,255,255,.008) 0px, rgba(255,255,255,.008) 1px, transparent 1px, transparent 28px),
+    repeating-linear-gradient(180deg, rgba(0,0,0,.03) 0px, rgba(0,0,0,.03) 1px, transparent 1px, transparent 28px);
+  pointer-events: none;
+}
+/* Simulated lifestyle photo vignette */
+.hero::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(26,13,6,0) 30%, rgba(26,13,6,.72) 80%, rgba(26,13,6,.95) 100%);
+  pointer-events: none;
+}
+.hero-content {
+  position: relative;
+  z-index: 1;
+  max-width: 1280px;
+  margin: 0 auto;
+  width: 100%;
+  padding: 0 40px 72px;
+}
+.hero-eyebrow {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .28em;
+  text-transform: uppercase;
+  color: var(--copper-lt);
+  margin-bottom: 14px;
+}
+.hero-title {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: clamp(40px, 5.5vw, 76px);
+  font-weight: 700;
+  line-height: 1.05;
+  color: var(--white);
+  max-width: 700px;
+  text-wrap: balance;
+  margin-bottom: 20px;
+}
+.hero-sub {
+  font-size: 16px;
+  color: var(--dark-cream2);
+  max-width: 440px;
+  line-height: 1.65;
+  margin-bottom: 36px;
+  font-weight: 300;
+}
+.hero-btns { display: flex; gap: 12px; flex-wrap: wrap; }
+.btn-dark {
+  background: var(--white);
+  color: var(--charcoal);
+  border: none;
+  padding: 14px 34px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background .2s;
+  font-family: inherit;
+}
+.btn-dark:hover { background: var(--off-white); }
+.btn-outline-white {
+  background: none;
+  color: var(--white);
+  border: 1px solid rgba(255,255,255,.35);
+  padding: 14px 34px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color .2s;
+  font-family: inherit;
+  letter-spacing: .04em;
+}
+.btn-outline-white:hover { border-color: rgba(255,255,255,.7); }
+/* Hero decorative medallion bg */
+.hero-deco-wrap {
+  position: absolute;
+  right: 8%;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 380px;
+  height: 380px;
+  opacity: .055;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ── CATEGORY LAYOUT — asymmetric ── */
+.cat-layout {
+  display: grid;
+  grid-template-columns: 1.55fr 1fr;
+  height: 580px;
+}
+.cat-main {
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  background:
+    radial-gradient(ellipse 70% 75% at 55% 40%, rgba(184,104,32,.26) 0%, transparent 62%),
+    radial-gradient(ellipse 40% 50% at 20% 80%, rgba(120,64,16,.3) 0%, transparent 55%),
+    #251508;
+}
+.cat-stack {
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+  border-left: 1px solid rgba(255,255,255,.05);
+}
+.cat-sub {
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+}
+.cat-sub:first-child {
+  background:
+    radial-gradient(ellipse 65% 70% at 48% 38%, rgba(150,80,22,.32) 0%, transparent 60%),
+    #1E1008;
+  border-bottom: 1px solid rgba(255,255,255,.04);
+}
+.cat-sub:last-child {
+  background:
+    radial-gradient(ellipse 60% 65% at 52% 42%, rgba(184,104,32,.20) 0%, transparent 58%),
+    #281608;
+}
+.cat-wood {
+  position: absolute;
+  inset: 0;
+  background-image:
+    repeating-linear-gradient(91deg, rgba(255,255,255,.009) 0px, rgba(255,255,255,.009) 1px, transparent 1px, transparent 24px),
+    repeating-linear-gradient(89deg, rgba(0,0,0,.045) 0px, rgba(0,0,0,.045) 2px, transparent 2px, transparent 42px);
+  pointer-events: none;
+}
+.cat-visual-letter {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: Georgia, serif;
+  font-size: 200px;
+  font-weight: 700;
+  color: rgba(184,104,32,.055);
+  user-select: none;
+  letter-spacing: -.05em;
+  transition: color .5s;
+}
+.cat-main:hover .cat-visual-letter,
+.cat-sub:hover .cat-visual-letter { color: rgba(184,104,32,.10); }
+.cat-sub .cat-visual-letter { font-size: 110px; }
+.cat-label {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 32px 36px;
+  background: linear-gradient(0deg, rgba(26,13,6,.88) 0%, transparent 100%);
+  z-index: 1;
+  transition: padding .3s;
+}
+.cat-main:hover .cat-label,
+.cat-sub:hover .cat-label { padding-bottom: 40px; }
+.cat-sub .cat-label { padding: 20px 24px; }
+.cat-sub:hover .cat-label { padding-bottom: 28px; }
+.cat-eyebrow {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .24em;
+  text-transform: uppercase;
+  color: var(--copper-lt);
+  margin-bottom: 5px;
+}
+.cat-name-big {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 36px;
+  font-weight: 700;
+  color: var(--white);
+  line-height: 1;
+}
+.cat-sub .cat-name-big { font-size: 22px; }
+.cat-cta {
+  margin-top: 10px;
+  font-size: 12px;
+  color: var(--dark-cream3);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  opacity: 0;
+  transition: opacity .3s;
+  font-weight: 500;
+}
+.cat-cta::after { content: '→'; color: var(--copper-lt); }
+.cat-main:hover .cat-cta,
+.cat-sub:hover .cat-cta { opacity: 1; }
+
+/* ── PRODUCTS — clean white ── */
+.products-section { background: var(--white); padding: 72px 40px; max-width: 1280px; margin: 0 auto; }
+.section-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-bottom: 40px;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+.section-eyebrow {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .28em;
+  text-transform: uppercase;
+  color: var(--copper);
+  margin-bottom: 6px;
+}
+.section-title {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 30px;
+  font-weight: 700;
+  color: var(--charcoal);
+}
+.filter-row { display: flex; gap: 0; border-bottom: 1px solid var(--divider); }
+.filter-btn {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: .05em;
+  padding: 10px 20px;
+  cursor: pointer;
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  color: var(--light-mid);
+  transition: color .2s, border-color .2s;
+  font-family: inherit;
+  margin-bottom: -1px;
+}
+.filter-btn.active { color: var(--charcoal); border-color: var(--charcoal); }
+.filter-btn:hover { color: var(--charcoal); }
+.products-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--divider); margin-top: 32px; }
+.product-card {
+  background: var(--white);
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+.product-card:hover .product-cta { opacity: 1; }
+.product-img {
+  aspect-ratio: 3/4;
+  background: var(--off-white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+.product-img::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0);
+  transition: background .3s;
+}
+.product-card:hover .product-img::after { background: rgba(0,0,0,.04); }
+/* Photo gradient placeholders */
+.pi-boots {
+  background:
+    radial-gradient(ellipse 50% 60% at 50% 45%, rgba(120,64,18,.22) 0%, transparent 65%),
+    radial-gradient(ellipse 80% 70% at 50% 60%, rgba(184,104,32,.06) 0%, transparent 70%),
+    #F0E8DC;
+}
+.pi-hat {
+  background:
+    radial-gradient(ellipse 55% 55% at 50% 42%, rgba(100,55,15,.18) 0%, transparent 60%),
+    #EDE5D8;
+}
+.pi-acc {
+  background:
+    radial-gradient(ellipse 48% 52% at 50% 45%, rgba(140,75,22,.16) 0%, transparent 58%),
+    #F2EBE0;
+}
+.product-img-label {
+  font-family: Georgia, serif;
+  font-size: 10px;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: rgba(120,80,40,.38);
+  font-weight: 700;
+  text-align: center;
+  line-height: 1.9;
+  position: relative;
+  z-index: 1;
+}
+.product-badge {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  background: var(--charcoal);
+  color: var(--white);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  padding: 3px 9px;
+  z-index: 2;
+}
+.product-badge.copper { background: var(--copper); }
+.product-cta {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: var(--charcoal);
+  color: var(--white);
+  text-align: center;
+  padding: 12px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  opacity: 0;
+  transition: opacity .25s;
+  z-index: 2;
+  cursor: pointer;
+}
+.product-info { padding: 16px 16px 22px; }
+.product-cat-lbl {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--copper-dim);
+  margin-bottom: 5px;
+}
+.product-name {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--charcoal);
+  line-height: 1.3;
+  margin-bottom: 4px;
+}
+.product-sub { font-size: 12px; color: var(--light-mid); margin-bottom: 10px; }
+.product-price {
+  font-family: Georgia, serif;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--charcoal);
+  font-variant-numeric: tabular-nums;
+}
+.product-price span { font-size: 11px; font-family: sans-serif; color: var(--light-mid); font-weight: 400; }
+
+/* ── HERITAGE ── */
+.heritage {
+  background: var(--dark);
+  padding: 96px 40px;
+  position: relative;
+  overflow: hidden;
+}
+.heritage::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    repeating-linear-gradient(91deg, rgba(255,255,255,.008) 0px, rgba(255,255,255,.008) 1px, transparent 1px, transparent 30px),
+    repeating-linear-gradient(89deg, rgba(0,0,0,.04) 0px, rgba(0,0,0,.04) 2px, transparent 2px, transparent 50px);
+  pointer-events: none;
+}
+.heritage-deco {
+  position: absolute;
+  right: 5%;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 420px;
+  height: 420px;
+  opacity: .05;
+  pointer-events: none;
+}
+.heritage-inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: center;
+  position: relative;
+  z-index: 1;
+}
+.heritage-year {
+  font-family: Georgia, serif;
+  font-size: 100px;
+  font-weight: 700;
+  color: rgba(184,104,32,.12);
+  line-height: 1;
+  margin-bottom: -16px;
+  letter-spacing: -.02em;
+}
+.heritage-eyebrow { font-size: 9px; font-weight: 700; letter-spacing: .28em; text-transform: uppercase; color: var(--copper-lt); margin-bottom: 14px; }
+.heritage-title {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: clamp(28px, 3vw, 44px);
+  font-weight: 700;
+  line-height: 1.15;
+  color: var(--dark-cream);
+  margin-bottom: 22px;
+  text-wrap: balance;
+}
+.heritage-body { font-size: 15px; color: var(--dark-cream3); line-height: 1.75; margin-bottom: 32px; font-weight: 300; }
+.heritage-stats { display: flex; gap: 40px; flex-wrap: wrap; }
+.h-stat-num {
+  font-family: Georgia, serif;
+  font-size: 34px;
+  font-weight: 700;
+  color: var(--copper-lt);
+  font-variant-numeric: tabular-nums;
+}
+.h-stat-lbl { font-size: 11px; color: var(--dark-cream3); margin-top: 2px; letter-spacing: .04em; }
+.heritage-right { position: relative; }
+.heritage-quote {
+  border-left: 2px solid var(--copper);
+  padding: 28px 32px;
+  background: rgba(184,104,32,.06);
+  margin-bottom: 28px;
+}
+.heritage-quote-text {
+  font-family: Georgia, serif;
+  font-size: 20px;
+  font-style: italic;
+  color: var(--dark-cream);
+  line-height: 1.6;
+  margin-bottom: 14px;
+}
+.heritage-quote-author { font-size: 12px; color: var(--copper-lt); font-weight: 600; letter-spacing: .08em; }
+.heritage-locs { display: flex; flex-direction: column; gap: 14px; }
+.heritage-loc {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--dark-border);
+}
+.heritage-loc:last-child { border-bottom: none; }
+.heritage-loc-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--copper); margin-top: 6px; flex-shrink: 0; }
+.heritage-loc-name { font-size: 13px; font-weight: 700; color: var(--dark-cream); margin-bottom: 2px; }
+.heritage-loc-addr { font-size: 12px; color: var(--dark-cream3); }
+
+/* ── SHIPPING STRIP ── */
+.shipping { border-top: 1px solid var(--divider); border-bottom: 1px solid var(--divider); }
+.shipping-inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+}
+.ship-cell {
+  padding: 30px 32px;
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  border-right: 1px solid var(--divider);
+}
+.ship-cell:last-child { border-right: none; }
+.ship-icon { font-size: 20px; flex-shrink: 0; margin-top: 1px; }
+.ship-title { font-size: 13px; font-weight: 700; color: var(--charcoal); margin-bottom: 3px; }
+.ship-desc { font-size: 12px; color: var(--light-mid); line-height: 1.5; }
+
+/* ── FOOTER ── */
+footer {
+  background: var(--off-white);
+  border-top: 1px solid var(--divider);
+  padding: 56px 40px 36px;
+}
+.footer-inner { max-width: 1280px; margin: 0 auto; }
+.footer-top {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 48px;
+  margin-bottom: 48px;
+  padding-bottom: 40px;
+  border-bottom: 1px solid var(--divider);
+}
+.footer-logo { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+.footer-coin { width: 40px; height: 40px; }
+.footer-brand { font-family: Georgia, serif; font-size: 17px; font-weight: 700; color: var(--charcoal); }
+.footer-brand-sub { font-size: 8px; letter-spacing: .22em; text-transform: uppercase; color: var(--copper); margin-top: 1px; }
+.footer-desc { font-size: 13px; color: var(--mid); line-height: 1.7; max-width: 240px; }
+.footer-col-title { font-size: 9px; font-weight: 700; letter-spacing: .22em; text-transform: uppercase; color: var(--charcoal); margin-bottom: 16px; }
+.footer-link { display: block; font-size: 13px; color: var(--mid); text-decoration: none; margin-bottom: 10px; cursor: pointer; transition: color .2s; }
+.footer-link:hover { color: var(--charcoal); }
+.footer-suc-name { font-size: 13px; font-weight: 700; color: var(--charcoal); margin-bottom: 3px; }
+.footer-suc-addr { font-size: 12px; color: var(--mid); margin-bottom: 14px; line-height: 1.5; }
+.footer-bottom { display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; }
+.footer-copy { font-size: 12px; color: var(--light-mid); }
+.footer-dev { font-size: 11px; color: var(--light-mid); opacity: .7; }
+
+/* ── CART ── */
+.cart-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.45); z-index: 200; backdrop-filter: blur(2px); }
+.cart-overlay.open { display: block; }
+.cart-panel {
+  position: fixed;
+  top: 0;
+  right: -440px;
+  width: 440px;
+  height: 100vh;
+  background: var(--white);
+  border-left: 1px solid var(--divider);
+  z-index: 201;
+  display: flex;
+  flex-direction: column;
+  transition: right .3s cubic-bezier(.4,0,.2,1);
+}
+.cart-panel.open { right: 0; }
+.cart-header { padding: 24px 28px; border-bottom: 1px solid var(--divider); display: flex; align-items: center; justify-content: space-between; }
+.cart-title { font-family: Georgia, serif; font-size: 18px; font-weight: 700; color: var(--charcoal); }
+.cart-close { background: none; border: none; color: var(--mid); font-size: 20px; cursor: pointer; transition: color .2s; }
+.cart-close:hover { color: var(--charcoal); }
+.cart-items { flex: 1; overflow-y: auto; padding: 20px 28px; display: flex; flex-direction: column; gap: 14px; }
+.cart-item { display: flex; gap: 14px; }
+.cart-item-img {
+  width: 80px;
+  height: 80px;
+  flex-shrink: 0;
+  background:
+    radial-gradient(ellipse 60% 65% at 50% 45%, rgba(120,64,18,.20) 0%, transparent 62%),
+    var(--off-white);
+}
+.cart-item-info { flex: 1; }
+.cart-item-name { font-size: 13px; font-weight: 700; color: var(--charcoal); margin-bottom: 2px; }
+.cart-item-sub { font-size: 11px; color: var(--light-mid); margin-bottom: 10px; }
+.cart-item-row { display: flex; justify-content: space-between; align-items: center; }
+.cart-qty { display: flex; align-items: center; gap: 12px; font-size: 13px; color: var(--charcoal); }
+.qty-btn { background: none; border: 1px solid var(--divider); color: var(--mid); width: 28px; height: 28px; cursor: pointer; font-size: 16px; display: flex; align-items: center; justify-content: center; transition: border-color .15s; }
+.qty-btn:hover { border-color: var(--charcoal); color: var(--charcoal); }
+.cart-price { font-family: Georgia, serif; font-size: 14px; font-weight: 700; color: var(--charcoal); }
+.cart-footer { padding: 24px 28px; border-top: 1px solid var(--divider); }
+.cart-total-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+.cart-total-label { font-size: 13px; color: var(--mid); }
+.cart-total-val { font-family: Georgia, serif; font-size: 22px; font-weight: 700; color: var(--charcoal); }
+.cart-note { font-size: 11px; color: var(--light-mid); margin-bottom: 20px; }
+
+/* ── MOBILE ── */
+@media (max-width: 1024px) {
+  .cat-layout { grid-template-columns: 1fr 1fr; height: 460px; }
+  .products-grid { grid-template-columns: repeat(2, 1fr); }
+  .heritage-inner { grid-template-columns: 1fr; gap: 40px; }
+  .heritage-deco { display: none; }
+  .footer-top { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 768px) {
+  .nav-inner { padding: 0 20px; }
+  .nav-links { display: none; }
+  .hamburger { display: block; }
+  .cat-layout { grid-template-columns: 1fr; height: auto; }
+  .cat-main { height: 320px; }
+  .cat-stack { grid-template-rows: auto; grid-template-columns: 1fr 1fr; }
+  .cat-sub { height: 220px; }
+  .products-section { padding: 48px 20px; }
+  .heritage { padding: 60px 20px; }
+  .shipping-inner { grid-template-columns: 1fr 1fr; }
+  .ship-cell:nth-child(2) { border-right: none; }
+  footer { padding: 40px 20px 28px; }
+  .footer-top { grid-template-columns: 1fr 1fr; }
+  .cart-panel { width: 100%; right: -100%; }
+}
+@media (max-width: 540px) {
+  .products-grid { grid-template-columns: 1fr 1fr; }
+  .shipping-inner { grid-template-columns: 1fr; }
+  .ship-cell { border-right: none; border-bottom: 1px solid var(--divider); }
+  .ship-cell:last-child { border-bottom: none; }
+  .footer-top { grid-template-columns: 1fr; }
+  .footer-bottom { flex-direction: column; align-items: flex-start; }
+}
+</style>
+</head>
+<body>
+
+<!-- SVG logo symbol -->
+<svg style="display:none" xmlns="http://www.w3.org/2000/svg">
+  <symbol id="logo" viewBox="0 0 100 100">
+    <defs>
+      <radialGradient id="cg" cx="42%" cy="32%" r="62%">
+        <stop offset="0%"   stop-color="#D4844A"/>
+        <stop offset="48%"  stop-color="#A85A1E"/>
+        <stop offset="100%" stop-color="#643010"/>
+      </radialGradient>
+      <radialGradient id="cg2" cx="50%" cy="50%" r="50%">
+        <stop offset="0%"   stop-color="#5E2A0A"/>
+        <stop offset="100%" stop-color="#3E1A06"/>
+      </radialGradient>
+    </defs>
+    <circle cx="50" cy="50" r="49" fill="url(#cg2)"/>
+    <circle cx="50" cy="50" r="45" fill="url(#cg)"/>
+    <circle cx="50" cy="50" r="43" fill="none" stroke="rgba(255,190,110,.12)" stroke-width="1.5"/>
+    <circle cx="50" cy="50" r="39" fill="none" stroke="rgba(0,0,0,.22)" stroke-width="1"/>
+    <text x="50" y="22" text-anchor="middle" fill="rgba(240,220,180,.28)" font-size="7" font-family="serif" letter-spacing="3">✦ ✦ ✦</text>
+    <text x="50.5" y="49.5" text-anchor="middle" fill="rgba(0,0,0,.5)" font-size="25" font-weight="900" font-family="Georgia,serif" letter-spacing=".5">50x</text>
+    <text x="50" y="48" text-anchor="middle" fill="#F2DFC0" font-size="25" font-weight="900" font-family="Georgia,serif" letter-spacing=".5">50x</text>
+    <text x="50.5" y="67.5" text-anchor="middle" fill="rgba(0,0,0,.5)" font-size="11.5" font-weight="700" font-family="Georgia,serif" letter-spacing="4.5">BOOTS</text>
+    <text x="50" y="66" text-anchor="middle" fill="#F2DFC0" font-size="11.5" font-weight="700" font-family="Georgia,serif" letter-spacing="4.5">BOOTS</text>
+    <text x="50" y="82" text-anchor="middle" fill="rgba(240,220,180,.25)" font-size="6" font-family="serif">✦</text>
+  </symbol>
+</svg>
+
+<div class="preview-banner">Vista previa del diseño · 50x Boots · Desarrollado por VYNTRA Intelligent Systems</div>
+
+<!-- ── NAV ── -->
+<nav class="nav">
+  <div class="nav-inner">
+    <a class="nav-logo">
+      <svg class="logo-coin" viewBox="0 0 100 100"><use href="#logo"/></svg>
+      <div class="nav-wordmark">
+        <span class="nav-brand">50x BOOTS</span>
+        <span class="nav-origin">Chihuahua, México</span>
+      </div>
+    </a>
+    <div class="nav-links">
+      <div class="dd">
+        <button class="nav-link">Catálogo ▾</button>
+        <div class="dd-menu">
+          <div class="dd-cat">Calzado</div>
+          <a class="dd-item ft">Bota Vaquera Caballero</a>
+          <a class="dd-item ft">Bota Vaquera Dama</a>
+          <a class="dd-item">Bota Niño / Niña</a>
+          <div class="dd-cat">Sombrería</div>
+          <a class="dd-item">Sombrero Vaquero</a>
+          <a class="dd-item">Tejano de Colores</a>
+          <div class="dd-cat">Accesorios</div>
+          <a class="dd-item">Cintas</a>
+          <a class="dd-item">Toquillas</a>
+          <a class="dd-item">Hebillas</a>
+          <a class="dd-item">Fundas de Navajas</a>
+          <a class="dd-item">Navajas</a>
+          <a class="dd-item">Carteras</a>
+          <a class="dd-item">Pantalones</a>
+          <a class="dd-item">Ropa Bordada</a>
+          <a class="dd-item">Parches</a>
+          <a class="dd-item">Plumas Bombero</a>
+        </div>
+      </div>
+      <a class="nav-link" onclick="filter('hombre')">Hombre</a>
+      <a class="nav-link" onclick="filter('mujer')">Mujer</a>
+      <a class="nav-link" onclick="filter('ninos')">Niños</a>
+      <a class="nav-link">Nosotros</a>
+      <a class="nav-link">Sucursales</a>
+      <a class="nav-link sale">Ofertas</a>
+    </div>
+    <div class="nav-actions">
+      <button class="nav-action-btn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      </button>
+      <button class="nav-action-btn" onclick="toggleCart()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+        <span class="nav-cart-count" id="cart-badge">2</span>
+      </button>
+    </div>
+    <button class="hamburger">☰</button>
+  </div>
+</nav>
+
+<!-- ── HERO ── -->
+<section class="hero">
+  <svg class="hero-deco-wrap" viewBox="0 0 100 100"><use href="#logo"/></svg>
+  <div class="hero-content">
+    <div class="hero-eyebrow">Nueva Colección 2026</div>
+    <h1 class="hero-title">Cuero genuino. Tradición del norte.</h1>
+    <p class="hero-sub">Botas y accesorios western de Chihuahua para todo México. Calidad de exportación, hecha para durar.</p>
+    <div class="hero-btns">
+      <button class="btn-dark" onclick="document.getElementById('productos').scrollIntoView({behavior:'smooth'})">Ver colección</button>
+      <button class="btn-outline-white">Nuestras sucursales</button>
+    </div>
+  </div>
+</section>
+
+<!-- ── CATEGORY BANNERS — asymmetric ── -->
+<div class="cat-layout">
+  <div class="cat-main" onclick="filter('hombre');document.getElementById('productos').scrollIntoView({behavior:'smooth'})">
+    <div class="cat-wood"></div>
+    <div class="cat-visual-letter">H</div>
+    <div class="cat-label">
+      <div class="cat-eyebrow">Colección</div>
+      <div class="cat-name-big">Hombre</div>
+      <div class="cat-cta">Comprar ahora</div>
+    </div>
+  </div>
+  <div class="cat-stack">
+    <div class="cat-sub" onclick="filter('mujer');document.getElementById('productos').scrollIntoView({behavior:'smooth'})">
+      <div class="cat-wood"></div>
+      <div class="cat-visual-letter">M</div>
+      <div class="cat-label">
+        <div class="cat-eyebrow">Colección</div>
+        <div class="cat-name-big">Mujer</div>
+        <div class="cat-cta">Comprar ahora</div>
+      </div>
+    </div>
+    <div class="cat-sub" onclick="filter('ninos');document.getElementById('productos').scrollIntoView({behavior:'smooth'})">
+      <div class="cat-wood"></div>
+      <div class="cat-visual-letter">N</div>
+      <div class="cat-label">
+        <div class="cat-eyebrow">Colección</div>
+        <div class="cat-name-big">Niños</div>
+        <div class="cat-cta">Comprar ahora</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── PRODUCTS ── -->
+<div style="border-bottom:1px solid var(--divider)">
+  <div class="products-section" id="productos">
+    <div class="section-header">
+      <div>
+        <div class="section-eyebrow">Catálogo</div>
+        <div class="section-title">Más vendidos</div>
+      </div>
+      <div id="filters" class="filter-row">
+        <button class="filter-btn active" data-cat="todo">Todo</button>
+        <button class="filter-btn" data-cat="hombre">Hombre</button>
+        <button class="filter-btn" data-cat="mujer">Mujer</button>
+        <button class="filter-btn" data-cat="ninos">Niños</button>
+        <button class="filter-btn" data-cat="accesorios">Accesorios</button>
+      </div>
+    </div>
+    <div class="products-grid" id="pgrid">
+
+      <div class="product-card" data-cat="hombre">
+        <div class="product-img pi-boots">
+          <div class="product-badge">Más vendido</div>
+          <div class="product-img-label">BOTA VAQUERA<br>CABALLERO</div>
+          <div class="product-cta" onclick="addToCart(event)">Agregar al carrito</div>
+        </div>
+        <div class="product-info">
+          <div class="product-cat-lbl">Hombre · Calzado</div>
+          <div class="product-name">Bota Vaquera Caballero</div>
+          <div class="product-sub">Cuero genuino · Tallas 25–31</div>
+          <div class="product-price">$2,800 <span>MXN</span></div>
+        </div>
+      </div>
+
+      <div class="product-card" data-cat="mujer">
+        <div class="product-img pi-boots">
+          <div class="product-badge copper">Nuevo</div>
+          <div class="product-img-label">BOTA VAQUERA<br>DAMA</div>
+          <div class="product-cta" onclick="addToCart(event)">Agregar al carrito</div>
+        </div>
+        <div class="product-info">
+          <div class="product-cat-lbl">Mujer · Calzado</div>
+          <div class="product-name">Bota Vaquera Dama</div>
+          <div class="product-sub">Cuero genuino · Tallas 22–27</div>
+          <div class="product-price">$2,500 <span>MXN</span></div>
+        </div>
+      </div>
+
+      <div class="product-card" data-cat="hombre">
+        <div class="product-img pi-hat">
+          <div class="product-img-label">SOMBRERO<br>VAQUERO</div>
+          <div class="product-cta" onclick="addToCart(event)">Agregar al carrito</div>
+        </div>
+        <div class="product-info">
+          <div class="product-cat-lbl">Hombre · Sombrería</div>
+          <div class="product-name">Sombrero Vaquero</div>
+          <div class="product-sub">Lana fina · Varios colores</div>
+          <div class="product-price">$1,100 <span>MXN</span></div>
+        </div>
+      </div>
+
+      <div class="product-card" data-cat="ninos">
+        <div class="product-img pi-boots">
+          <div class="product-badge">Niños</div>
+          <div class="product-img-label">BOTA VAQUERA<br>NIÑO / NIÑA</div>
+          <div class="product-cta" onclick="addToCart(event)">Agregar al carrito</div>
+        </div>
+        <div class="product-info">
+          <div class="product-cat-lbl">Niños · Calzado</div>
+          <div class="product-name">Bota Vaquera Niño/Niña</div>
+          <div class="product-sub">Cuero genuino · Tallas 14–21</div>
+          <div class="product-price">$1,600 <span>MXN</span></div>
+        </div>
+      </div>
+
+      <div class="product-card" data-cat="accesorios">
+        <div class="product-img pi-hat">
+          <div class="product-img-label">TEJANO<br>DE COLORES</div>
+          <div class="product-cta" onclick="addToCart(event)">Agregar al carrito</div>
+        </div>
+        <div class="product-info">
+          <div class="product-cat-lbl">Accesorios · Sombrería</div>
+          <div class="product-name">Tejano de Colores</div>
+          <div class="product-sub">Múltiples colores disponibles</div>
+          <div class="product-price">$1,350 <span>MXN</span></div>
+        </div>
+      </div>
+
+      <div class="product-card" data-cat="accesorios">
+        <div class="product-img pi-acc">
+          <div class="product-img-label">CARTERA<br>VAQUERA</div>
+          <div class="product-cta" onclick="addToCart(event)">Agregar al carrito</div>
+        </div>
+        <div class="product-info">
+          <div class="product-cat-lbl">Accesorios · Cuero</div>
+          <div class="product-name">Cartera Vaquera</div>
+          <div class="product-sub">Cuero genuino · Artesanal</div>
+          <div class="product-price">$480 <span>MXN</span></div>
+        </div>
+      </div>
+
+      <div class="product-card" data-cat="mujer">
+        <div class="product-img pi-boots">
+          <div class="product-img-label">BOTA BORDADA<br>DAMA</div>
+          <div class="product-cta" onclick="addToCart(event)">Agregar al carrito</div>
+        </div>
+        <div class="product-info">
+          <div class="product-cat-lbl">Mujer · Calzado</div>
+          <div class="product-name">Bota Bordada Dama</div>
+          <div class="product-sub">Cuero con bordado artesanal</div>
+          <div class="product-price">$3,200 <span>MXN</span></div>
+        </div>
+      </div>
+
+      <div class="product-card" data-cat="accesorios">
+        <div class="product-img pi-acc">
+          <div class="product-img-label">HEBILLA<br>VAQUERA</div>
+          <div class="product-cta" onclick="addToCart(event)">Agregar al carrito</div>
+        </div>
+        <div class="product-info">
+          <div class="product-cat-lbl">Accesorios · Metal</div>
+          <div class="product-name">Hebilla Vaquera</div>
+          <div class="product-sub">Acero inoxidable · Varios diseños</div>
+          <div class="product-price">$380 <span>MXN</span></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ── HERITAGE ── -->
+<section class="heritage">
+  <svg class="heritage-deco" viewBox="0 0 100 100"><use href="#logo"/></svg>
+  <div class="heritage-inner">
+    <div>
+      <div class="heritage-year">50x</div>
+      <div class="heritage-eyebrow">Nuestra historia</div>
+      <h2 class="heritage-title">Hechos en Chihuahua. Conocidos en todo México.</h2>
+      <p class="heritage-body">En 50x BOOTS creemos que una bota de calidad no es un lujo — es una herramienta. Cada par está hecho con cuero genuino seleccionado, técnicas de fabricación probadas y el estilo western que define al norte de México.</p>
+      <div class="heritage-stats">
+        <div>
+          <div class="h-stat-num">14+</div>
+          <div class="h-stat-lbl">Categorías de producto</div>
+        </div>
+        <div>
+          <div class="h-stat-num">2</div>
+          <div class="h-stat-lbl">Sucursales en Chihuahua</div>
+        </div>
+        <div>
+          <div class="h-stat-num">Todo MX</div>
+          <div class="h-stat-lbl">Envíos nacionales</div>
+        </div>
+      </div>
+    </div>
+    <div class="heritage-right">
+      <div class="heritage-quote">
+        <div class="heritage-quote-text">"Una bota bien hecha habla sola. No necesita más."</div>
+        <div class="heritage-quote-author">— 50x BOOTS, Chihuahua</div>
+      </div>
+      <div class="heritage-locs">
+        <div class="heritage-loc">
+          <div class="heritage-loc-dot"></div>
+          <div>
+            <div class="heritage-loc-name">Sucursal Chihuahua</div>
+            <div class="heritage-loc-addr">Dirección por confirmar · Chihuahua, Chih.</div>
+          </div>
+        </div>
+        <div class="heritage-loc">
+          <div class="heritage-loc-dot"></div>
+          <div>
+            <div class="heritage-loc-name">Sucursal Ojinaga</div>
+            <div class="heritage-loc-addr">Dirección por confirmar · Ojinaga, Chih.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── SHIPPING ── -->
+<div class="shipping">
+  <div class="shipping-inner">
+    <div class="ship-cell">
+      <div class="ship-icon">📦</div>
+      <div>
+        <div class="ship-title">Envíos a todo México</div>
+        <div class="ship-desc">Rastreo en tiempo real desde Chihuahua.</div>
+      </div>
+    </div>
+    <div class="ship-cell">
+      <div class="ship-icon">🏪</div>
+      <div>
+        <div class="ship-title">Recoge en sucursal</div>
+        <div class="ship-desc">Chihuahua y Ojinaga sin costo extra.</div>
+      </div>
+    </div>
+    <div class="ship-cell">
+      <div class="ship-icon">💳</div>
+      <div>
+        <div class="ship-title">Pago seguro</div>
+        <div class="ship-desc">BBVA · Mercado Pago · Todas las tarjetas.</div>
+      </div>
+    </div>
+    <div class="ship-cell">
+      <div class="ship-icon">✅</div>
+      <div>
+        <div class="ship-title">Calidad garantizada</div>
+        <div class="ship-desc">Cuero genuino con garantía en materiales.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div>
+        <div class="footer-logo">
+          <svg class="footer-coin" viewBox="0 0 100 100"><use href="#logo"/></svg>
+          <div>
+            <div class="footer-brand">50x BOOTS</div>
+            <div class="footer-brand-sub">Chihuahua, México</div>
+          </div>
+        </div>
+        <div class="footer-desc">Botas y accesorios western de cuero genuino. La tradición del norte de México en tu puerta.</div>
+      </div>
+      <div>
+        <div class="footer-col-title">Catálogo</div>
+        <a class="footer-link">Botas Caballero</a>
+        <a class="footer-link">Botas Dama</a>
+        <a class="footer-link">Botas Niños</a>
+        <a class="footer-link">Sombreros</a>
+        <a class="footer-link">Accesorios</a>
+      </div>
+      <div>
+        <div class="footer-col-title">Sucursales</div>
+        <div class="footer-suc-name">Chihuahua, Chih.</div>
+        <div class="footer-suc-addr">Dirección por confirmar</div>
+        <div class="footer-suc-name">Ojinaga, Chih.</div>
+        <div class="footer-suc-addr">Dirección por confirmar</div>
+      </div>
+      <div>
+        <div class="footer-col-title">Información</div>
+        <a class="footer-link">Envíos y devoluciones</a>
+        <a class="footer-link">Guía de tallas</a>
+        <a class="footer-link">Preguntas frecuentes</a>
+        <a class="footer-link">WhatsApp</a>
+        <a class="footer-link">Instagram</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-copy">© 2026 50x BOOTS · Chihuahua, México. Todos los derechos reservados.</div>
+      <div class="footer-dev">Diseño: VYNTRA Intelligent Systems</div>
+    </div>
+  </div>
+</footer>
+
+<!-- ── CART ── -->
+<div class="cart-overlay" id="cart-overlay" onclick="toggleCart()"></div>
+<div class="cart-panel" id="cart-panel">
+  <div class="cart-header">
+    <div class="cart-title">Tu carrito (2)</div>
+    <button class="cart-close" onclick="toggleCart()">✕</button>
+  </div>
+  <div class="cart-items">
+    <div class="cart-item">
+      <div class="cart-item-img"></div>
+      <div class="cart-item-info">
+        <div class="cart-item-name">Bota Vaquera Caballero</div>
+        <div class="cart-item-sub">Talla 28 · Café</div>
+        <div class="cart-item-row">
+          <div class="cart-qty"><button class="qty-btn">−</button><span>1</span><button class="qty-btn">+</button></div>
+          <div class="cart-price">$2,800</div>
+        </div>
+      </div>
+    </div>
+    <div class="cart-item">
+      <div class="cart-item-img"></div>
+      <div class="cart-item-info">
+        <div class="cart-item-name">Sombrero Vaquero</div>
+        <div class="cart-item-sub">Talla M · Negro</div>
+        <div class="cart-item-row">
+          <div class="cart-qty"><button class="qty-btn">−</button><span>1</span><button class="qty-btn">+</button></div>
+          <div class="cart-price">$1,100</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="cart-footer">
+    <div class="cart-total-row">
+      <div class="cart-total-label">Total estimado</div>
+      <div class="cart-total-val">$3,900 MXN</div>
+    </div>
+    <div class="cart-note">Envío calculado al finalizar</div>
+    <button class="btn-dark" style="width:100%;margin-bottom:10px">Proceder al pago</button>
+    <button class="btn-outline-white" style="width:100%;text-align:center;border-color:var(--divider);color:var(--mid)" onclick="toggleCart()">Seguir comprando</button>
+  </div>
+</div>
+
+<script>
+function toggleCart(){
+  document.getElementById('cart-panel').classList.toggle('open');
+  document.getElementById('cart-overlay').classList.toggle('open');
+}
+
+document.getElementById('filters').addEventListener('click', e => {
+  const btn = e.target.closest('.filter-btn');
+  if(!btn) return;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  filter(btn.dataset.cat);
+});
+
+function filter(cat){
+  document.querySelectorAll('.product-card').forEach(c => {
+    c.style.display = (cat === 'todo' || c.dataset.cat === cat) ? '' : 'none';
+  });
+  const tab = document.querySelector(`.filter-btn[data-cat="${cat}"]`);
+  if(tab){ document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active')); tab.classList.add('active'); }
+}
+
+let count = 2;
+function addToCart(e){
+  e.stopPropagation();
+  count++;
+  document.getElementById('cart-badge').textContent = count;
+  const cta = e.currentTarget;
+  const orig = cta.textContent;
+  cta.textContent = '✓ Agregado';
+  cta.style.background = '#3A6E28';
+  setTimeout(()=>{ cta.textContent = orig; cta.style.background = ''; }, 1400);
+}
+
+document.querySelectorAll('.form-tab').forEach(t => {
+  t.addEventListener('click', function(){ document.querySelectorAll('.form-tab').forEach(x=>x.classList.remove('active')); this.classList.add('active'); });
+});
+</script>
+</body>
+</html>
