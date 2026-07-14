@@ -1,0 +1,10 @@
+{
+  "progress": 55,
+  "steps": [
+    { "name": "Diseño del sitio",        "desc": "Estructura, paleta y estilo visual aprobados",             "status": "done"    },
+    { "name": "Catálogo de productos",   "desc": "14 categorías definidas: calzado, sombrería y accesorios", "status": "done"    },
+    { "name": "Fotografía de productos", "desc": "Sesión de fotos y edición en proceso",                     "status": "active"  },
+    { "name": "Pasarela de pago",        "desc": "Integración BBVA y Mercado Pago",                          "status": "pending" },
+    { "name": "Lanzamiento 🚀",          "desc": "Publicación y activación de envíos a todo México",         "status": "pending" }
+  ]
+}

@@ -6,16 +6,15 @@
 <title>50x BOOTS — Próximamente</title>
 <style>
 :root {
-  --dark:    #170C04;
-  --s1:      #221208;
-  --copper:  #C4722A;
-  --amber:   #D49840;
-  --cream:   #F0E4D2;
-  --cream2:  #C0A888;
-  --cream3:  #8A7260;
-  --border:  rgba(196,114,42,.18);
+  --dark:   #170C04;
+  --s1:     #221208;
+  --copper: #C4722A;
+  --amber:  #D49840;
+  --cream:  #F0E4D2;
+  --cream2: #C0A888;
+  --cream3: #8A7260;
+  --border: rgba(196,114,42,.18);
 }
-
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html, body { height: 100%; }
 body {
@@ -28,8 +27,6 @@ body {
   flex-direction: column;
   overflow-x: hidden;
 }
-
-/* ── GRAIN / TEXTURE ── */
 body::before {
   content: '';
   position: fixed;
@@ -40,15 +37,11 @@ body::before {
   pointer-events: none;
   z-index: 0;
 }
-
-/* ── GLOW PULSE behind logo ── */
 .glow {
   position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 500px;
-  height: 500px;
+  top: 50%; left: 50%;
+  transform: translate(-50%,-50%);
+  width: 500px; height: 500px;
   border-radius: 50%;
   background: radial-gradient(ellipse, rgba(196,114,42,.13) 0%, transparent 70%);
   animation: pulse 4s ease-in-out infinite;
@@ -56,11 +49,9 @@ body::before {
   z-index: 0;
 }
 @keyframes pulse {
-  0%, 100% { opacity: .6; transform: translate(-50%,-50%) scale(1); }
-  50%       { opacity: 1;  transform: translate(-50%,-50%) scale(1.12); }
+  0%, 100% { opacity:.6; transform:translate(-50%,-50%) scale(1); }
+  50%       { opacity:1;  transform:translate(-50%,-50%) scale(1.12); }
 }
-
-/* ── LAYOUT ── */
 main {
   flex: 1;
   display: flex;
@@ -71,12 +62,9 @@ main {
   position: relative;
   z-index: 1;
 }
-
-/* ── LOGO ── */
 .logo-wrap { margin-bottom: 32px; position: relative; }
 .logo-coin {
-  width: 120px;
-  height: 120px;
+  width: 120px; height: 120px;
   filter: drop-shadow(0 0 24px rgba(196,114,42,.35));
   animation: floatcoin 6s ease-in-out infinite;
 }
@@ -84,26 +72,12 @@ main {
   0%, 100% { transform: translateY(0); }
   50%       { transform: translateY(-7px); }
 }
-.logo-ring {
-  position: absolute;
-  inset: -14px;
-  border-radius: 50%;
-  border: 1px solid rgba(196,114,42,.20);
-  animation: ringpulse 4s ease-in-out infinite;
+.logo-ring   { position:absolute; inset:-14px; border-radius:50%; border:1px solid rgba(196,114,42,.20); animation:ringp 4s ease-in-out infinite; }
+.logo-ring-2 { position:absolute; inset:-28px; border-radius:50%; border:1px solid rgba(196,114,42,.10); animation:ringp 4s ease-in-out infinite .6s; }
+@keyframes ringp {
+  0%,100% { opacity:.5; transform:scale(1); }
+  50%     { opacity:1;  transform:scale(1.04); }
 }
-.logo-ring-2 {
-  position: absolute;
-  inset: -28px;
-  border-radius: 50%;
-  border: 1px solid rgba(196,114,42,.10);
-  animation: ringpulse 4s ease-in-out infinite .6s;
-}
-@keyframes ringpulse {
-  0%, 100% { opacity: .5; transform: scale(1); }
-  50%       { opacity: 1;  transform: scale(1.04); }
-}
-
-/* ── BADGE ── */
 .status-badge {
   display: inline-flex;
   align-items: center;
@@ -119,18 +93,12 @@ main {
   margin-bottom: 24px;
 }
 .badge-dot {
-  width: 6px;
-  height: 6px;
+  width: 6px; height: 6px;
   border-radius: 50%;
   background: var(--copper);
-  animation: dotblink 1.5s ease-in-out infinite;
+  animation: blink 1.5s ease-in-out infinite;
 }
-@keyframes dotblink {
-  0%, 100% { opacity: 1; }
-  50%       { opacity: .3; }
-}
-
-/* ── HEADLINE ── */
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:.3} }
 .headline {
   font-family: Georgia, 'Times New Roman', serif;
   font-size: clamp(30px, 6vw, 58px);
@@ -142,7 +110,7 @@ main {
   text-wrap: balance;
   margin-bottom: 14px;
 }
-.headline em { font-style: normal; color: var(--copper); }
+.headline em { font-style:normal; color:var(--copper); }
 .subline {
   font-size: 16px;
   color: var(--cream2);
@@ -152,132 +120,89 @@ main {
   margin-bottom: 48px;
   font-weight: 300;
 }
-
-/* ── PROGRESS BAR ── */
-.progress-wrap { width: 100%; max-width: 480px; margin-bottom: 36px; }
-.progress-top {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 10px;
-}
-.progress-label { font-size: 11px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--cream3); }
-.progress-pct { font-family: Georgia, serif; font-size: 16px; font-weight: 700; color: var(--copper); }
-.progress-track {
-  height: 3px;
-  background: rgba(196,114,42,.15);
-  position: relative;
-  overflow: hidden;
-}
-.progress-fill {
-  height: 100%;
-  width: 0;
-  background: linear-gradient(90deg, var(--copper-dim, #7A4414), var(--copper), var(--amber));
-  transition: width 1.8s cubic-bezier(.22,1,.36,1);
-}
-
-/* ── STEPS ── */
-.steps { width: 100%; max-width: 480px; display: flex; flex-direction: column; gap: 0; margin-bottom: 48px; }
+/* Progress bar */
+.progress-wrap { width:100%; max-width:480px; margin-bottom:36px; }
+.progress-top { display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; }
+.progress-label { font-size:11px; font-weight:600; letter-spacing:.14em; text-transform:uppercase; color:var(--cream3); }
+.progress-pct { font-family:Georgia,serif; font-size:16px; font-weight:700; color:var(--copper); }
+.progress-track { height:3px; background:rgba(196,114,42,.15); overflow:hidden; }
+.progress-fill { height:100%; width:0; background:linear-gradient(90deg,#7A4414,var(--copper),var(--amber)); transition:width 1.8s cubic-bezier(.22,1,.36,1); }
+/* Steps */
+.steps { width:100%; max-width:480px; display:flex; flex-direction:column; gap:0; margin-bottom:48px; }
 .step {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  padding: 14px 0;
-  border-bottom: 1px solid rgba(196,114,42,.10);
-  opacity: 0;
-  transform: translateY(8px);
-  transition: opacity .5s, transform .5s;
+  display:flex; align-items:center; gap:16px;
+  padding:14px 0;
+  border-bottom:1px solid rgba(196,114,42,.10);
+  opacity:0; transform:translateY(8px);
+  transition:opacity .5s, transform .5s;
 }
-.step:last-child { border-bottom: none; }
-.step.visible { opacity: 1; transform: translateY(0); }
+.step:last-child { border-bottom:none; }
+.step.visible { opacity:1; transform:translateY(0); }
 .step-icon {
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 13px;
-  flex-shrink: 0;
+  width:30px; height:30px; border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+  font-size:13px; flex-shrink:0;
 }
-.step-icon.done   { background: rgba(50,160,80,.15); border: 1px solid rgba(50,160,80,.35); color: #5ABE6A; }
-.step-icon.active { background: rgba(196,114,42,.15); border: 1px solid var(--border); color: var(--copper); animation: spinicon 2s linear infinite; }
-.step-icon.pending{ background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.10); color: var(--cream3); }
-@keyframes spinicon { to { transform: rotate(360deg); } }
-.step-info { flex: 1; }
-.step-name  { font-size: 13px; font-weight: 600; color: var(--cream); margin-bottom: 2px; }
-.step-desc  { font-size: 11px; color: var(--cream3); }
+.step-icon.done    { background:rgba(50,160,80,.15); border:1px solid rgba(50,160,80,.35); color:#5ABE6A; }
+.step-icon.active  { background:rgba(196,114,42,.15); border:1px solid var(--border); color:var(--copper); animation:spin 2s linear infinite; }
+.step-icon.pending { background:rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.10); color:var(--cream3); }
+@keyframes spin { to { transform:rotate(360deg); } }
+.step-info { flex:1; }
+.step-name { font-size:13px; font-weight:600; color:var(--cream); margin-bottom:2px; }
+.step-desc { font-size:11px; color:var(--cream3); }
 .step-tag {
-  font-size: 9px;
-  font-weight: 700;
-  letter-spacing: .14em;
-  text-transform: uppercase;
-  padding: 3px 9px;
-  border-radius: 20px;
-  flex-shrink: 0;
+  font-size:9px; font-weight:700; letter-spacing:.14em; text-transform:uppercase;
+  padding:3px 9px; border-radius:20px; flex-shrink:0;
 }
-.tag-done    { background: rgba(50,160,80,.12); color: #5ABE6A; border: 1px solid rgba(50,160,80,.25); }
-.tag-active  { background: rgba(196,114,42,.14); color: var(--copper); border: 1px solid var(--border); }
-.tag-pending { background: rgba(255,255,255,.05); color: var(--cream3); border: 1px solid rgba(255,255,255,.10); }
-
-/* ── CTA ── */
-.cta-group { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
+.tag-done    { background:rgba(50,160,80,.12); color:#5ABE6A; border:1px solid rgba(50,160,80,.25); }
+.tag-active  { background:rgba(196,114,42,.14); color:var(--copper); border:1px solid var(--border); }
+.tag-pending { background:rgba(255,255,255,.05); color:var(--cream3); border:1px solid rgba(255,255,255,.10); }
+/* CTAs */
+.cta-group { display:flex; gap:12px; flex-wrap:wrap; justify-content:center; }
 .btn-wa {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  background: #25D366;
-  color: #fff;
-  border: none;
-  padding: 14px 28px;
-  font-size: 13px;
-  font-weight: 700;
-  cursor: pointer;
-  font-family: inherit;
-  letter-spacing: .03em;
-  text-decoration: none;
-  transition: background .2s, transform .15s;
+  display:flex; align-items:center; gap:10px;
+  background:#25D366; color:#fff;
+  border:none; padding:14px 28px;
+  font-size:13px; font-weight:700; cursor:pointer;
+  font-family:inherit; letter-spacing:.03em; text-decoration:none;
+  transition:background .2s, transform .15s;
 }
-.btn-wa:hover { background: #1EBE5A; transform: translateY(-1px); }
+.btn-wa:hover { background:#1EBE5A; transform:translateY(-1px); }
 .btn-ghost {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  background: none;
-  color: var(--cream2);
-  border: 1px solid var(--border);
-  padding: 14px 28px;
-  font-size: 13px;
-  font-weight: 500;
-  cursor: pointer;
-  font-family: inherit;
-  text-decoration: none;
-  transition: border-color .2s, color .2s;
+  display:flex; align-items:center; gap:8px;
+  background:none; color:var(--cream2);
+  border:1px solid var(--border); padding:14px 28px;
+  font-size:13px; font-weight:500; cursor:pointer;
+  font-family:inherit; text-decoration:none;
+  transition:border-color .2s, color .2s;
 }
-.btn-ghost:hover { border-color: var(--cream2); color: var(--cream); }
-
-/* ── FOOTER ── */
+.btn-ghost:hover { border-color:var(--cream2); color:var(--cream); }
+/* Live indicator */
+.live-pill {
+  display:inline-flex; align-items:center; gap:6px;
+  font-size:10px; color:var(--cream3); margin-top:28px;
+  letter-spacing:.06em;
+}
+.live-dot {
+  width:6px; height:6px; border-radius:50%; background:#5ABE6A;
+  animation:blink 2s ease-in-out infinite;
+}
 footer {
-  position: relative;
-  z-index: 1;
-  text-align: center;
-  padding: 24px;
-  border-top: 1px solid rgba(196,114,42,.10);
+  position:relative; z-index:1;
+  text-align:center; padding:24px;
+  border-top:1px solid rgba(196,114,42,.10);
 }
-.footer-vyntra { font-size: 11px; color: var(--cream3); opacity: .6; letter-spacing: .04em; }
-.footer-vyntra span { color: var(--copper); opacity: 1; }
-
-/* ── MOBILE ── */
-@media (max-width: 480px) {
-  .logo-coin { width: 90px; height: 90px; }
-  .cta-group { flex-direction: column; align-items: center; width: 100%; max-width: 320px; }
-  .btn-wa, .btn-ghost { width: 100%; justify-content: center; }
+.footer-vyntra { font-size:11px; color:var(--cream3); opacity:.6; letter-spacing:.04em; }
+.footer-vyntra span { color:var(--copper); opacity:1; }
+@media (max-width:480px) {
+  .logo-coin { width:90px; height:90px; }
+  .cta-group { flex-direction:column; align-items:center; width:100%; max-width:320px; }
+  .btn-wa, .btn-ghost { width:100%; justify-content:center; }
 }
 </style>
 </head>
 <body>
 
-<!-- SVG logo -->
 <svg style="display:none" xmlns="http://www.w3.org/2000/svg">
   <symbol id="logo" viewBox="0 0 100 100">
     <defs>
@@ -296,10 +221,10 @@ footer {
     <circle cx="50" cy="50" r="43" fill="none" stroke="rgba(255,190,110,.12)" stroke-width="1.5"/>
     <circle cx="50" cy="50" r="39" fill="none" stroke="rgba(0,0,0,.22)" stroke-width="1"/>
     <text x="50" y="22" text-anchor="middle" fill="rgba(240,220,180,.28)" font-size="7" font-family="serif" letter-spacing="3">✦ ✦ ✦</text>
-    <text x="50.5" y="49.5" text-anchor="middle" fill="rgba(0,0,0,.5)" font-size="25" font-weight="900" font-family="Georgia,serif" letter-spacing=".5">50x</text>
-    <text x="50" y="48" text-anchor="middle" fill="#F2DFC0" font-size="25" font-weight="900" font-family="Georgia,serif" letter-spacing=".5">50x</text>
-    <text x="50.5" y="67.5" text-anchor="middle" fill="rgba(0,0,0,.5)" font-size="11.5" font-weight="700" font-family="Georgia,serif" letter-spacing="4.5">BOOTS</text>
-    <text x="50" y="66" text-anchor="middle" fill="#F2DFC0" font-size="11.5" font-weight="700" font-family="Georgia,serif" letter-spacing="4.5">BOOTS</text>
+    <text x="50.5" y="49.5" text-anchor="middle" fill="rgba(0,0,0,.5)"  font-size="25" font-weight="900" font-family="Georgia,serif" letter-spacing=".5">50x</text>
+    <text x="50"   y="48"   text-anchor="middle" fill="#F2DFC0"          font-size="25" font-weight="900" font-family="Georgia,serif" letter-spacing=".5">50x</text>
+    <text x="50.5" y="67.5" text-anchor="middle" fill="rgba(0,0,0,.5)"  font-size="11.5" font-weight="700" font-family="Georgia,serif" letter-spacing="4.5">BOOTS</text>
+    <text x="50"   y="66"   text-anchor="middle" fill="#F2DFC0"          font-size="11.5" font-weight="700" font-family="Georgia,serif" letter-spacing="4.5">BOOTS</text>
     <text x="50" y="82" text-anchor="middle" fill="rgba(240,220,180,.25)" font-size="6" font-family="serif">✦</text>
   </symbol>
 </svg>
@@ -307,21 +232,14 @@ footer {
 <div class="glow"></div>
 
 <main>
-
-  <!-- Logo -->
   <div class="logo-wrap">
     <div class="logo-ring-2"></div>
     <div class="logo-ring"></div>
     <svg class="logo-coin" viewBox="0 0 100 100"><use href="#logo"/></svg>
   </div>
 
-  <!-- Badge -->
-  <div class="status-badge">
-    <div class="badge-dot"></div>
-    En construcción
-  </div>
+  <div class="status-badge"><div class="badge-dot"></div>En construcción</div>
 
-  <!-- Headline -->
   <h1 class="headline">Tu tienda online está <em>en camino.</em></h1>
   <p class="subline">Estamos construyendo la presencia digital de 50x BOOTS. Pronto podrás vender tus botas y accesorios a todo México.</p>
 
@@ -329,62 +247,15 @@ footer {
   <div class="progress-wrap">
     <div class="progress-top">
       <div class="progress-label">Progreso del proyecto</div>
-      <div class="progress-pct" id="pct-label">0%</div>
+      <div class="progress-pct" id="pct">0%</div>
     </div>
     <div class="progress-track">
-      <div class="progress-fill" id="progress-fill"></div>
+      <div class="progress-fill" id="pfill"></div>
     </div>
   </div>
 
-  <!-- Steps -->
-  <div class="steps" id="steps">
-
-    <div class="step">
-      <div class="step-icon done">✓</div>
-      <div class="step-info">
-        <div class="step-name">Diseño del sitio</div>
-        <div class="step-desc">Estructura, paleta y estilo visual aprobados</div>
-      </div>
-      <div class="step-tag tag-done">Listo</div>
-    </div>
-
-    <div class="step">
-      <div class="step-icon done">✓</div>
-      <div class="step-info">
-        <div class="step-name">Catálogo de productos</div>
-        <div class="step-desc">14 categorías definidas: calzado, sombrería y accesorios</div>
-      </div>
-      <div class="step-tag tag-done">Listo</div>
-    </div>
-
-    <div class="step">
-      <div class="step-icon active">↻</div>
-      <div class="step-info">
-        <div class="step-name">Fotografía de productos</div>
-        <div class="step-desc">Sesión de fotos y edición en proceso</div>
-      </div>
-      <div class="step-tag tag-active">En proceso</div>
-    </div>
-
-    <div class="step">
-      <div class="step-icon pending">○</div>
-      <div class="step-info">
-        <div class="step-name">Pasarela de pago</div>
-        <div class="step-desc">Integración BBVA y Mercado Pago</div>
-      </div>
-      <div class="step-tag tag-pending">Próximo</div>
-    </div>
-
-    <div class="step">
-      <div class="step-icon pending">○</div>
-      <div class="step-info">
-        <div class="step-name">Lanzamiento 🚀</div>
-        <div class="step-desc">Publicación y activación de envíos a todo México</div>
-      </div>
-      <div class="step-tag tag-pending">Próximo</div>
-    </div>
-
-  </div>
+  <!-- Steps list — rendered by JS -->
+  <div class="steps" id="steps"></div>
 
   <!-- CTAs -->
   <div class="cta-group">
@@ -398,6 +269,10 @@ footer {
     </a>
   </div>
 
+  <div class="live-pill">
+    <div class="live-dot"></div>
+    Se actualiza automáticamente · última revisión: <span id="last-check">ahora</span>
+  </div>
 </main>
 
 <footer>
@@ -405,27 +280,63 @@ footer {
 </footer>
 
 <script>
-// Animate steps in stagger
-const steps = document.querySelectorAll('.step');
-steps.forEach((s, i) => {
-  setTimeout(() => s.classList.add('visible'), 300 + i * 160);
-});
+const STATE_URL = 'https://vyntra-agency.github.io/50xboots_state.json';
 
-// Animate progress bar to 55%
-const TARGET = 55;
-const fill = document.getElementById('progress-fill');
-const label = document.getElementById('pct-label');
+const ICONS = { done: '✓', active: '↻', pending: '○' };
+const LABELS = { done: 'Listo', active: 'En proceso', pending: 'Próximo' };
 
-setTimeout(() => {
-  fill.style.width = TARGET + '%';
-  // Count up number
-  let current = 0;
-  const interval = setInterval(() => {
-    current = Math.min(current + 1, TARGET);
-    label.textContent = current + '%';
-    if (current >= TARGET) clearInterval(interval);
-  }, 1800 / TARGET);
-}, 600);
+function renderState(data) {
+  // Progress bar
+  const target = data.progress || 0;
+  document.getElementById('pfill').style.width = target + '%';
+  let n = 0;
+  const iv = setInterval(() => {
+    n = Math.min(n + 1, target);
+    document.getElementById('pct').textContent = n + '%';
+    if (n >= target) clearInterval(iv);
+  }, 1800 / Math.max(target, 1));
+
+  // Steps
+  const container = document.getElementById('steps');
+  container.innerHTML = '';
+  (data.steps || []).forEach((s, i) => {
+    const st = s.status || 'pending';
+    const div = document.createElement('div');
+    div.className = 'step';
+    div.innerHTML = `
+      <div class="step-icon ${st}">${ICONS[st]}</div>
+      <div class="step-info">
+        <div class="step-name">${s.name}</div>
+        <div class="step-desc">${s.desc}</div>
+      </div>
+      <div class="step-tag tag-${st}">${LABELS[st]}</div>`;
+    container.appendChild(div);
+    setTimeout(() => div.classList.add('visible'), 300 + i * 160);
+  });
+}
+
+function fmt(d) {
+  return d.toLocaleTimeString('es-MX', { hour: '2-digit', minute: '2-digit' });
+}
+
+async function loadState() {
+  try {
+    const res = await fetch(STATE_URL + '?t=' + Date.now());
+    if (!res.ok) throw new Error();
+    const data = await res.json();
+    renderState(data);
+    document.getElementById('last-check').textContent = fmt(new Date());
+  } catch {
+    // Si falla el fetch usamos el estado por defecto silenciosamente
+    document.getElementById('last-check').textContent = fmt(new Date()) + ' (sin cambios)';
+  }
+}
+
+// Carga inicial
+loadState();
+
+// Auto-refresh cada 60 segundos
+setInterval(loadState, 60_000);
 </script>
 </body>
 </html>
