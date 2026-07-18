@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>50x BOOTS — Chihuahua, México</title>
+<link href="https://fonts.googleapis.com/css2?family=Rye&display=swap" rel="stylesheet">
 <style>
 /* ── TOKENS ── */
 :root {
@@ -78,35 +79,21 @@ body {
   flex-shrink: 0;
   margin-right: 44px;
 }
-.logo-coin-wrap {
-  width: 46px;
-  height: 46px;
-  border-radius: 50%;
-  overflow: hidden;
-  background: #080402;
+.nav-logo-wrap {
   flex-shrink: 0;
-  box-shadow: 0 0 0 1px rgba(180,140,80,.18);
 }
-.logo-coin-wrap img { width: 100%; height: 100%; object-fit: cover; }
-.nav-wordmark {
-  display: flex;
-  flex-direction: column;
-  line-height: 1;
-  gap: 2px;
+.nav-logo-img {
+  height: 48px;
+  width: auto;
+  display: block;
 }
 .nav-brand {
   font-family: Georgia, 'Times New Roman', serif;
-  font-size: 16px;
+  font-size: 21px;
   font-weight: 700;
-  letter-spacing: .05em;
+  letter-spacing: .07em;
   color: var(--charcoal);
-}
-.nav-origin {
-  font-size: 8px;
-  letter-spacing: .22em;
-  text-transform: uppercase;
-  color: var(--copper);
-  font-weight: 700;
+  line-height: 1;
 }
 .nav-links { display: flex; align-items: center; flex: 1; }
 .nav-link {
@@ -168,28 +155,57 @@ body {
   background: var(--white);
   border: 1px solid var(--divider);
   border-top: 2px solid var(--charcoal);
-  padding: 22px 24px;
-  width: 480px;
   box-shadow: 0 12px 40px rgba(0,0,0,.10);
-  z-index: 10;
+  z-index: 200;
 }
-.dd:hover .dd-menu { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; }
-.dd-cat {
-  grid-column: 1 / -1;
+.dd:hover .dd-menu { display: block; }
+.dd:hover .dd-menu.mega { display: flex; }
+/* Mega dropdown — 5 columnas para "Todo" */
+.dd-menu.mega {
+  width: 680px;
+  padding: 20px 20px 24px;
+  gap: 0;
+  left: -8px;
+}
+.mega-col {
+  flex: 1;
+  padding: 0 14px;
+  border-right: 1px solid var(--divider);
+}
+.mega-col:first-child { padding-left: 0; }
+.mega-col:last-child { border-right: none; padding-right: 0; }
+.mega-head {
   font-size: 9px;
   font-weight: 700;
   letter-spacing: .22em;
   text-transform: uppercase;
   color: var(--copper);
-  padding-bottom: 8px;
+  padding-bottom: 7px;
+  border-bottom: 1px solid var(--divider);
+  margin-bottom: 8px;
+  white-space: nowrap;
+}
+/* Narrow dropdown — departamentos */
+.dd-menu.narrow {
+  width: 210px;
+  padding: 16px 20px;
+}
+.dd-cat {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: var(--copper);
+  padding-bottom: 6px;
   border-bottom: 1px solid var(--divider);
   margin-bottom: 4px;
+  margin-top: 12px;
 }
-.dd-cat + .dd-cat { margin-top: 10px; }
+.dd-cat:first-child { margin-top: 0; }
 .dd-item {
   font-size: 13px;
   color: var(--mid);
-  padding: 6px 8px;
+  padding: 5px 0;
   cursor: pointer;
   transition: color .15s;
   display: block;
@@ -231,10 +247,12 @@ body {
 .hero-content {
   position: relative;
   z-index: 1;
-  max-width: 1280px;
-  margin: 0 auto;
-  width: 100%;
-  padding: 0 40px 72px;
+  width: 52%;
+  padding: 0 60px 72px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 .hero-eyebrow {
   font-size: 10px;
@@ -245,14 +263,16 @@ body {
   margin-bottom: 14px;
 }
 .hero-title {
-  font-family: Georgia, 'Times New Roman', serif;
-  font-size: clamp(40px, 5.5vw, 76px);
-  font-weight: 700;
-  line-height: 1.05;
+  font-family: 'Rye', Georgia, serif;
+  font-size: clamp(36px, 4.8vw, 68px);
+  font-weight: 400;
+  line-height: 1.08;
   color: var(--white);
-  max-width: 700px;
+  max-width: 600px;
   text-wrap: balance;
   margin-bottom: 20px;
+  text-transform: uppercase;
+  letter-spacing: .02em;
 }
 .hero-sub {
   font-size: 16px;
@@ -261,6 +281,7 @@ body {
   line-height: 1.65;
   margin-bottom: 36px;
   font-weight: 300;
+  text-align: center;
 }
 .hero-btns { display: flex; gap: 12px; flex-wrap: wrap; }
 .btn-dark {
@@ -290,17 +311,48 @@ body {
   letter-spacing: .04em;
 }
 .btn-outline-white:hover { border-color: rgba(255,255,255,.7); }
-/* Hero decorative medallion bg */
-.hero-deco-wrap {
+/* Hero foto decorativa */
+.hero-photo {
   position: absolute;
-  right: 8%;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 380px;
-  height: 380px;
-  opacity: .055;
-  pointer-events: none;
+  right: 0;
+  top: 0;
+  width: 48%;
+  height: 100%;
   z-index: 0;
+  pointer-events: none;
+}
+.hero-photo-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+}
+.hero-photo::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, var(--dark) 0%, rgba(26,13,6,.55) 45%, rgba(26,13,6,.15) 100%);
+  z-index: 1;
+}
+/* Hero badges */
+.hero-badges {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-top: 36px;
+  flex-wrap: wrap;
+}
+.hero-badge {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .08em;
+  color: rgba(255,255,255,.6);
+  text-transform: uppercase;
+}
+.hero-badge-div {
+  width: 1px;
+  height: 14px;
+  background: rgba(255,255,255,.2);
 }
 
 /* ── CATEGORY LAYOUT — asymmetric ── */
@@ -347,23 +399,46 @@ body {
     repeating-linear-gradient(89deg, rgba(0,0,0,.045) 0px, rgba(0,0,0,.045) 2px, transparent 2px, transparent 42px);
   pointer-events: none;
 }
+.cat-photo-slot {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+.cat-photo-slot img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: .75;
+  transition: transform .6s ease, opacity .3s;
+}
+.cat-main:hover .cat-photo-slot img,
+.cat-sub:hover .cat-photo-slot img { transform: scale(1.04); opacity: .85; }
 .cat-visual-letter {
   position: absolute;
   inset: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: Georgia, serif;
-  font-size: 200px;
-  font-weight: 700;
-  color: rgba(184,104,32,.055);
+  font-family: 'Rye', Georgia, serif;
+  font-size: 160px;
+  font-weight: 400;
+  color: rgba(184,104,32,.07);
   user-select: none;
-  letter-spacing: -.05em;
+  letter-spacing: -.02em;
   transition: color .5s;
+  text-transform: uppercase;
 }
 .cat-main:hover .cat-visual-letter,
-.cat-sub:hover .cat-visual-letter { color: rgba(184,104,32,.10); }
-.cat-sub .cat-visual-letter { font-size: 110px; }
+.cat-sub:hover .cat-visual-letter { color: rgba(184,104,32,.13); }
+.cat-sub .cat-visual-letter { font-size: 90px; }
+.cat-sub-desc {
+  font-size: 10px;
+  color: rgba(255,255,255,.45);
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  margin-top: 4px;
+  margin-bottom: 2px;
+}
 .cat-label {
   position: absolute;
   bottom: 0;
@@ -408,6 +483,28 @@ body {
 .cat-cta::after { content: '→'; color: var(--copper-lt); }
 .cat-main:hover .cat-cta,
 .cat-sub:hover .cat-cta { opacity: 1; }
+
+/* ── CATEGORY DEPT ROW ── */
+.cat-dept-layout {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  height: 340px;
+  border-top: 1px solid rgba(255,255,255,.05);
+}
+.cat-dept {
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  background:
+    radial-gradient(ellipse 70% 70% at 50% 40%, rgba(184,104,32,.22) 0%, transparent 60%),
+    #1E1008;
+  border-right: 1px solid rgba(255,255,255,.04);
+}
+.cat-dept:last-child { border-right: none; }
+.cat-dept:hover .cat-visual-letter { color: rgba(184,104,32,.13); }
+.cat-dept:hover .cat-label { padding-bottom: 40px; }
+.cat-dept:hover .cat-cta { opacity: 1; }
+.cat-dept:hover .cat-photo-slot img { transform: scale(1.04); opacity: .85; }
 
 /* ── PRODUCTS — clean white ── */
 .products-section { background: var(--white); padding: 72px 40px; max-width: 1280px; margin: 0 auto; }
@@ -600,9 +697,9 @@ body {
   z-index: 1;
 }
 .heritage-year {
-  font-family: Georgia, serif;
+  font-family: 'Rye', Georgia, serif;
   font-size: 100px;
-  font-weight: 700;
+  font-weight: 400;
   color: rgba(184,104,32,.12);
   line-height: 1;
   margin-bottom: -16px;
@@ -610,13 +707,14 @@ body {
 }
 .heritage-eyebrow { font-size: 9px; font-weight: 700; letter-spacing: .28em; text-transform: uppercase; color: var(--copper-lt); margin-bottom: 14px; }
 .heritage-title {
-  font-family: Georgia, 'Times New Roman', serif;
-  font-size: clamp(28px, 3vw, 44px);
-  font-weight: 700;
-  line-height: 1.15;
+  font-family: 'Rye', Georgia, serif;
+  font-size: clamp(24px, 2.6vw, 40px);
+  font-weight: 400;
+  line-height: 1.2;
   color: var(--dark-cream);
   margin-bottom: 22px;
   text-wrap: balance;
+  text-transform: uppercase;
 }
 .heritage-body { font-size: 15px; color: var(--dark-cream3); line-height: 1.75; margin-bottom: 32px; font-weight: 300; }
 .heritage-stats { display: flex; gap: 40px; flex-wrap: wrap; }
@@ -673,8 +771,8 @@ body {
   border-right: 1px solid var(--divider);
 }
 .ship-cell:last-child { border-right: none; }
-.ship-icon { font-size: 20px; flex-shrink: 0; margin-top: 1px; }
-.ship-title { font-size: 13px; font-weight: 700; color: var(--charcoal); margin-bottom: 3px; }
+.ship-icon { display: none; }
+.ship-title { font-family: 'Rye', Georgia, serif; font-size: 13px; font-weight: 400; color: var(--charcoal); margin-bottom: 3px; letter-spacing: .02em; }
 .ship-desc { font-size: 12px; color: var(--light-mid); line-height: 1.5; }
 
 /* ── FOOTER ── */
@@ -826,44 +924,84 @@ footer {
 <nav class="nav">
   <div class="nav-inner">
     <a class="nav-logo">
-      <div class="logo-coin-wrap">
-        <img src="logo_50xboots.jpg" alt="50x BOOTS">
-      </div>
-      <div class="nav-wordmark">
-        <span class="nav-brand">50x BOOTS</span>
-        <span class="nav-origin">Chihuahua, México</span>
+      <div class="nav-logo-wrap">
+        <img src="logo_50xboots_web.png" alt="50x BOOTS" class="nav-logo-img">
       </div>
     </a>
     <div class="nav-links">
+      <!-- Todo — mega menú 5 columnas -->
       <div class="dd">
-        <button class="nav-link">Catálogo ▾</button>
-        <div class="dd-menu">
-          <div class="dd-cat">Calzado</div>
-          <a class="dd-item ft">Bota Vaquera Caballero</a>
-          <a class="dd-item ft">Bota Vaquera Dama</a>
-          <a class="dd-item">Bota Niño / Niña</a>
-          <div class="dd-cat">Sombrería</div>
-          <a class="dd-item">Sombrero Vaquero</a>
-          <a class="dd-item">Tejano de Colores</a>
-          <div class="dd-cat">Accesorios</div>
-          <a class="dd-item">Cintas</a>
-          <a class="dd-item">Toquillas</a>
-          <a class="dd-item">Hebillas</a>
-          <a class="dd-item">Fundas de Navajas</a>
-          <a class="dd-item">Navajas</a>
-          <a class="dd-item">Carteras</a>
-          <a class="dd-item">Pantalones</a>
-          <a class="dd-item">Ropa Bordada</a>
-          <a class="dd-item">Parches</a>
-          <a class="dd-item">Plumas Bombero</a>
+        <button class="nav-link">Todo ▾</button>
+        <div class="dd-menu mega">
+          <div class="mega-col">
+            <div class="mega-head">Hombre</div>
+            <a class="dd-item ft" onclick="goTo('hombre')">Bota Caballero</a>
+            <a class="dd-item" onclick="goTo('hombre')">Pantalones</a>
+          </div>
+          <div class="mega-col">
+            <div class="mega-head">Mujer</div>
+            <a class="dd-item ft" onclick="goTo('mujer')">Bota Dama</a>
+            <a class="dd-item" onclick="goTo('mujer')">Pantalones</a>
+            <a class="dd-item" onclick="goTo('mujer')">Camisas</a>
+            <a class="dd-item" onclick="goTo('mujer')">Vestidos y Conjuntos</a>
+            <a class="dd-item" onclick="goTo('mujer')">Mascadas</a>
+          </div>
+          <div class="mega-col">
+            <div class="mega-head">Niños</div>
+            <a class="dd-item ft" onclick="goTo('ninos')">Bota Niño</a>
+            <a class="dd-item ft" onclick="goTo('ninos')">Bota Niña</a>
+          </div>
+          <div class="mega-col">
+            <div class="mega-head">Sombrería</div>
+            <a class="dd-item" onclick="goTo('accesorios')">Sombrero Vaquero</a>
+            <a class="dd-item" onclick="goTo('accesorios')">Tejano de Colores</a>
+          </div>
+          <div class="mega-col">
+            <div class="mega-head">Accesorios</div>
+            <a class="dd-item" onclick="goTo('accesorios')">Cintas</a>
+            <a class="dd-item" onclick="goTo('accesorios')">Toquillas</a>
+            <a class="dd-item" onclick="goTo('accesorios')">Hebillas</a>
+            <a class="dd-item" onclick="goTo('accesorios')">Fundas de Navajas</a>
+            <a class="dd-item" onclick="goTo('accesorios')">Navajas</a>
+            <a class="dd-item" onclick="goTo('accesorios')">Carteras</a>
+            <a class="dd-item" onclick="goTo('accesorios')">Parches</a>
+            <a class="dd-item" onclick="goTo('accesorios')">Plumas Bombero</a>
+          </div>
         </div>
       </div>
-      <a class="nav-link" onclick="filter('hombre')">Hombre</a>
-      <a class="nav-link" onclick="filter('mujer')">Mujer</a>
-      <a class="nav-link" onclick="filter('ninos')">Niños</a>
-      <a class="nav-link">Nosotros</a>
-      <a class="nav-link">Sucursales</a>
-      <a class="nav-link sale">Ofertas</a>
+      <!-- Hombre -->
+      <div class="dd">
+        <a class="nav-link" onclick="goTo('hombre')">Hombre ▾</a>
+        <div class="dd-menu narrow">
+          <div class="dd-cat">Calzado</div>
+          <a class="dd-item ft" onclick="goTo('hombre')">Bota Vaquera Caballero</a>
+          <div class="dd-cat">Ropa</div>
+          <a class="dd-item" onclick="goTo('hombre')">Pantalones</a>
+        </div>
+      </div>
+      <!-- Mujer -->
+      <div class="dd">
+        <a class="nav-link" onclick="goTo('mujer')">Mujer ▾</a>
+        <div class="dd-menu narrow">
+          <div class="dd-cat">Calzado</div>
+          <a class="dd-item ft" onclick="goTo('mujer')">Bota Vaquera Dama</a>
+          <div class="dd-cat">Ropa</div>
+          <a class="dd-item" onclick="goTo('mujer')">Pantalones</a>
+          <a class="dd-item" onclick="goTo('mujer')">Camisas</a>
+          <a class="dd-item" onclick="goTo('mujer')">Vestidos y Conjuntos</a>
+          <a class="dd-item" onclick="goTo('mujer')">Mascadas</a>
+        </div>
+      </div>
+      <!-- Niños -->
+      <div class="dd">
+        <a class="nav-link" onclick="goTo('ninos')">Niños ▾</a>
+        <div class="dd-menu narrow">
+          <div class="dd-cat">Calzado</div>
+          <a class="dd-item ft" onclick="goTo('ninos')">Bota Niño</a>
+          <a class="dd-item ft" onclick="goTo('ninos')">Bota Niña</a>
+        </div>
+      </div>
+      <a class="nav-link sale" onclick="goTo('todo')">Ofertas</a>
     </div>
     <div class="nav-actions">
       <button class="nav-action-btn">
@@ -880,49 +1018,94 @@ footer {
 
 <!-- ── HERO ── -->
 <section class="hero">
-  <div class="hero-deco-wrap" style="border-radius:50%;overflow:hidden;background:#080402;">
-    <img src="logo_50xboots.jpg" alt="" style="width:100%;height:100%;object-fit:cover;opacity:.055;">
+  <div class="hero-photo">
+    <img src="hero_50xboots.jpg" alt="50x BOOTS" class="hero-photo-img">
   </div>
   <div class="hero-content">
-    <div class="hero-eyebrow">Nueva Colección 2026</div>
-    <h1 class="hero-title">Cuero genuino. Tradición del norte.</h1>
-    <p class="hero-sub">Botas y accesorios western de Chihuahua para todo México. Calidad de exportación, hecha para durar.</p>
+    <div class="hero-eyebrow">Pieles Exóticas · Hecho en el Norte</div>
+    <h1 class="hero-title">El cuero que te define.</h1>
+    <p class="hero-sub">Botas de piel exótica trabajadas a mano. Para quienes visten con carácter.</p>
     <div class="hero-btns">
-      <button class="btn-dark" onclick="document.getElementById('productos').scrollIntoView({behavior:'smooth'})">Ver colección</button>
-      <button class="btn-outline-white">Nuestras sucursales</button>
+      <button class="btn-dark" onclick="document.getElementById('productos').scrollIntoView({behavior:'smooth'})">Ver Ofertas</button>
+      <button class="btn-outline-white" onclick="document.getElementById('productos').scrollIntoView({behavior:'smooth'})">Explorar Catálogo</button>
+    </div>
+    <div class="hero-badges">
+      <span class="hero-badge">Chihuahua · Ojinaga</span>
+      <span class="hero-badge-div"></span>
+      <span class="hero-badge">Envíos a todo México</span>
+      <span class="hero-badge-div"></span>
+      <span class="hero-badge">✦ Piel 100% Genuina</span>
     </div>
   </div>
 </section>
 
 <!-- ── CATEGORY BANNERS — asymmetric ── -->
 <div class="cat-layout">
-  <div class="cat-main" onclick="filter('hombre');document.getElementById('productos').scrollIntoView({behavior:'smooth'})">
+  <div class="cat-main" onclick="document.getElementById('productos').scrollIntoView({behavior:'smooth'})">
     <div class="cat-wood"></div>
-    <div class="cat-visual-letter">H</div>
+    <div class="cat-photo-slot" id="cat-photo-botas"><img src="cat_mejores_botas.jpg" alt="Botas"></div>
+    <div class="cat-visual-letter">Botas</div>
     <div class="cat-label">
-      <div class="cat-eyebrow">Colección</div>
-      <div class="cat-name-big">Hombre</div>
-      <div class="cat-cta">Comprar ahora</div>
+      <div class="cat-eyebrow">Colección Principal</div>
+      <div class="cat-name-big">Botas</div>
+      <div class="cat-sub-desc">Vaquera · Exótica · Caballero · Dama · Niños</div>
+      <div class="cat-cta">Ver Botas</div>
     </div>
   </div>
   <div class="cat-stack">
-    <div class="cat-sub" onclick="filter('mujer');document.getElementById('productos').scrollIntoView({behavior:'smooth'})">
+    <div class="cat-sub" onclick="document.getElementById('productos').scrollIntoView({behavior:'smooth'})">
       <div class="cat-wood"></div>
-      <div class="cat-visual-letter">M</div>
+      <div class="cat-photo-slot" id="cat-photo-sombrereria"><img src="cat_sombrero1.jpg" alt="Sombreros" style="object-position: center 20%;"></div>
+      <div class="cat-visual-letter">S</div>
       <div class="cat-label">
         <div class="cat-eyebrow">Colección</div>
-        <div class="cat-name-big">Mujer</div>
-        <div class="cat-cta">Comprar ahora</div>
+        <div class="cat-name-big">Sombreros</div>
+        <div class="cat-cta">Ver Sombreros</div>
       </div>
     </div>
-    <div class="cat-sub" onclick="filter('ninos');document.getElementById('productos').scrollIntoView({behavior:'smooth'})">
+    <div class="cat-sub" onclick="document.getElementById('productos').scrollIntoView({behavior:'smooth'})">
       <div class="cat-wood"></div>
-      <div class="cat-visual-letter">N</div>
+      <div class="cat-photo-slot" id="cat-photo-accesorios"><img src="cat_accesorios.jpg" alt="Accesorios"></div>
+      <div class="cat-visual-letter">A</div>
       <div class="cat-label">
         <div class="cat-eyebrow">Colección</div>
-        <div class="cat-name-big">Niños</div>
-        <div class="cat-cta">Comprar ahora</div>
+        <div class="cat-name-big">Accesorios</div>
+        <div class="cat-cta">Ver Accesorios</div>
       </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── CATEGORY BANNERS — departamentos ── -->
+<div class="cat-dept-layout">
+  <div class="cat-dept" onclick="filter('hombre');document.getElementById('productos').scrollIntoView({behavior:'smooth'})">
+    <div class="cat-wood"></div>
+    <div class="cat-photo-slot" id="cat-photo-hombre"><img src="cat_hombres.jpg" alt="Hombre"></div>
+    <div class="cat-visual-letter" style="font-size:130px;">H</div>
+    <div class="cat-label">
+      <div class="cat-eyebrow">Departamento</div>
+      <div class="cat-name-big">Hombre</div>
+      <div class="cat-cta">Ver colección</div>
+    </div>
+  </div>
+  <div class="cat-dept" onclick="filter('mujer');document.getElementById('productos').scrollIntoView({behavior:'smooth'})">
+    <div class="cat-wood"></div>
+    <div class="cat-photo-slot" id="cat-photo-mujer"><img src="cat_mujere.jpg" alt="Mujer"></div>
+    <div class="cat-visual-letter" style="font-size:130px;">M</div>
+    <div class="cat-label">
+      <div class="cat-eyebrow">Departamento</div>
+      <div class="cat-name-big">Mujer</div>
+      <div class="cat-cta">Ver colección</div>
+    </div>
+  </div>
+  <div class="cat-dept" onclick="filter('ninos');document.getElementById('productos').scrollIntoView({behavior:'smooth'})">
+    <div class="cat-wood"></div>
+    <div class="cat-photo-slot" id="cat-photo-ninos"><img src="cat_ninos.jpg" alt="Niños"></div>
+    <div class="cat-visual-letter" style="font-size:130px;">N</div>
+    <div class="cat-label">
+      <div class="cat-eyebrow">Departamento</div>
+      <div class="cat-name-big">Niños</div>
+      <div class="cat-cta">Ver colección</div>
     </div>
   </div>
 </div>
@@ -1065,20 +1248,20 @@ footer {
     <div>
       <div class="heritage-year">50x</div>
       <div class="heritage-eyebrow">Nuestra historia</div>
-      <h2 class="heritage-title">Hechos en Chihuahua. Conocidos en todo México.</h2>
-      <p class="heritage-body">En 50x BOOTS creemos que una bota de calidad no es un lujo — es una herramienta. Cada par está hecho con cuero genuino seleccionado, técnicas de fabricación probadas y el estilo western que define al norte de México.</p>
+      <h2 class="heritage-title">Hechos en el norte.<br>Usados en todo México.</h2>
+      <p class="heritage-body">Cuero genuino, estilo western y el carácter del norte en cada par.</p>
       <div class="heritage-stats">
         <div>
-          <div class="h-stat-num">14+</div>
-          <div class="h-stat-lbl">Categorías de producto</div>
+          <div class="h-stat-num">+14</div>
+          <div class="h-stat-lbl">Estilos vaqueros</div>
         </div>
         <div>
           <div class="h-stat-num">2</div>
-          <div class="h-stat-lbl">Sucursales en Chihuahua</div>
+          <div class="h-stat-lbl">Sucursales</div>
         </div>
         <div>
-          <div class="h-stat-num">Todo MX</div>
-          <div class="h-stat-lbl">Envíos nacionales</div>
+          <div class="h-stat-num">MX · USA</div>
+          <div class="h-stat-lbl">Envíos internacionales</div>
         </div>
       </div>
     </div>
@@ -1092,14 +1275,14 @@ footer {
           <div class="heritage-loc-dot"></div>
           <div>
             <div class="heritage-loc-name">Sucursal Chihuahua</div>
-            <div class="heritage-loc-addr">Dirección por confirmar · Chihuahua, Chih.</div>
+            <div class="heritage-loc-addr">Chihuahua, Chih.</div>
           </div>
         </div>
         <div class="heritage-loc">
           <div class="heritage-loc-dot"></div>
           <div>
             <div class="heritage-loc-name">Sucursal Ojinaga</div>
-            <div class="heritage-loc-addr">Dirección por confirmar · Ojinaga, Chih.</div>
+            <div class="heritage-loc-addr">Ojinaga, Chih.</div>
           </div>
         </div>
       </div>
@@ -1147,7 +1330,7 @@ footer {
     <div class="footer-top">
       <div>
         <div class="footer-logo">
-          <div class="footer-coin-wrap"><img src="logo_50xboots.jpg" alt="50x BOOTS"></div>
+          <div class="footer-coin-wrap"><img src="logo_50xboots_web.png" alt="50x BOOTS"></div>
           <div>
             <div class="footer-brand">50x BOOTS</div>
             <div class="footer-brand-sub">Chihuahua, México</div>
@@ -1166,9 +1349,7 @@ footer {
       <div>
         <div class="footer-col-title">Sucursales</div>
         <div class="footer-suc-name">Chihuahua, Chih.</div>
-        <div class="footer-suc-addr">Dirección por confirmar</div>
         <div class="footer-suc-name">Ojinaga, Chih.</div>
-        <div class="footer-suc-addr">Dirección por confirmar</div>
       </div>
       <div>
         <div class="footer-col-title">Información</div>
@@ -1248,6 +1429,10 @@ function filter(cat){
   });
   const tab = document.querySelector(`.filter-btn[data-cat="${cat}"]`);
   if(tab){ document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active')); tab.classList.add('active'); }
+}
+function goTo(cat){
+  filter(cat);
+  document.getElementById('productos').scrollIntoView({behavior:'smooth'});
 }
 
 let count = 2;
