@@ -856,6 +856,28 @@ footer {
 .cart-note { font-size: 11px; color: var(--light-mid); margin-bottom: 20px; }
 
 /* ── MOBILE ── */
+/* ── MOBILE NAV ── */
+.mobile-nav {
+  display: none;
+  position: fixed;
+  top: 64px;
+  left: 0; right: 0;
+  background: var(--white);
+  border-bottom: 1px solid var(--divider);
+  z-index: 999;
+  padding: 24px 20px 28px;
+  box-shadow: 0 8px 24px rgba(0,0,0,.1);
+  max-height: calc(100svh - 64px);
+  overflow-y: auto;
+}
+.mobile-nav.open { display: block; }
+.mobile-nav-section { margin-bottom: 22px; }
+.mobile-nav-head { font-size: 9px; font-weight: 700; letter-spacing: .22em; text-transform: uppercase; color: var(--copper); margin-bottom: 8px; }
+.mobile-nav-item { display: block; padding: 11px 0; font-size: 15px; color: var(--charcoal); border-bottom: 1px solid var(--divider); cursor: pointer; font-weight: 400; }
+.mobile-nav-item:last-child { border-bottom: none; }
+.mobile-nav-item.ft { font-weight: 600; }
+.mobile-nav-sale { color: var(--copper); font-weight: 700; font-size: 15px; display: block; padding: 14px 0; margin-top: 4px; cursor: pointer; }
+
 @media (max-width: 1024px) {
   .cat-layout { grid-template-columns: 1fr 1fr; height: 460px; }
   .products-grid { grid-template-columns: repeat(2, 1fr); }
@@ -866,26 +888,69 @@ footer {
 @media (max-width: 768px) {
   .nav-inner { padding: 0 20px; }
   .nav-links { display: none; }
-  .hamburger { display: block; }
+  .hamburger { display: flex; align-items: center; justify-content: center; }
+
+  /* Hero */
+  .hero { height: 100svh; min-height: 580px; align-items: center; }
+  .hero-content { width: 100%; padding: 0 28px 72px; }
+  .hero-photo { width: 100%; opacity: .45; }
+  .hero-photo::before { background: linear-gradient(90deg, var(--dark) 0%, rgba(26,13,6,.7) 100%); }
+
+  /* Categorías */
   .cat-layout { grid-template-columns: 1fr; height: auto; }
-  .cat-main { height: 320px; }
+  .cat-main { height: 300px; }
   .cat-stack { grid-template-rows: auto; grid-template-columns: 1fr 1fr; }
-  .cat-sub { height: 220px; }
-  .products-section { padding: 48px 20px; }
-  .heritage { padding: 60px 20px; }
+  .cat-sub { height: 200px; }
+  .cat-dept-layout { grid-template-columns: 1fr; height: auto; }
+  .cat-dept { height: 200px; border-right: none; border-bottom: 1px solid rgba(255,255,255,.06); }
+  .cat-dept:last-child { border-bottom: none; }
+
+  /* Productos */
+  .products-section { padding: 40px 16px; }
+  .filter-row { overflow-x: auto; -webkit-overflow-scrolling: touch; white-space: nowrap; padding-bottom: 2px; }
+  .filter-btn { flex-shrink: 0; }
+  .products-grid { grid-template-columns: repeat(2, 1fr); }
+
+  /* Heritage */
+  .heritage { padding: 56px 20px; }
+  .heritage-title { font-size: clamp(22px, 6vw, 34px); }
+  .heritage-stats { gap: 20px; }
+  .h-stat-num { font-size: 30px; }
+
+  /* Shipping */
   .shipping-inner { grid-template-columns: 1fr 1fr; }
   .ship-cell:nth-child(2) { border-right: none; }
+
+  /* Footer */
   footer { padding: 40px 20px 28px; }
   .footer-top { grid-template-columns: 1fr 1fr; }
   .cart-panel { width: 100%; right: -100%; }
 }
 @media (max-width: 540px) {
-  .products-grid { grid-template-columns: 1fr 1fr; }
+  /* Hero */
+  .hero-title { font-size: clamp(32px, 9vw, 44px); }
+  .hero-sub { font-size: 14px; }
+  .hero-btns { flex-direction: column; width: 100%; max-width: 320px; }
+  .btn-dark, .btn-outline-white { width: 100%; text-align: center; padding: 16px 24px; }
+  .hero-badges { justify-content: center; gap: 10px; }
+
+  /* Categorías */
+  .cat-main { height: 260px; }
+  .cat-sub { height: 170px; }
+  .cat-visual-letter { font-size: 80px; }
+  .cat-name-big { font-size: 20px; }
+
+  /* Productos */
+  .products-grid { grid-template-columns: 1fr 1fr; gap: 0; }
+
+  /* Shipping */
   .shipping-inner { grid-template-columns: 1fr; }
   .ship-cell { border-right: none; border-bottom: 1px solid var(--divider); }
   .ship-cell:last-child { border-bottom: none; }
+
+  /* Footer */
   .footer-top { grid-template-columns: 1fr; }
-  .footer-bottom { flex-direction: column; align-items: flex-start; }
+  .footer-bottom { flex-direction: column; align-items: flex-start; gap: 8px; }
 }
 </style>
 </head>
@@ -1015,6 +1080,32 @@ footer {
     <button class="hamburger">☰</button>
   </div>
 </nav>
+
+<!-- ── MOBILE NAV MENU ── -->
+<div class="mobile-nav" id="mobile-nav">
+  <div class="mobile-nav-section">
+    <div class="mobile-nav-head">Calzado</div>
+    <a class="mobile-nav-item ft" onclick="goTo('hombre');closeMobileNav()">Bota Caballero</a>
+    <a class="mobile-nav-item ft" onclick="goTo('mujer');closeMobileNav()">Bota Dama</a>
+    <a class="mobile-nav-item ft" onclick="goTo('ninos');closeMobileNav()">Bota Niño / Niña</a>
+  </div>
+  <div class="mobile-nav-section">
+    <div class="mobile-nav-head">Sombrería</div>
+    <a class="mobile-nav-item" onclick="goTo('accesorios');closeMobileNav()">Sombrero Vaquero</a>
+    <a class="mobile-nav-item" onclick="goTo('accesorios');closeMobileNav()">Tejano de Colores</a>
+  </div>
+  <div class="mobile-nav-section">
+    <div class="mobile-nav-head">Accesorios</div>
+    <a class="mobile-nav-item" onclick="goTo('accesorios');closeMobileNav()">Hebillas · Carteras · Cintas</a>
+    <a class="mobile-nav-item" onclick="goTo('accesorios');closeMobileNav()">Navajas · Toquillas · Parches</a>
+  </div>
+  <div class="mobile-nav-section">
+    <div class="mobile-nav-head">Ropa</div>
+    <a class="mobile-nav-item" onclick="goTo('hombre');closeMobileNav()">Hombre — Pantalones</a>
+    <a class="mobile-nav-item" onclick="goTo('mujer');closeMobileNav()">Mujer — Pantalones · Camisas · Vestidos</a>
+  </div>
+  <a class="mobile-nav-sale" onclick="goTo('todo');closeMobileNav()">✦ Ofertas</a>
+</div>
 
 <!-- ── HERO ── -->
 <section class="hero">
@@ -1450,6 +1541,17 @@ function addToCart(e){
 document.querySelectorAll('.form-tab').forEach(t => {
   t.addEventListener('click', function(){ document.querySelectorAll('.form-tab').forEach(x=>x.classList.remove('active')); this.classList.add('active'); });
 });
+
+const hamburger = document.querySelector('.hamburger');
+const mobileNav = document.getElementById('mobile-nav');
+hamburger.addEventListener('click', () => {
+  const open = mobileNav.classList.toggle('open');
+  hamburger.textContent = open ? '✕' : '☰';
+});
+function closeMobileNav(){
+  mobileNav.classList.remove('open');
+  hamburger.textContent = '☰';
+}
 </script>
 </body>
 </html>
