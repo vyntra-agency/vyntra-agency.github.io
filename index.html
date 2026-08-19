@@ -344,22 +344,19 @@ footer { background: #070f1e; padding: 36px 80px; display: flex; justify-content
 
 /* ── Casos ── */
 #casos { background: var(--arena); }
-.casos-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 40px; }
-.caso-card { background: var(--blanco); overflow: hidden; transition: transform .2s, box-shadow .2s; }
-.caso-card:hover { transform: translateY(-3px); box-shadow: 0 12px 36px rgba(13,31,64,.1); }
-.caso-card.featured { grid-column: 1 / -1; display: grid; grid-template-columns: 1fr 1fr; }
-.caso-preview { aspect-ratio: 16/9; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; }
-.caso-card.featured .caso-preview { aspect-ratio: auto; min-height: 260px; }
-.caso-preview-icon { font-size: 52px; opacity: .22; }
-.caso-preview-tag { position: absolute; top: 12px; left: 12px; background: var(--cobalto); color: var(--blanco); font-size: 9px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; padding: 4px 10px; }
-.caso-body { padding: 24px 22px; display: flex; flex-direction: column; justify-content: center; }
-.caso-client { font-size: 9px; font-weight: 700; letter-spacing: 2.5px; text-transform: uppercase; color: var(--cobalto); margin-bottom: 7px; }
-.caso-name { font-family: Georgia,'Times New Roman',serif; font-size: 18px; font-weight: 700; color: var(--marina); margin-bottom: 10px; line-height: 1.3; }
-.caso-card.featured .caso-name { font-size: 22px; }
-.caso-desc { font-size: 13px; line-height: 1.65; color: #555; margin-bottom: 16px; }
-.caso-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 16px; }
-.caso-tag-pill { font-size: 10px; font-weight: 600; padding: 3px 9px; background: var(--arena); color: var(--marina); letter-spacing: .3px; }
-.caso-link { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 600; color: var(--cobalto); letter-spacing: .3px; transition: gap .2s; text-decoration: none; }
+.casos-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; margin-top: 36px; }
+.caso-card { background: var(--blanco); border: 0.5px solid rgba(13,31,64,.08); padding: 24px 22px; display: flex; flex-direction: column; gap: 0; transition: transform .2s, box-shadow .2s; }
+.caso-card:hover { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(13,31,64,.09); }
+.caso-card-top { display: flex; align-items: center; gap: 13px; margin-bottom: 14px; }
+.caso-mono { width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; color: var(--blanco); flex-shrink: 0; letter-spacing: .5px; }
+.caso-meta { flex: 1; }
+.caso-client { font-size: 9px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--cobalto); margin-bottom: 3px; }
+.caso-name { font-family: Georgia,'Times New Roman',serif; font-size: 15px; font-weight: 700; color: var(--marina); line-height: 1.3; }
+.caso-desc { font-size: 12.5px; line-height: 1.65; color: #555; margin-bottom: 14px; flex: 1; }
+.caso-tags { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 14px; }
+.caso-tag-pill { font-size: 10px; font-weight: 600; padding: 3px 8px; background: var(--arena); color: var(--marina); letter-spacing: .3px; }
+.caso-result { font-size: 11px; font-weight: 700; color: var(--marina); letter-spacing: .3px; margin-bottom: 14px; padding: 8px 11px; background: rgba(37,99,235,.06); border-left: 2px solid var(--cobalto); }
+.caso-link { display: inline-flex; align-items: center; gap: 6px; font-size: 11.5px; font-weight: 600; color: var(--cobalto); letter-spacing: .3px; transition: gap .2s; text-decoration: none; }
 .caso-link:hover { gap: 10px; }
 .caso-link.inactive { color: #aaa; cursor: default; pointer-events: none; }
 
@@ -430,8 +427,6 @@ footer { background: #070f1e; padding: 36px 80px; display: flex; justify-content
   .nexo-grid { grid-template-columns: 1fr; }
   .nexo-bundle { flex-direction: column; align-items: flex-start; }
   .casos-grid { grid-template-columns: 1fr; }
-  .caso-card.featured { grid-column: auto; grid-template-columns: 1fr; }
-  .caso-card.featured .caso-preview { min-height: 180px; }
   .blog-grid { grid-template-columns: 1fr; }
   .nav-links a { font-size: 12px; }
   .nav-links { gap: 20px; }
@@ -848,63 +843,59 @@ footer { background: #070f1e; padding: 36px 80px; display: flex; justify-content
 
   <div class="casos-grid">
 
-    <!-- Featured: Renov'Arch -->
-    <div class="caso-card featured reveal" style="transition-delay:.1s">
-      <div class="caso-preview" style="background:var(--marina)">
-        <span class="caso-preview-icon">🏗️</span>
-        <span class="caso-preview-tag">Página web premium</span>
-      </div>
-      <div class="caso-body">
-        <div class="caso-client">Renov' Arch · Arquitectura Residencial · Chihuahua</div>
-        <div class="caso-name">Presencia digital premium para estudio de arquitectura de alto nivel</div>
-        <div class="caso-desc">Página web con más de 20 fotos de proyectos reales, galería lightbox, blueprint SVG interactivo y animaciones GSAP/ScrollTrigger. Un sitio que refleja la calidad del trabajo físico y posiciona al estudio ante clientes de alto perfil.</div>
-        <div class="caso-tags">
-          <span class="caso-tag-pill">Página web completa</span>
-          <span class="caso-tag-pill">GSAP / ScrollTrigger</span>
-          <span class="caso-tag-pill">Galería lightbox</span>
-          <span class="caso-tag-pill">Mobile responsive</span>
-          <span class="caso-tag-pill">GitHub Pages</span>
+    <!-- Renov'Arch -->
+    <div class="caso-card reveal" style="transition-delay:.1s">
+      <div class="caso-card-top">
+        <div class="caso-mono" style="background:#2563EB">RA</div>
+        <div class="caso-meta">
+          <div class="caso-client">Arquitectura · Chihuahua</div>
+          <div class="caso-name">Renov' Arch</div>
         </div>
-        <a class="caso-link" href="https://vyntra-agency.github.io/renovarch" target="_blank">Ver sitio en vivo →</a>
       </div>
+      <div class="caso-desc">Página web premium con 20+ fotos de proyectos reales, galería lightbox, blueprint SVG interactivo y animaciones GSAP/ScrollTrigger. Sitio que refleja la calidad del trabajo y posiciona al estudio ante clientes de alto perfil.</div>
+      <div class="caso-tags">
+        <span class="caso-tag-pill">Página web completa</span>
+        <span class="caso-tag-pill">GSAP / ScrollTrigger</span>
+        <span class="caso-tag-pill">Galería lightbox</span>
+      </div>
+      <a class="caso-link" href="https://vyntra-agency.github.io/renovarch" target="_blank">Ver sitio en vivo →</a>
     </div>
 
     <!-- YK Rental -->
     <div class="caso-card reveal" style="transition-delay:.2s">
-      <div class="caso-preview" style="background:#0D0D0D">
-        <span class="caso-preview-icon">🔧</span>
-        <span class="caso-preview-tag">Catálogo digital</span>
-      </div>
-      <div class="caso-body">
-        <div class="caso-client">YK Rental · Renta de Equipo de Construcción</div>
-        <div class="caso-name">Catálogo digital con conversión directa a WhatsApp</div>
-        <div class="caso-desc">Sitio oscuro con paleta roja de marca, 8 equipos listados con fotos reales del inventario, CTA directo a WhatsApp por equipo y SEO local para Chihuahua.</div>
-        <div class="caso-tags">
-          <span class="caso-tag-pill">Dark theme</span>
-          <span class="caso-tag-pill">Catálogo de productos</span>
-          <span class="caso-tag-pill">SEO local</span>
+      <div class="caso-card-top">
+        <div class="caso-mono" style="background:#CC0000">YK</div>
+        <div class="caso-meta">
+          <div class="caso-client">Renta de equipo · Chihuahua</div>
+          <div class="caso-name">YK Rental</div>
         </div>
-        <span class="caso-link inactive">En producción</span>
       </div>
+      <div class="caso-desc">Catálogo digital dark theme con paleta de marca, 8 equipos con fotos reales del inventario y CTA directo a WhatsApp por equipo. SEO local para Chihuahua.</div>
+      <div class="caso-tags">
+        <span class="caso-tag-pill">Dark theme</span>
+        <span class="caso-tag-pill">Catálogo digital</span>
+        <span class="caso-tag-pill">SEO local</span>
+      </div>
+      <span class="caso-link inactive">En producción</span>
     </div>
 
-    <!-- Cheesy Planet -->
+    <!-- GAPS Internacional -->
     <div class="caso-card reveal" style="transition-delay:.3s">
-      <div class="caso-preview" style="background:#111111">
-        <span class="caso-preview-icon">🍕</span>
-        <span class="caso-preview-tag">Landing de conversión</span>
-      </div>
-      <div class="caso-body">
-        <div class="caso-client">Cheesy Planet · Restaurante / Delivery · Chihuahua</div>
-        <div class="caso-name">Landing de pedidos directos: elimina la comisión del 20% de Uber Eats</div>
-        <div class="caso-desc">Demo funcional de landing de conversión con selector de sucursales, 5 pizzas con CTA individual a WhatsApp y dark theme de alto impacto. Cada pedido directo ahorra entre $30 y $80 MXN en comisión.</div>
-        <div class="caso-tags">
-          <span class="caso-tag-pill">Landing de conversión</span>
-          <span class="caso-tag-pill">Dark theme</span>
-          <span class="caso-tag-pill">WhatsApp por producto</span>
+      <div class="caso-card-top">
+        <div class="caso-mono" style="background:#0EA5E9">GI</div>
+        <div class="caso-meta">
+          <div class="caso-client">Educación Internacional · Chihuahua</div>
+          <div class="caso-name">GAPS Internacional</div>
         </div>
-        <span class="caso-link inactive">Demo bajo solicitud</span>
       </div>
+      <div class="caso-desc">Campaña de Messenger Ads orientada a captar estudiantes interesados en programas al extranjero. Leads calificados con bajo costo por resultado.</div>
+      <div class="caso-result">26 leads calificados · Messenger Ads · jul–ago 2026</div>
+      <div class="caso-tags">
+        <span class="caso-tag-pill">Messenger Ads</span>
+        <span class="caso-tag-pill">Lead generation</span>
+        <span class="caso-tag-pill">Meta Ads</span>
+      </div>
+      <span class="caso-link inactive">Campaña activa</span>
     </div>
 
   </div>
