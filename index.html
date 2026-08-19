@@ -362,16 +362,16 @@ footer { background: #070f1e; padding: 36px 80px; display: flex; justify-content
 
 /* ── Blog ── */
 #blog { background: var(--blanco); }
-.blog-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 14px; margin-top: 40px; }
-.blog-card { background: var(--arena); overflow: hidden; transition: transform .2s, box-shadow .2s; }
-.blog-card:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(13,31,64,.08); }
-.blog-thumb { aspect-ratio: 16/9; display: flex; align-items: center; justify-content: center; position: relative; }
-.blog-thumb-icon { font-size: 38px; opacity: .28; }
-.blog-cat { position: absolute; bottom: 10px; left: 12px; background: var(--cobalto); color: var(--blanco); font-size: 9px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; padding: 3px 8px; }
-.blog-body { padding: 20px 18px; }
-.blog-meta { font-size: 10px; color: #aaa; margin-bottom: 8px; letter-spacing: .3px; }
-.blog-title { font-family: Georgia,'Times New Roman',serif; font-size: 16px; font-weight: 700; color: var(--marina); line-height: 1.4; margin-bottom: 9px; }
-.blog-excerpt { font-size: 12px; line-height: 1.7; color: #666; margin-bottom: 14px; }
+.blog-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; margin-top: 36px; }
+.blog-card { background: var(--blanco); border: 0.5px solid rgba(13,31,64,.08); padding: 24px 22px; display: flex; flex-direction: column; transition: transform .2s, box-shadow .2s; }
+.blog-card:hover { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(13,31,64,.09); }
+.blog-card-top { display: flex; align-items: center; gap: 13px; margin-bottom: 14px; }
+.blog-icon { width: 44px; height: 44px; border-radius: 50%; background: rgba(37,99,235,.08); display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+.blog-card-top-meta { flex: 1; }
+.blog-cat { font-size: 9px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--cobalto); margin-bottom: 3px; }
+.blog-meta { font-size: 10px; color: #aaa; letter-spacing: .3px; }
+.blog-title { font-family: Georgia,'Times New Roman',serif; font-size: 15px; font-weight: 700; color: var(--marina); line-height: 1.4; margin-bottom: 10px; flex: 1; }
+.blog-excerpt { font-size: 12px; line-height: 1.7; color: #666; margin-bottom: 14px; flex: 1; }
 .blog-read { font-size: 11px; font-weight: 600; color: var(--cobalto); letter-spacing: .3px; display: flex; align-items: center; gap: 5px; transition: gap .2s; }
 .blog-card:hover .blog-read { gap: 9px; }
 .blog-cta-row { text-align: center; margin-top: 40px; }
@@ -946,42 +946,42 @@ footer { background: #070f1e; padding: 36px 80px; display: flex; justify-content
   <div class="blog-grid">
 
     <div class="blog-card reveal" style="transition-delay:.1s">
-      <div class="blog-thumb" style="background:var(--marina)">
-        <span class="blog-thumb-icon">📊</span>
-        <span class="blog-cat">Meta Ads</span>
+      <div class="blog-card-top">
+        <div class="blog-icon">📊</div>
+        <div class="blog-card-top-meta">
+          <div class="blog-cat">Meta Ads</div>
+          <div class="blog-meta">Ago 2026 · 6 min lectura</div>
+        </div>
       </div>
-      <div class="blog-body">
-        <div class="blog-meta">Ago 2026 · 6 min lectura</div>
-        <div class="blog-title">Cómo reducir tu costo por lead en Meta Ads sin aumentar el presupuesto</div>
-        <div class="blog-excerpt">La mayoría de los negocios asume que gastar más es la solución. La IA demuestra que el problema casi siempre está en la audiencia, no en el presupuesto.</div>
-        <span class="blog-read">Próximamente →</span>
-      </div>
+      <div class="blog-title">Cómo reducir tu costo por lead en Meta Ads sin aumentar el presupuesto</div>
+      <div class="blog-excerpt">La mayoría de los negocios asume que gastar más es la solución. La IA demuestra que el problema casi siempre está en la audiencia, no en el presupuesto.</div>
+      <span class="blog-read">Próximamente →</span>
     </div>
 
     <div class="blog-card reveal" style="transition-delay:.2s">
-      <div class="blog-thumb" style="background:#1a0808">
-        <span class="blog-thumb-icon">🍕</span>
-        <span class="blog-cat">Restaurantes</span>
+      <div class="blog-card-top">
+        <div class="blog-icon">🍕</div>
+        <div class="blog-card-top-meta">
+          <div class="blog-cat">Restaurantes</div>
+          <div class="blog-meta">Ago 2026 · 4 min lectura</div>
+        </div>
       </div>
-      <div class="blog-body">
-        <div class="blog-meta">Ago 2026 · 4 min lectura</div>
-        <div class="blog-title">El costo oculto de Uber Eats: por qué el 20% de comisión destruye tu margen</div>
-        <div class="blog-excerpt">Un restaurante con 100 pedidos semanales está regalando entre $8,000 y $15,000 MXN al mes. La alternativa es más simple de lo que parece.</div>
-        <span class="blog-read">Próximamente →</span>
-      </div>
+      <div class="blog-title">El costo oculto de Uber Eats: por qué el 20% de comisión destruye tu margen</div>
+      <div class="blog-excerpt">Un restaurante con 100 pedidos semanales está regalando entre $8,000 y $15,000 MXN al mes. La alternativa es más simple de lo que parece.</div>
+      <span class="blog-read">Próximamente →</span>
     </div>
 
     <div class="blog-card reveal" style="transition-delay:.3s">
-      <div class="blog-thumb" style="background:#071a07">
-        <span class="blog-thumb-icon">🤖</span>
-        <span class="blog-cat">IA para negocios</span>
+      <div class="blog-card-top">
+        <div class="blog-icon">🤖</div>
+        <div class="blog-card-top-meta">
+          <div class="blog-cat">IA para negocios</div>
+          <div class="blog-meta">Ago 2026 · 5 min lectura</div>
+        </div>
       </div>
-      <div class="blog-body">
-        <div class="blog-meta">Ago 2026 · 5 min lectura</div>
-        <div class="blog-title">Agentes de IA vs. empleado de WhatsApp: el análisis que nadie hace</div>
-        <div class="blog-excerpt">No se trata de reemplazar personas. Se trata de que las personas hagan el trabajo que realmente importa, mientras la IA maneja el volumen.</div>
-        <span class="blog-read">Próximamente →</span>
-      </div>
+      <div class="blog-title">Agentes de IA vs. empleado de WhatsApp: el análisis que nadie hace</div>
+      <div class="blog-excerpt">No se trata de reemplazar personas. Se trata de que las personas hagan el trabajo que realmente importa, mientras la IA maneja el volumen.</div>
+      <span class="blog-read">Próximamente →</span>
     </div>
 
   </div>
