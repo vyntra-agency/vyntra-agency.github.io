@@ -1,0 +1,691 @@
+<title>VYNTRA — Portafolio</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --marina:#0D1F40;--cobalto:#2563EB;--cobalt-s:#6BA8F5;
+  --arena:#F1EFE8;--negro:#111111;--blanco:#FFFFFF;
+  --verde:#2D7D46;--rojo:#E53E3E;
+  --text:#1a1a2a;--muted:#556070;--bg:#F1EFE8;--surface:#FFFFFF;--border:rgba(13,31,64,.10);
+}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#080f1f;--surface:#0D1F40;--text:#e4e8f0;--muted:#7a8faa;--border:rgba(107,168,245,.12);}}
+:root[data-theme="dark"]{--bg:#080f1f;--surface:#0D1F40;--text:#e4e8f0;--muted:#7a8faa;--border:rgba(107,168,245,.12);}
+body{font-family:'Inter',Helvetica,Arial,sans-serif;background:var(--bg);color:var(--text);font-size:15px;line-height:1.65;-webkit-font-smoothing:antialiased;}
+
+/* NAV */
+nav{position:sticky;top:0;z-index:100;background:var(--marina);padding:14px 40px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(255,255,255,.07);}
+.nav-brand{display:flex;align-items:center;gap:12px;}
+.nav-wm{font-family:Georgia,serif;font-size:20px;font-weight:700;color:#fff;letter-spacing:.04em;}
+.nav-desc{font-size:8px;letter-spacing:.26em;text-transform:uppercase;color:var(--cobalt-s);margin-top:2px;}
+.nav-cta{background:var(--cobalto);color:#fff;font-size:12px;font-weight:700;padding:9px 22px;border-radius:4px;text-decoration:none;letter-spacing:.04em;}
+
+/* COVER */
+.cover{background:var(--marina);padding:88px 40px 76px;text-align:center;border-bottom:1px solid rgba(107,168,245,.12);}
+.cover-eyebrow{font-size:10px;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:var(--cobalt-s);margin-bottom:20px;}
+.cover-title{font-family:Georgia,serif;font-size:clamp(30px,5.5vw,52px);font-weight:700;color:#fff;line-height:1.15;text-wrap:balance;max-width:700px;margin:0 auto 16px;}
+.cover-title em{color:var(--cobalt-s);font-style:normal;}
+.cover-sub{font-size:16px;color:var(--cobalt-s);max-width:500px;margin:0 auto 0;line-height:1.65;}
+.cover-geo{display:flex;justify-content:center;gap:24px;margin-top:28px;flex-wrap:wrap;}
+.geo-tag{background:rgba(255,255,255,.07);border:1px solid rgba(107,168,245,.25);color:var(--cobalt-s);font-size:11px;font-weight:600;padding:5px 14px;border-radius:20px;letter-spacing:.06em;}
+.cover-stats{display:flex;justify-content:center;margin-top:52px;border-top:1px solid rgba(255,255,255,.1);border-bottom:1px solid rgba(255,255,255,.1);}
+.cs{flex:1;max-width:180px;padding:24px 12px;border-right:1px solid rgba(255,255,255,.1);}
+.cs:last-child{border-right:none;}
+.cs-num{font-family:Georgia,serif;font-size:34px;font-weight:700;color:#fff;display:block;line-height:1;}
+.cs-unit{font-size:14px;color:var(--cobalt-s);}
+.cs-label{font-size:11px;color:rgba(107,168,245,.7);margin-top:5px;line-height:1.35;}
+
+/* SECTION TITLES */
+.section-wrap{padding:72px 40px;max-width:960px;margin:0 auto;}
+.section-wrap+.section-wrap{border-top:1px solid var(--border);}
+.s-eye{font-size:10px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--cobalto);margin-bottom:10px;}
+.s-title{font-family:Georgia,serif;font-size:clamp(22px,4vw,32px);font-weight:700;color:var(--marina);line-height:1.2;text-wrap:balance;margin-bottom:12px;}
+.s-title.on-dark{color:#fff;}
+.s-lead{font-size:15px;color:var(--muted);max-width:560px;line-height:1.7;}
+
+/* CASES */
+.case{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center;padding:64px 40px;max-width:960px;margin:0 auto;}
+.case+.case{border-top:1px solid var(--border);}
+.case.flip{direction:rtl;}
+.case.flip>*{direction:ltr;}
+.case-tag{display:inline-block;background:#EBF2FF;color:var(--cobalto);font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:4px 12px;border-radius:20px;margin-bottom:16px;}
+.case-city{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--cobalt-s);margin-bottom:8px;display:flex;align-items:center;gap:6px;}
+.case-city::before{content:"📍";font-size:11px;}
+.case-name{font-family:Georgia,serif;font-size:26px;font-weight:700;color:var(--marina);line-height:1.2;margin-bottom:8px;}
+.case-sector{font-size:12px;color:var(--muted);margin-bottom:16px;font-weight:500;}
+.case-desc{font-size:14px;color:var(--muted);line-height:1.7;margin-bottom:20px;}
+.case-metrics{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:22px;}
+.metric{background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:14px 16px;}
+.metric-num{font-family:Georgia,serif;font-size:24px;font-weight:700;color:var(--cobalto);line-height:1;}
+.metric-label{font-size:11px;color:var(--muted);margin-top:3px;line-height:1.3;}
+.results{list-style:none;margin-bottom:22px;}
+.results li{font-size:13.5px;color:var(--text);padding:5px 0;border-bottom:1px solid var(--border);display:flex;align-items:flex-start;gap:8px;}
+.results li:last-child{border-bottom:none;}
+.results li::before{content:"→";color:var(--cobalto);font-weight:700;flex-shrink:0;}
+.case-link{display:inline-flex;align-items:center;gap:6px;color:var(--cobalto);font-size:13px;font-weight:700;text-decoration:none;letter-spacing:.02em;}
+.case-link::after{content:"↗";font-size:11px;}
+.case-link:hover{text-decoration:underline;}
+.case-visual{border-radius:10px;overflow:hidden;aspect-ratio:4/3;display:flex;align-items:center;justify-content:center;}
+
+/* STATS BAND */
+.stats-band{background:var(--marina);padding:72px 40px;}
+.stats-band-inner{max-width:960px;margin:0 auto;}
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:rgba(255,255,255,.1);margin-top:40px;border-radius:8px;overflow:hidden;}
+.stat-cell{background:rgba(13,31,64,.5);padding:32px 22px;}
+.stat-num{font-family:Georgia,serif;font-size:42px;font-weight:700;color:#fff;line-height:1;display:block;}
+.stat-unit{font-size:16px;color:var(--cobalt-s);}
+.stat-label{font-size:12px;color:var(--cobalt-s);margin-top:8px;line-height:1.4;}
+.stat-note{font-size:10px;color:rgba(107,168,245,.55);margin-top:3px;}
+
+/* PRESENCIA */
+.pres-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border-radius:8px;overflow:hidden;margin-top:32px;}
+.pres-cell{background:var(--surface);padding:28px 24px;}
+.pres-flag{font-size:28px;margin-bottom:10px;}
+.pres-place{font-weight:700;font-size:16px;color:var(--marina);margin-bottom:4px;}
+.pres-desc{font-size:13px;color:var(--muted);line-height:1.5;}
+
+/* SERVICES */
+.serv-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--border);border-radius:8px;overflow:hidden;margin-top:32px;}
+.serv-cell{background:var(--surface);padding:28px 24px;}
+.serv-icon{font-size:22px;margin-bottom:12px;}
+.serv-name{font-weight:700;font-size:15px;color:var(--marina);margin-bottom:6px;}
+.serv-desc{font-size:13px;color:var(--muted);line-height:1.5;}
+
+/* CTA */
+.cta-band{background:var(--cobalto);padding:80px 40px;text-align:center;}
+.cta-title{font-family:Georgia,serif;font-size:clamp(24px,5vw,42px);font-weight:700;color:#fff;margin-bottom:12px;text-wrap:balance;}
+.cta-sub{font-size:16px;color:rgba(255,255,255,.75);margin-bottom:40px;}
+.cta-btn{display:inline-block;background:#fff;color:var(--cobalto);font-weight:700;font-size:15px;padding:16px 52px;border-radius:6px;text-decoration:none;letter-spacing:.03em;}
+.cta-note{font-size:12px;color:rgba(255,255,255,.5);margin-top:16px;}
+
+/* FOOTER */
+footer{background:var(--marina);padding:28px 40px;display:flex;justify-content:space-between;align-items:center;font-size:12px;color:rgba(107,168,245,.55);border-top:1px solid rgba(255,255,255,.06);}
+.footer-wm{font-family:Georgia,serif;font-size:16px;color:#fff;font-weight:700;}
+
+/* MOBILE */
+@media(max-width:768px){
+  nav{padding:12px 20px;}
+  .cover{padding:56px 20px 48px;}
+  .cover-stats{flex-wrap:wrap;}
+  .cs{min-width:50%;border-right:none;border-bottom:1px solid rgba(255,255,255,.1);}
+  .cs:last-child{border-bottom:none;}
+  .section-wrap{padding:52px 20px;}
+  .case{grid-template-columns:1fr;gap:28px;padding:48px 20px;}
+  .case.flip{direction:ltr;}
+  .case-visual{aspect-ratio:16/9;}
+  .case-metrics{grid-template-columns:1fr 1fr;}
+  .stats-band{padding:52px 20px;}
+  .stats-grid{grid-template-columns:1fr 1fr;}
+  .pres-grid{grid-template-columns:1fr;}
+  .serv-grid{grid-template-columns:1fr;}
+  .cta-band{padding:60px 20px;}
+  .cta-btn{width:100%;text-align:center;padding:16px 0;}
+  footer{flex-direction:column;gap:12px;text-align:center;padding:24px 20px;}
+  .tech-grid{grid-template-columns:1fr 1fr !important;}
+}
+</style>
+
+<svg style="display:none">
+  <symbol id="iso" viewBox="0 0 100 100">
+    <g stroke="#2563EB" stroke-width="1.5" stroke-linecap="round">
+      <line x1="50" y1="50" x2="38" y2="17"/><line x1="50" y1="50" x2="50" y2="12"/>
+      <line x1="50" y1="50" x2="61" y2="20"/><line x1="50" y1="50" x2="68" y2="29"/>
+      <line x1="50" y1="50" x2="79" y2="34"/><line x1="50" y1="50" x2="80" y2="45"/>
+      <line x1="50" y1="50" x2="76" y2="57"/><line x1="50" y1="50" x2="71" y2="75"/>
+      <line x1="50" y1="50" x2="55" y2="80"/><line x1="50" y1="50" x2="42" y2="82"/>
+      <line x1="50" y1="50" x2="27" y2="66"/><line x1="50" y1="50" x2="15" y2="50"/>
+      <line x1="50" y1="50" x2="24" y2="35"/>
+    </g>
+    <g fill="#6BA8F5">
+      <circle cx="38" cy="17" r="3.5"/><circle cx="50" cy="12" r="3.5"/>
+      <circle cx="61" cy="20" r="3.5"/><circle cx="68" cy="29" r="3.5"/>
+      <circle cx="79" cy="34" r="3.5"/><circle cx="80" cy="45" r="3.5"/>
+      <circle cx="76" cy="57" r="3.5"/><circle cx="71" cy="75" r="3.5"/>
+      <circle cx="55" cy="80" r="3.5"/><circle cx="42" cy="82" r="3.5"/>
+      <circle cx="27" cy="66" r="3.5"/><circle cx="15" cy="50" r="3.5"/>
+      <circle cx="24" cy="35" r="3.5"/>
+    </g>
+    <circle cx="50" cy="50" r="5.5" fill="#fff"/>
+  </symbol>
+</svg>
+
+<nav>
+  <div class="nav-brand">
+    <svg width="36" height="36"><use href="#iso"/></svg>
+    <div><div class="nav-wm">VYNTRA</div><div class="nav-desc">Intelligent Systems</div></div>
+  </div>
+  <a href="https://wa.me/526142726674" class="nav-cta">Contactar</a>
+</nav>
+
+<!-- COVER -->
+<div class="cover">
+  <div class="cover-eyebrow">Portafolio de Proyectos 2026</div>
+  <h1 class="cover-title">IA que convierte <em>inversión real</em> en resultados medibles</h1>
+  <p class="cover-sub">Campañas, desarrollos y automatizaciones para negocios en México y Estados Unidos — con datos concretos, no promesas.</p>
+  <div class="cover-geo">
+    <span class="geo-tag">🇲🇽 Chihuahua, Chih.</span>
+    <span class="geo-tag">🇲🇽 Monterrey, NL</span>
+    <span class="geo-tag">🇺🇸 Texas, USA</span>
+  </div>
+  <div class="cover-stats">
+    <div class="cs"><span class="cs-num">120</span><div class="cs-label">inscripciones en 2 semanas — campaña educativa</div></div>
+    <div class="cs"><span class="cs-num">$25<span class="cs-unit"> MXN</span></span><div class="cs-label">costo por lead — GAPS V3, 3× mejor que campaña anterior</div></div>
+    <div class="cs"><span class="cs-num">3</span><div class="cs-label">mercados: Chihuahua, Monterrey y Texas, USA</div></div>
+    <div class="cs"><span class="cs-num">+20</span><div class="cs-label">proyectos entregados en 2025–2026</div></div>
+  </div>
+</div>
+
+<!-- ═══ CASOS ═══ -->
+
+<!-- 1. GAPS MONTERREY -->
+<div class="case">
+  <div>
+    <span class="case-tag">Campañas + IA · Lead Gen</span>
+    <div class="case-city">Monterrey, Nuevo León</div>
+    <div class="case-name">GAPS Internacional</div>
+    <div class="case-sector">Seguridad privada — reclutamiento de personal</div>
+    <p class="case-desc">Empresa de seguridad en Monterrey necesitando captar candidatos para Oficial de Seguridad en dos zonas específicas de NL. Corrimos 3 campañas en Meta Ads con IA — empezando con click-to-call, pivotando a Messenger, y en la tercera reduciendo el costo por lead 3× sobre el mismo presupuesto.</p>
+    <div class="case-metrics">
+      <div class="metric"><div class="metric-num">144</div><div class="metric-label">leads totales — 3 campañas</div></div>
+      <div class="metric"><div class="metric-num">457</div><div class="metric-label">conexiones Messenger totales — 3 campañas</div></div>
+      <div class="metric"><div class="metric-num">$25.42</div><div class="metric-label">MXN / lead en campaña V3 (3× mejor)</div></div>
+      <div class="metric"><div class="metric-num">$5,000</div><div class="metric-label">MXN inversión total acumulada</div></div>
+    </div>
+    <ul class="results">
+      <li>Campaña V2: 26 leads, $76.92 MXN/lead, 239 conexiones Messenger · $1,999 invertidos</li>
+      <li>Campaña V3: 118 leads, $25.42 MXN/lead, 218 conexiones Messenger · $2,999 invertidos</li>
+      <li>Reducción de costo por lead de $76 → $25 MXN entre campañas — optimización real con datos</li>
+    </ul>
+  </div>
+  <div class="case-visual" style="background:linear-gradient(135deg,#0D1F40,#142d5c);">
+    <svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+      <text x="200" y="26" font-family="Helvetica" font-size="9" fill="#6BA8F5" text-anchor="middle" letter-spacing="2">LEADS POR CAMPAÑA · COSTO/LEAD</text>
+      <!-- Y axis -->
+      <line x1="56" y1="245" x2="370" y2="245" stroke="rgba(107,168,245,.25)" stroke-width="1"/>
+      <line x1="56" y1="205" x2="370" y2="205" stroke="rgba(107,168,245,.1)" stroke-width="1" stroke-dasharray="4,4"/>
+      <line x1="56" y1="165" x2="370" y2="165" stroke="rgba(107,168,245,.1)" stroke-width="1" stroke-dasharray="4,4"/>
+      <line x1="56" y1="125" x2="370" y2="125" stroke="rgba(107,168,245,.1)" stroke-width="1" stroke-dasharray="4,4"/>
+      <line x1="56" y1="85" x2="370" y2="85" stroke="rgba(107,168,245,.1)" stroke-width="1" stroke-dasharray="4,4"/>
+      <text x="50" y="249" font-family="Helvetica" font-size="7" fill="#6BA8F5" text-anchor="end">0</text>
+      <text x="50" y="209" font-family="Helvetica" font-size="7" fill="#6BA8F5" text-anchor="end">30</text>
+      <text x="50" y="169" font-family="Helvetica" font-size="7" fill="#6BA8F5" text-anchor="end">60</text>
+      <text x="50" y="129" font-family="Helvetica" font-size="7" fill="#6BA8F5" text-anchor="end">90</text>
+      <text x="50" y="89" font-family="Helvetica" font-size="7" fill="#6BA8F5" text-anchor="end">120</text>
+      <!-- V1 bar: ~26 calls, shown as 26 approx -->
+      <rect x="76" y="201" width="72" height="44" rx="3" fill="rgba(37,99,235,.45)"/>
+      <text x="112" y="195" font-family="Helvetica" font-size="9" fill="white" text-anchor="middle" font-weight="700">26</text>
+      <text x="112" y="262" font-family="Helvetica" font-size="7.5" fill="#6BA8F5" text-anchor="middle">V1 · Jun</text>
+      <text x="112" y="272" font-family="Helvetica" font-size="6.5" fill="rgba(107,168,245,.6)" text-anchor="middle">Click-to-Call</text>
+      <!-- V2 bar: 26 leads -->
+      <rect x="164" y="201" width="72" height="44" rx="3" fill="rgba(37,99,235,.65)"/>
+      <text x="200" y="195" font-family="Helvetica" font-size="9" fill="white" text-anchor="middle" font-weight="700">26</text>
+      <text x="200" y="262" font-family="Helvetica" font-size="7.5" fill="#6BA8F5" text-anchor="middle">V2 · Jul–Ago</text>
+      <text x="200" y="272" font-family="Helvetica" font-size="6.5" fill="rgba(107,168,245,.6)" text-anchor="middle">$76.92/lead</text>
+      <!-- V3 bar: 118 leads — height proportional, max 120 = y85 -->
+      <rect x="252" y="87" width="72" height="158" rx="3" fill="#2563EB"/>
+      <text x="288" y="81" font-family="Helvetica" font-size="10" fill="white" text-anchor="middle" font-weight="700">118</text>
+      <text x="288" y="262" font-family="Helvetica" font-size="7.5" fill="#6BA8F5" text-anchor="middle">V3 · Ago</text>
+      <text x="288" y="272" font-family="Helvetica" font-size="6.5" fill="#2D7D46" text-anchor="middle" font-weight="700">$25.42/lead ↓3×</text>
+    </svg>
+  </div>
+</div>
+
+<!-- 2. BACHILLERATO 120 INSCRIPCIONES -->
+<div class="case flip" style="background:var(--surface);">
+  <div>
+    <span class="case-tag">Campañas · Meta Ads</span>
+    <div class="case-city">Chihuahua, Chihuahua</div>
+    <div class="case-name">Institución Educativa</div>
+    <div class="case-sector">Bachillerato — captación de alumnos nuevos</div>
+    <p class="case-desc">Institución con 34 alumnos inscritos de 70 posibles, sin presencia digital y 49 días para cerrar inscripciones. Diseñamos una campaña de Meta Ads con IA dirigida a padres de familia en radio de 5 km, con anuncio directo a WhatsApp. Resultado: programa de verano sold out en 2 semanas.</p>
+    <div class="case-metrics">
+      <div class="metric"><div class="metric-num" style="color:#2D7D46;">120</div><div class="metric-label">inscripciones en 2 semanas</div></div>
+      <div class="metric"><div class="metric-num">$63</div><div class="metric-label">MXN / día de inversión</div></div>
+      <div class="metric"><div class="metric-num">2,832</div><div class="metric-label">personas alcanzadas</div></div>
+      <div class="metric"><div class="metric-num">3.22%</div><div class="metric-label">CTR del anuncio ganador</div></div>
+    </div>
+    <ul class="results">
+      <li>120 inscripciones al programa de verano — resultado confirmado por el director</li>
+      <li>Anuncio ganador "Grupos Juveniles": 3.22% CTR, $44.47 MXN por conversación</li>
+      <li>Campaña activa con radio de 5 km — geo-targeting de precisión con IA</li>
+    </ul>
+  </div>
+  <div class="case-visual" style="background:linear-gradient(145deg,#f0f5ff,#e4eeff);">
+    <svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+      <rect x="30" y="20" width="340" height="260" rx="10" fill="white" stroke="#dde5f5" stroke-width="1"/>
+      <rect x="30" y="20" width="340" height="44" rx="10" fill="#0D1F40"/>
+      <rect x="30" y="52" width="340" height="12" fill="#0D1F40"/>
+      <text x="200" y="46" font-family="Georgia,serif" font-size="11" fill="white" text-anchor="middle" font-weight="700">VYNTRA — Reporte de Campaña</text>
+      <rect x="46" y="78" width="148" height="72" rx="6" fill="#f0f5ff" stroke="#dde5f5" stroke-width="1"/>
+      <text x="120" y="106" font-family="Georgia,serif" font-size="28" fill="#2D7D46" text-anchor="middle" font-weight="700">120</text>
+      <text x="120" y="124" font-family="Helvetica" font-size="8" fill="#6BA8F5" text-anchor="middle">Inscripciones</text>
+      <text x="120" y="138" font-family="Helvetica" font-size="7" fill="#aaa" text-anchor="middle">en 2 semanas</text>
+      <rect x="206" y="78" width="148" height="72" rx="6" fill="#f0f5ff" stroke="#dde5f5" stroke-width="1"/>
+      <text x="280" y="106" font-family="Georgia,serif" font-size="28" fill="#2563EB" text-anchor="middle" font-weight="700">3.22%</text>
+      <text x="280" y="124" font-family="Helvetica" font-size="8" fill="#6BA8F5" text-anchor="middle">CTR Anuncio</text>
+      <text x="280" y="138" font-family="Helvetica" font-size="7" fill="#aaa" text-anchor="middle">Grupos Juveniles</text>
+      <rect x="46" y="162" width="308" height="56" rx="6" fill="#f8f9fc" stroke="#dde5f5" stroke-width="1"/>
+      <text x="60" y="182" font-family="Helvetica" font-size="8" fill="#0D1F40" font-weight="700">Alcance</text>
+      <text x="60" y="198" font-family="Georgia,serif" font-size="14" fill="#0D1F40" font-weight="700">2,832</text>
+      <text x="60" y="210" font-family="Helvetica" font-size="7" fill="#aaa">personas</text>
+      <text x="175" y="182" font-family="Helvetica" font-size="8" fill="#0D1F40" font-weight="700">Inversión/día</text>
+      <text x="175" y="198" font-family="Georgia,serif" font-size="14" fill="#0D1F40" font-weight="700">$63 MXN</text>
+      <text x="290" y="182" font-family="Helvetica" font-size="8" fill="#0D1F40" font-weight="700">Costo/conv.</text>
+      <text x="290" y="198" font-family="Georgia,serif" font-size="14" fill="#2D7D46" font-weight="700">$44.47</text>
+      <rect x="46" y="232" width="308" height="32" rx="4" fill="#2563EB"/>
+      <text x="200" y="252" font-family="Helvetica" font-size="9" fill="white" text-anchor="middle" font-weight="700">✅ Programa de verano sold out — resultado confirmado por el director</text>
+    </svg>
+  </div>
+</div>
+
+<!-- 3. YK RENTAL -->
+<div class="case">
+  <div>
+    <span class="case-tag">Campañas + Web + IA</span>
+    <div class="case-city">Chihuahua, Chihuahua</div>
+    <div class="case-name">YK Rental</div>
+    <div class="case-sector">Renta de equipo de construcción</div>
+    <p class="case-desc">62 publicaciones en Instagram, 49 seguidores — el problema no era el contenido, era que nadie lo veía sin pauta. Construimos su landing de cotización, instalamos el sistema de tracking y lanzamos campañas de Meta Ads con CTA directo a WhatsApp, optimizadas con IA.</p>
+    <div class="case-metrics">
+      <div class="metric"><div class="metric-num">21</div><div class="metric-label">conversaciones WhatsApp en 30 días</div></div>
+      <div class="metric"><div class="metric-num">$31</div><div class="metric-label">MXN costo por conversación</div></div>
+      <div class="metric"><div class="metric-num">1.90%</div><div class="metric-label">CTR anuncio ganador</div></div>
+      <div class="metric"><div class="metric-num">22,786</div><div class="metric-label">personas alcanzadas</div></div>
+    </div>
+    <ul class="results">
+      <li>Landing de cotización live — catálogo completo con WhatsApp por equipo</li>
+      <li>Sistema de tracking Meta Pixel + Google Ads configurado desde cero</li>
+      <li>Anuncio "Urgencia" ganador: 22,786 alcance, $15.07/conversación WhatsApp</li>
+    </ul>
+    <a href="https://vyntra-agency.github.io/ykrental/" class="case-link" target="_blank">Ver landing en vivo</a>
+  </div>
+  <div class="case-visual" style="background:linear-gradient(135deg,#0a0a0a,#1a1a1a);">
+    <svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+      <!-- Phone -->
+      <rect x="140" y="10" width="120" height="240" rx="18" fill="#111"/>
+      <rect x="146" y="22" width="108" height="216" rx="12" fill="#0a0a0a"/>
+      <rect x="165" y="14" width="70" height="7" rx="3.5" fill="#222"/>
+      <!-- Screen content -->
+      <rect x="146" y="22" width="108" height="38" rx="12" fill="#CC0000"/>
+      <text x="200" y="42" font-family="Georgia,serif" font-size="10" fill="white" text-anchor="middle" font-weight="700">YK RENTAL</text>
+      <text x="200" y="54" font-family="Helvetica" font-size="6" fill="rgba(255,255,255,.7)" text-anchor="middle">RENTA DE EQUIPO</text>
+      <rect x="154" y="66" width="92" height="16" rx="4" fill="#1a1a1a"/>
+      <text x="200" y="78" font-family="Helvetica" font-size="7" fill="#888" text-anchor="middle">Elige tu equipo</text>
+      <!-- Equipment grid -->
+      <rect x="154" y="88" width="42" height="36" rx="4" fill="#1a1a1a"/>
+      <rect x="202" y="88" width="42" height="36" rx="4" fill="#1a1a1a"/>
+      <text x="175" y="110" font-family="Helvetica" font-size="6.5" fill="#ccc" text-anchor="middle">Bailarina</text>
+      <text x="175" y="119" font-family="Helvetica" font-size="6.5" fill="#CC0000" text-anchor="middle">$800/día</text>
+      <text x="223" y="110" font-family="Helvetica" font-size="6.5" fill="#ccc" text-anchor="middle">Generador</text>
+      <text x="223" y="119" font-family="Helvetica" font-size="6.5" fill="#CC0000" text-anchor="middle">$750/día</text>
+      <rect x="154" y="130" width="42" height="36" rx="4" fill="#1a1a1a"/>
+      <rect x="202" y="130" width="42" height="36" rx="4" fill="#1a1a1a"/>
+      <text x="175" y="151" font-family="Helvetica" font-size="6.5" fill="#ccc" text-anchor="middle">Cortadora</text>
+      <text x="175" y="160" font-family="Helvetica" font-size="6.5" fill="#CC0000" text-anchor="middle">$950/día</text>
+      <text x="223" y="151" font-family="Helvetica" font-size="6.5" fill="#ccc" text-anchor="middle">Martillo</text>
+      <text x="223" y="160" font-family="Helvetica" font-size="6.5" fill="#CC0000" text-anchor="middle">$750/día</text>
+      <rect x="154" y="174" width="92" height="22" rx="5" fill="#25D366"/>
+      <text x="200" y="189" font-family="Helvetica" font-size="8" fill="white" text-anchor="middle" font-weight="700">Cotizar por WhatsApp</text>
+      <!-- Metrics -->
+      <rect x="154" y="202" width="92" height="30" rx="4" fill="#111" stroke="#222" stroke-width="1"/>
+      <text x="175" y="215" font-family="Helvetica" font-size="6" fill="#6BA8F5" text-anchor="middle">Conversaciones</text>
+      <text x="175" y="227" font-family="Georgia,serif" font-size="10" fill="white" text-anchor="middle" font-weight="700">21</text>
+      <text x="223" y="215" font-family="Helvetica" font-size="6" fill="#6BA8F5" text-anchor="middle">Costo/conv.</text>
+      <text x="223" y="227" font-family="Georgia,serif" font-size="10" fill="#2D7D46" text-anchor="middle" font-weight="700">$31</text>
+    </svg>
+  </div>
+</div>
+
+<!-- 4. 50x BOOTS -->
+<div class="case flip" style="background:var(--surface);">
+  <div>
+    <span class="case-tag">E-Commerce · Desarrollo Web</span>
+    <div class="case-city">Chihuahua, Chihuahua</div>
+    <div class="case-name">50x Boots</div>
+    <div class="case-sector">Tienda de calzado — venta en línea</div>
+    <p class="case-desc">Marca de calzado sin canal de venta propio, dependiendo 100% de redes sociales para cerrar ventas manualmente. Desarrollamos su tienda en línea completa con catálogo, carrito y checkout integrado con Mercado Pago — cobros automáticos, sin intermediario humano en cada venta.</p>
+    <div class="case-metrics">
+      <div class="metric"><div class="metric-num">MP</div><div class="metric-label">Checkout Pro integrado — cobros automáticos</div></div>
+      <div class="metric"><div class="metric-num">&lt;4</div><div class="metric-label">semanas de desarrollo completo</div></div>
+      <div class="metric"><div class="metric-num">24/7</div><div class="metric-label">tienda activa sin intervención manual</div></div>
+      <div class="metric"><div class="metric-num">$0</div><div class="metric-label">comisión extra — pago directo al negocio</div></div>
+    </div>
+    <ul class="results">
+      <li>Tienda en línea completa — catálogo de productos, carrito y pago integrado</li>
+      <li>Checkout Pro de Mercado Pago — tarjeta, transferencia y pago en efectivo</li>
+      <li>El cliente paga y el negocio recibe la notificación automática — sin DMs manuales</li>
+    </ul>
+  </div>
+  <div class="case-visual" style="background:linear-gradient(135deg,#0a0a14,#0f0f28);">
+    <svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+      <!-- Browser chrome -->
+      <rect x="20" y="14" width="360" height="272" rx="10" fill="#111118"/>
+      <rect x="20" y="14" width="360" height="36" rx="10" fill="#1a1a2a"/>
+      <rect x="20" y="42" width="360" height="8" fill="#1a1a2a"/>
+      <circle cx="40" cy="32" r="5" fill="#e53e3e" opacity=".5"/>
+      <circle cx="56" cy="32" r="5" fill="#f59e0b" opacity=".5"/>
+      <circle cx="72" cy="32" r="5" fill="#2d7d46" opacity=".5"/>
+      <rect x="96" y="22" width="208" height="18" rx="5" fill="#0a0a14"/>
+      <text x="200" y="35" font-family="Helvetica" font-size="7" fill="#6BA8F5" text-anchor="middle">50xboots.com · Tienda</text>
+      <!-- Header store -->
+      <rect x="28" y="58" width="344" height="38" rx="4" fill="#0D1F40"/>
+      <text x="200" y="76" font-family="Georgia,serif" font-size="13" fill="white" text-anchor="middle" font-weight="700">50× BOOTS</text>
+      <text x="200" y="89" font-family="Helvetica" font-size="6" fill="#6BA8F5" text-anchor="middle" letter-spacing="2">CALZADO · TIENDA EN LÍNEA</text>
+      <!-- Product grid -->
+      <rect x="28" y="102" width="108" height="90" rx="5" fill="#1a1a2a"/>
+      <rect x="28" y="102" width="108" height="58" rx="5" fill="#252535"/>
+      <text x="82" y="133" font-family="Helvetica" font-size="8" fill="#888" text-anchor="middle">👟</text>
+      <text x="82" y="150" font-family="Helvetica" font-size="7" fill="#aaa" text-anchor="middle">Boot Classic</text>
+      <text x="82" y="162" font-family="Helvetica" font-size="7" fill="#6BA8F5" text-anchor="middle">$1,850</text>
+      <rect x="36" y="174" width="92" height="12" rx="3" fill="#2563EB"/>
+      <text x="82" y="183" font-family="Helvetica" font-size="6.5" fill="white" text-anchor="middle">Agregar al carrito</text>
+      <rect x="146" y="102" width="108" height="90" rx="5" fill="#1a1a2a"/>
+      <rect x="146" y="102" width="108" height="58" rx="5" fill="#252535"/>
+      <text x="200" y="133" font-family="Helvetica" font-size="8" fill="#888" text-anchor="middle">👢</text>
+      <text x="200" y="150" font-family="Helvetica" font-size="7" fill="#aaa" text-anchor="middle">Boot Premium</text>
+      <text x="200" y="162" font-family="Helvetica" font-size="7" fill="#6BA8F5" text-anchor="middle">$2,450</text>
+      <rect x="154" y="174" width="92" height="12" rx="3" fill="#2563EB"/>
+      <text x="200" y="183" font-family="Helvetica" font-size="6.5" fill="white" text-anchor="middle">Agregar al carrito</text>
+      <rect x="264" y="102" width="108" height="90" rx="5" fill="#1a1a2a"/>
+      <rect x="264" y="102" width="108" height="58" rx="5" fill="#252535"/>
+      <text x="318" y="133" font-family="Helvetica" font-size="8" fill="#888" text-anchor="middle">🥾</text>
+      <text x="318" y="150" font-family="Helvetica" font-size="7" fill="#aaa" text-anchor="middle">Boot Outdoor</text>
+      <text x="318" y="162" font-family="Helvetica" font-size="7" fill="#6BA8F5" text-anchor="middle">$2,100</text>
+      <rect x="272" y="174" width="92" height="12" rx="3" fill="#2563EB"/>
+      <text x="318" y="183" font-family="Helvetica" font-size="6.5" fill="white" text-anchor="middle">Agregar al carrito</text>
+      <!-- Checkout section -->
+      <rect x="28" y="202" width="344" height="72" rx="5" fill="#1a1a2a"/>
+      <text x="46" y="222" font-family="Helvetica" font-size="8" fill="white" font-weight="700">Checkout seguro</text>
+      <!-- MP logos row -->
+      <rect x="46" y="230" width="52" height="16" rx="3" fill="#009EE3" opacity=".9"/>
+      <text x="72" y="242" font-family="Helvetica" font-size="7" fill="white" text-anchor="middle" font-weight="700">Mercado Pago</text>
+      <rect x="106" y="230" width="38" height="16" rx="3" fill="#252535"/>
+      <text x="125" y="242" font-family="Helvetica" font-size="6.5" fill="#aaa" text-anchor="middle">💳 Tarjeta</text>
+      <rect x="152" y="230" width="48" height="16" rx="3" fill="#252535"/>
+      <text x="176" y="242" font-family="Helvetica" font-size="6.5" fill="#aaa" text-anchor="middle">🏦 Transferencia</text>
+      <rect x="208" y="230" width="38" height="16" rx="3" fill="#252535"/>
+      <text x="227" y="242" font-family="Helvetica" font-size="6.5" fill="#aaa" text-anchor="middle">💵 Efectivo</text>
+      <rect x="46" y="254" width="308" height="14" rx="3" fill="#2563EB"/>
+      <text x="200" y="264" font-family="Helvetica" font-size="7.5" fill="white" text-anchor="middle" font-weight="700">Pagar ahora — cobro automático</text>
+    </svg>
+  </div>
+</div>
+
+<!-- 5. CLEAN WALKERS — ESTUDIO DE UBICACIÓN -->
+<div class="case" style="background:var(--surface);">
+  <div>
+    <span class="case-tag">Inteligencia de Negocio · Análisis</span>
+    <div class="case-city">Chihuahua, Chihuahua</div>
+    <div class="case-name">Clean Walkers — Estudio de Ubicación</div>
+    <div class="case-sector">Franquicia de limpieza de calzado — truck móvil</div>
+    <p class="case-desc">El truck se mudó de un local fijo porque no generaba afluencia. VYNTRA ejecutó un estudio de 5 frentes para decidir con datos reales dónde reubicar el truck: análisis de audiencia Meta, datos INEGI/IMPLAN, recorrido virtual con IA, mapeo de 14 competidores con GPS y afluencia vehicular oficial de la avenida más transitada de Chihuahua.</p>
+    <div class="case-metrics">
+      <div class="metric"><div class="metric-num">14</div><div class="metric-label">competidores mapeados con coordenadas GPS reales</div></div>
+      <div class="metric"><div class="metric-num">7,031</div><div class="metric-label">veh/hora en zona recomendada — dato IMPLAN oficial</div></div>
+      <div class="metric"><div class="metric-num">5</div><div class="metric-label">frentes de análisis ejecutados</div></div>
+      <div class="metric"><div class="metric-num">$3,500</div><div class="metric-label">MXN · servicio de inteligencia pago único</div></div>
+    </div>
+    <ul class="results">
+      <li>14 negocios competidores ubicados en el mapa con coordenadas GPS verificadas</li>
+      <li>Plaza Saucito identificada: cruce con mayor congestión del Periférico de la Juventud (7,031 veh/h, fuente IMPLAN 2023)</li>
+      <li>Permiso municipal resuelto: "Aseador de calzado por banca" — exento de costo según Ley de Ingresos 2024</li>
+    </ul>
+  </div>
+  <div class="case-visual" style="background:linear-gradient(145deg,#f0f5ff,#e8effe);">
+    <svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+      <text x="200" y="24" font-family="Georgia,serif" font-size="10" fill="#0D1F40" text-anchor="middle" font-weight="700">Mapa de Competencia · Chihuahua</text>
+      <!-- Map background -->
+      <rect x="22" y="34" width="356" height="220" rx="6" fill="#e8f0f8" stroke="#c0d0e0" stroke-width="1"/>
+      <!-- Zone labels -->
+      <rect x="30" y="42" width="80" height="14" rx="3" fill="rgba(45,125,70,.15)" stroke="rgba(45,125,70,.4)" stroke-width="1"/>
+      <text x="70" y="53" font-family="Helvetica" font-size="7" fill="#2D7D46" text-anchor="middle" font-weight="700">PONIENTE ✓ 0 comp.</text>
+      <rect x="300" y="42" width="70" height="14" rx="3" fill="rgba(229,62,62,.12)" stroke="rgba(229,62,62,.4)" stroke-width="1"/>
+      <text x="335" y="53" font-family="Helvetica" font-size="7" fill="#c53030" text-anchor="middle" font-weight="700">CENTRO-NORTE 6</text>
+      <!-- Main road horizontal -->
+      <line x1="22" y1="160" x2="378" y2="160" stroke="#94a3b8" stroke-width="4"/>
+      <text x="200" y="172" font-family="Helvetica" font-size="7" fill="#64748b" text-anchor="middle">Periférico de la Juventud</text>
+      <!-- Opcion A pin -->
+      <circle cx="120" cy="155" r="12" fill="#2D7D46"/>
+      <text x="120" y="150" font-family="Helvetica" font-size="9" fill="white" text-anchor="middle">A</text>
+      <text x="120" y="140" font-family="Helvetica" font-size="7" fill="#2D7D46" text-anchor="middle" font-weight="700">Saucito</text>
+      <text x="120" y="130" font-family="Helvetica" font-size="6" fill="#2D7D46" text-anchor="middle">7,031 veh/h</text>
+      <!-- Opcion B pin -->
+      <circle cx="200" cy="155" r="12" fill="#2563EB"/>
+      <text x="200" y="150" font-family="Helvetica" font-size="9" fill="white" text-anchor="middle">B</text>
+      <text x="200" y="140" font-family="Helvetica" font-size="7" fill="#2563EB" text-anchor="middle" font-weight="700">Stay Fit/FM</text>
+      <text x="200" y="130" font-family="Helvetica" font-size="6" fill="#2563EB" text-anchor="middle">24,667 vis/día</text>
+      <!-- Cluster competencia -->
+      <circle cx="310" cy="105" r="18" fill="rgba(229,62,62,.2)" stroke="#e53e3e" stroke-width="1"/>
+      <text x="310" y="109" font-family="Georgia,serif" font-size="12" fill="#c53030" text-anchor="middle" font-weight="700">6</text>
+      <text x="310" y="90" font-family="Helvetica" font-size="7" fill="#c53030" text-anchor="middle">Cluster</text>
+      <text x="310" y="79" font-family="Helvetica" font-size="7" fill="#c53030" text-anchor="middle">Centro-Norte</text>
+      <!-- Cor/Fer local -->
+      <circle cx="66" cy="90" r="8" fill="#f59e0b"/>
+      <text x="66" y="94" font-family="Helvetica" font-size="6" fill="white" text-anchor="middle" font-weight="700">Fer</text>
+      <text x="66" y="78" font-family="Helvetica" font-size="6" fill="#92400e" text-anchor="middle">Cordilleras</text>
+      <!-- Stats row -->
+      <rect x="22" y="262" width="356" height="28" rx="4" fill="white" stroke="#c0d0e0" stroke-width="1"/>
+      <text x="90" y="274" font-family="Helvetica" font-size="7" fill="#2D7D46" text-anchor="middle" font-weight="700">Recomendación</text>
+      <text x="90" y="284" font-family="Helvetica" font-size="7" fill="#2D7D46" text-anchor="middle">Plaza Saucito (A)</text>
+      <line x1="160" y1="264" x2="160" y2="288" stroke="#dde" stroke-width="1"/>
+      <text x="220" y="274" font-family="Helvetica" font-size="7" fill="#555" text-anchor="middle" font-weight="700">14 competidores mapeados</text>
+      <text x="220" y="284" font-family="Helvetica" font-size="7" fill="#888" text-anchor="middle">Puntos A y B: 0 competidores</text>
+      <line x1="300" y1="264" x2="300" y2="288" stroke="#dde" stroke-width="1"/>
+      <text x="345" y="274" font-family="Helvetica" font-size="7" fill="#555" text-anchor="middle" font-weight="700">Permiso municipal</text>
+      <text x="345" y="284" font-family="Helvetica" font-size="7" fill="#2D7D46" text-anchor="middle">EXENTO de costo</text>
+    </svg>
+  </div>
+</div>
+
+<!-- STACK TECNOLÓGICO -->
+<div style="background:var(--marina);padding:48px 40px;border-top:1px solid rgba(107,168,245,.12);">
+  <div style="max-width:960px;margin:0 auto;">
+    <div class="s-eye">Tecnologías que desarrollamos y usamos</div>
+    <h2 class="s-title on-dark" style="margin-bottom:28px;">Construimos nuestras propias herramientas</h2>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:rgba(255,255,255,.08);border-radius:8px;overflow:hidden;">
+      <div style="background:rgba(13,31,64,.6);padding:24px 20px;">
+        <div style="font-size:18px;margin-bottom:8px;">🧠</div>
+        <div style="font-weight:700;font-size:14px;color:#fff;margin-bottom:4px;">Nexo</div>
+        <div style="font-size:12px;color:var(--cobalt-s);line-height:1.5;">Asistente IA de operaciones corriendo 24/7 — Claude API + fallback OpenRouter</div>
+      </div>
+      <div style="background:rgba(13,31,64,.6);padding:24px 20px;">
+        <div style="font-size:18px;margin-bottom:8px;">🤝</div>
+        <div style="font-weight:700;font-size:14px;color:#fff;margin-bottom:4px;">Portal de Clientes</div>
+        <div style="font-size:12px;color:var(--cobalt-s);line-height:1.5;">Express + Supabase en Render — login, campañas, pagos y recibos en tiempo real</div>
+      </div>
+      <div style="background:rgba(13,31,64,.6);padding:24px 20px;">
+        <div style="font-size:18px;margin-bottom:8px;">💬</div>
+        <div style="font-weight:700;font-size:14px;color:#fff;margin-bottom:4px;">Asistentes Virtuales</div>
+        <div style="font-size:12px;color:var(--cobalt-s);line-height:1.5;">Nexo Operativo para clientes — WhatsApp 24/7 para pedidos, alertas e insumos por sucursal</div>
+      </div>
+      <div style="background:rgba(13,31,64,.6);padding:24px 20px;">
+        <div style="font-size:18px;margin-bottom:8px;">🎨</div>
+        <div style="font-weight:700;font-size:14px;color:#fff;margin-bottom:4px;">Generador de Creativos</div>
+        <div style="font-size:12px;color:var(--cobalt-s);line-height:1.5;">Fotos reales del cliente adaptadas a los 3 formatos de Meta Ads automáticamente con Sharp</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 5. TEXAS USA -->
+<div class="case" style="background:var(--marina);">
+  <div>
+    <span class="case-tag" style="background:rgba(107,168,245,.15);color:var(--cobalt-s);">Expansión · Mercado USA</span>
+    <div class="case-city" style="color:var(--cobalt-s);">Texas, USA · Mercado fronterizo</div>
+    <div class="case-name" style="color:#fff;">Operación Binacional</div>
+    <div class="case-sector" style="color:rgba(107,168,245,.7);">Clientes en El Paso, TX — servicios en USD</div>
+    <p class="case-desc" style="color:rgba(107,168,245,.8);">VYNTRA opera en ambos lados de la frontera. Campañas bilingües ES/EN en Meta y Google para negocios de El Paso, TX — con precios calibrados contra el mercado americano real, no solo conversión de pesos. IA entrenada para el comportamiento del consumidor fronterizo.</p>
+    <ul class="results" style="color:rgba(200,210,230,.9);">
+      <li style="border-bottom-color:rgba(255,255,255,.1);">Campañas bilingüe (español + inglés) activas en Meta Ads Texas</li>
+      <li style="border-bottom-color:rgba(255,255,255,.1);">Catálogo de servicios calibrado contra benchmarks reales de agencias en EE.UU.</li>
+      <li style="border-bottom-color:rgba(255,255,255,.1);">Servicios exclusivos para el mercado USA: ADA/WCAG compliance, GEO (aparecer en ChatGPT/Google AI), reputación en Google/Yelp</li>
+    </ul>
+  </div>
+  <div class="case-visual" style="background:rgba(255,255,255,.05);border:1px solid rgba(107,168,245,.2);">
+    <svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+      <text x="200" y="28" font-family="Helvetica" font-size="9" fill="#6BA8F5" text-anchor="middle" letter-spacing="2">COBERTURA BINACIONAL</text>
+      <!-- Map simplified -->
+      <ellipse cx="180" cy="160" rx="130" ry="100" fill="rgba(37,99,235,.06)" stroke="rgba(37,99,235,.2)" stroke-width="1" stroke-dasharray="6,4"/>
+      <!-- MX dot -->
+      <circle cx="200" cy="185" r="16" fill="#2563EB" opacity=".9"/>
+      <text x="200" y="190" font-family="Helvetica" font-size="9" fill="white" text-anchor="middle" font-weight="700">🇲🇽</text>
+      <text x="200" y="213" font-family="Helvetica" font-size="8" fill="#6BA8F5" text-anchor="middle">Chihuahua / MTY</text>
+      <!-- TX dot -->
+      <circle cx="155" cy="130" r="12" fill="#6BA8F5" opacity=".9"/>
+      <text x="155" y="135" font-family="Helvetica" font-size="9" fill="white" text-anchor="middle" font-weight="700">🇺🇸</text>
+      <text x="155" y="152" font-family="Helvetica" font-size="8" fill="#6BA8F5" text-anchor="middle">Texas, USA</text>
+      <!-- Connection -->
+      <line x1="162" y1="138" x2="192" y2="175" stroke="rgba(107,168,245,.5)" stroke-width="1.5" stroke-dasharray="4,3"/>
+      <!-- Stats -->
+      <rect x="260" y="80" width="110" height="50" rx="6" fill="rgba(37,99,235,.15)" stroke="rgba(107,168,245,.25)" stroke-width="1"/>
+      <text x="315" y="102" font-family="Georgia,serif" font-size="16" fill="white" text-anchor="middle" font-weight="700">2</text>
+      <text x="315" y="118" font-family="Helvetica" font-size="8" fill="#6BA8F5" text-anchor="middle">países activos</text>
+      <rect x="260" y="144" width="110" height="50" rx="6" fill="rgba(37,99,235,.15)" stroke="rgba(107,168,245,.25)" stroke-width="1"/>
+      <text x="315" y="166" font-family="Georgia,serif" font-size="16" fill="white" text-anchor="middle" font-weight="700">3</text>
+      <text x="315" y="182" font-family="Helvetica" font-size="8" fill="#6BA8F5" text-anchor="middle">ciudades con clientes</text>
+      <rect x="260" y="208" width="110" height="50" rx="6" fill="rgba(37,99,235,.15)" stroke="rgba(107,168,245,.25)" stroke-width="1"/>
+      <text x="315" y="230" font-family="Georgia,serif" font-size="13" fill="#6BA8F5" text-anchor="middle" font-weight="700">ES + EN</text>
+      <text x="315" y="248" font-family="Helvetica" font-size="8" fill="#6BA8F5" text-anchor="middle">campañas bilingüe</text>
+    </svg>
+  </div>
+</div>
+
+<!-- 6. RENOVARCH WEB -->
+<div class="case flip">
+  <div>
+    <span class="case-tag">Desarrollo Web Completo</span>
+    <div class="case-city">Chihuahua, Chihuahua</div>
+    <div class="case-name">Renov' Arch</div>
+    <div class="case-sector">Estudio de arquitectura residencial</div>
+    <p class="case-desc">Estudio de arquitectura sin presencia digital — carpeta de proyectos físicos, sin web, sin galería online. Diseñamos y desarrollamos su sitio completo desde cero: galería interactiva con 20+ proyectos reales, animaciones GSAP, WhatsApp directo y formulario de cotización.</p>
+    <ul class="results">
+      <li>Sitio web completo live en menos de 4 semanas desde el primer contacto</li>
+      <li>20+ proyectos reales presentados con galería lightbox interactiva</li>
+      <li>Animaciones ScrollTrigger + blueprint SVG interactivo — diferenciado del sector</li>
+    </ul>
+    <a href="https://vyntra-agency.github.io/renovarch" class="case-link" target="_blank">Ver sitio en vivo</a>
+  </div>
+  <div class="case-visual" style="background:linear-gradient(135deg,#0D1F40,#1a3560);">
+    <svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+      <rect x="24" y="24" width="352" height="252" rx="8" fill="#0a1628"/>
+      <rect x="24" y="24" width="352" height="34" rx="8" fill="#152240"/>
+      <rect x="24" y="50" width="352" height="8" fill="#152240"/>
+      <circle cx="44" cy="41" r="5" fill="#e53e3e" opacity=".6"/>
+      <circle cx="60" cy="41" r="5" fill="#f59e0b" opacity=".6"/>
+      <circle cx="76" cy="41" r="5" fill="#2d7d46" opacity=".6"/>
+      <rect x="108" y="31" width="184" height="16" rx="4" fill="#0D1F40"/>
+      <text x="200" y="43" font-family="Helvetica" font-size="7" fill="#6BA8F5" text-anchor="middle">vyntra-agency.github.io/renovarch</text>
+      <!-- Hero section -->
+      <rect x="40" y="70" width="320" height="76" rx="4" fill="#0D1F40"/>
+      <text x="200" y="100" font-family="Georgia,serif" font-size="14" fill="white" text-anchor="middle" font-weight="700">RENOV' ARCH</text>
+      <text x="200" y="116" font-family="Helvetica" font-size="7" fill="#6BA8F5" text-anchor="middle" letter-spacing="3">ARQUITECTURA RESIDENCIAL</text>
+      <text x="200" y="136" font-family="Helvetica" font-size="7" fill="rgba(107,168,245,.6)" text-anchor="middle">CHIHUAHUA, MEXICO</text>
+      <!-- Gallery grid -->
+      <rect x="40" y="156" width="96" height="64" rx="3" fill="#152240"/>
+      <rect x="144" y="156" width="96" height="64" rx="3" fill="#1a2e4a"/>
+      <rect x="248" y="156" width="112" height="64" rx="3" fill="#152240"/>
+      <!-- Footer nav -->
+      <rect x="40" y="230" width="320" height="30" rx="3" fill="#0a1628"/>
+      <text x="82" y="249" font-family="Helvetica" font-size="7" fill="#6BA8F5" text-anchor="middle">Proyectos</text>
+      <text x="152" y="249" font-family="Helvetica" font-size="7" fill="#6BA8F5" text-anchor="middle">Estudio</text>
+      <text x="222" y="249" font-family="Helvetica" font-size="7" fill="#6BA8F5" text-anchor="middle">Proceso</text>
+      <text x="310" y="249" font-family="Helvetica" font-size="7" fill="#25D366" text-anchor="middle" font-weight="700">WhatsApp ↗</text>
+    </svg>
+  </div>
+</div>
+
+<!-- ═══ STATS BAND ═══ -->
+<div class="stats-band">
+  <div class="stats-band-inner">
+    <div class="s-eye">Resultados comprobables</div>
+    <h2 class="s-title on-dark">Números reales, no estimaciones</h2>
+    <div class="stats-grid">
+      <div class="stat-cell">
+        <span class="stat-num">120</span>
+        <div class="stat-label">inscripciones en 2 semanas — campaña educativa, confirmado por el director</div>
+      </div>
+      <div class="stat-cell">
+        <span class="stat-num">$25<span class="stat-unit"> MXN</span></span>
+        <div class="stat-label">costo por lead en V3 — GAPS Internacional, 3× mejor que campaña anterior</div>
+      </div>
+      <div class="stat-cell">
+        <span class="stat-num">$31<span class="stat-unit"> MXN</span></span>
+        <div class="stat-label">costo por conversación WhatsApp — YK Rental, construcción</div>
+      </div>
+      <div class="stat-cell">
+        <span class="stat-num">24/7</span>
+        <div class="stat-label">tienda en línea activa sin intervención manual — checkout automático con Mercado Pago</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ PRESENCIA ═══ -->
+<div class="section-wrap">
+  <div class="s-eye">Dónde operamos</div>
+  <h2 class="s-title">México y Estados Unidos</h2>
+  <p class="s-lead">Operamos en Chihuahua, Monterrey y Texas, USA — campañas en español, inglés o bilingüe según el mercado.</p>
+  <div class="pres-grid">
+    <div class="pres-cell">
+      <div class="pres-flag">🇲🇽</div>
+      <div class="pres-place">Chihuahua, México</div>
+      <div class="pres-desc">Sede principal. Campañas activas en Meta y Google, desarrollos web y automatizaciones IA para negocios locales y nacionales.</div>
+    </div>
+    <div class="pres-cell">
+      <div class="pres-flag">🇲🇽</div>
+      <div class="pres-place">Monterrey, Nuevo León</div>
+      <div class="pres-desc">Clientes activos en el área metropolitana — GAPS Internacional con campañas de lead generation para el sector de seguridad privada.</div>
+    </div>
+    <div class="pres-cell">
+      <div class="pres-flag">🇺🇸</div>
+      <div class="pres-place">Texas, USA</div>
+      <div class="pres-desc">Campañas bilingüe ES/EN para negocios del área de El Paso. Servicios en USD calibrados contra el mercado americano real.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ SERVICIOS ═══ -->
+<div class="section-wrap" style="background:var(--surface);max-width:100%;padding:72px 40px;">
+  <div style="max-width:960px;margin:0 auto;">
+    <div class="s-eye">Lo que hacemos</div>
+    <h2 class="s-title">Tres ramas, un solo objetivo</h2>
+    <p class="s-lead">Entrenamos la IA con el ADN de tu negocio — aprende tu mercado, tu cliente y cómo convertir inversión en retorno predecible.</p>
+    <div class="serv-grid">
+      <div class="serv-cell">
+        <div class="serv-icon">📡</div>
+        <div class="serv-name">Media Buying con IA</div>
+        <div class="serv-desc">Campañas en Meta, Google y TikTok optimizadas hora por hora. La IA ajusta antes de que se tire el dinero y entrega un número claro cada semana: cuánto entraste, cuánto regresó.</div>
+      </div>
+      <div class="serv-cell">
+        <div class="serv-icon">🌐</div>
+        <div class="serv-name">Desarrollo Web</div>
+        <div class="serv-desc">Landings de conversión, sitios completos y tiendas en línea. Diseñadas para convertir visitas en clientes — no solo para verse bien.</div>
+      </div>
+      <div class="serv-cell">
+        <div class="serv-icon">🤖</div>
+        <div class="serv-name">Automatizaciones IA</div>
+        <div class="serv-desc">Agentes de IA para atención al cliente, ventas y operaciones. Tu negocio responde y opera 24/7 — sin depender de tiempo humano para cada tarea.</div>
+      </div>
+      <div class="serv-cell">
+        <div class="serv-icon">📊</div>
+        <div class="serv-name">Portal de Métricas en Vivo</div>
+        <div class="serv-desc">Cada cliente tiene acceso a su portal propio: campañas, conversiones, gasto en ads y resultados — en tiempo real, desde el celular, sin esperar el reporte de fin de mes.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ CTA ═══ -->
+<div class="cta-band">
+  <h2 class="cta-title">¿Quieres resultados como estos para tu negocio?</h2>
+  <p class="cta-sub">Platicamos sin costo. Analizamos tu negocio y te mostramos con datos exactamente qué haríamos y qué retorno esperaríamos desde el mes 1.</p>
+  <a href="https://wa.me/526142726674" class="cta-btn">Escribir por WhatsApp</a>
+  <div class="cta-note">+52 614 272 6674 · @vyntra.ex · vyntra.ex@gmail.com</div>
+</div>
+
+<footer>
+  <div>
+    <div class="footer-wm">VYNTRA</div>
+    <div style="font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:rgba(107,168,245,.45);margin-top:2px;">Intelligent Systems · 2026</div>
+  </div>
+  <div>VYNTRA no comparte esta información con terceros</div>
+</footer>
