@@ -314,6 +314,68 @@ footer { background: #070f1e; padding: 36px 80px; display: flex; justify-content
 .ft-link span { color: var(--cobalto-s); }
 .ft-copy { font-size: 11px; color: rgba(255,255,255,.2); }
 
+/* ── Nexo ── */
+#nexo { background: var(--marina); }
+.nexo-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 14px; margin-top: 40px; }
+.nexo-card { background: rgba(255,255,255,.05); border: 0.5px solid rgba(107,168,245,.15); padding: 28px 24px; transition: transform .2s, box-shadow .2s, background .2s; }
+.nexo-card:hover { transform: translateY(-4px); box-shadow: 0 16px 40px rgba(0,0,0,.3); background: rgba(255,255,255,.09); }
+.nexo-card.featured { background: var(--blanco); border-color: var(--blanco); }
+.nexo-card.featured:hover { background: var(--blanco); }
+.nexo-tag { font-size: 9px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--cobalto-s); margin-bottom: 8px; display: block; }
+.nexo-card.featured .nexo-tag { color: var(--cobalto); }
+.nexo-name { font-family: Georgia,'Times New Roman',serif; font-size: 20px; font-weight: 700; color: var(--blanco); margin-bottom: 6px; line-height: 1.2; }
+.nexo-card.featured .nexo-name { color: var(--marina); }
+.nexo-price { font-size: 12px; font-weight: 600; color: var(--cobalto-s); margin-bottom: 14px; }
+.nexo-card.featured .nexo-price { color: var(--cobalto); }
+.nexo-desc { font-size: 13px; line-height: 1.65; color: rgba(255,255,255,.62); margin-bottom: 16px; }
+.nexo-card.featured .nexo-desc { color: #555; }
+.nexo-feats { list-style: none; display: flex; flex-direction: column; gap: 6px; }
+.nexo-feats li { font-size: 12px; color: rgba(255,255,255,.58); padding-left: 14px; position: relative; line-height: 1.4; }
+.nexo-card.featured .nexo-feats li { color: #444; }
+.nexo-feats li::before { content: '→'; position: absolute; left: 0; color: var(--cobalto-s); font-size: 10px; }
+.nexo-card.featured .nexo-feats li::before { color: var(--cobalto); }
+.nexo-bundle { background: rgba(37,99,235,.14); border: 1px solid rgba(37,99,235,.28); padding: 22px 28px; margin-top: 14px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; }
+.nexo-bundle-info { flex: 1; }
+.nexo-bundle-name { font-family: Georgia,'Times New Roman',serif; font-size: 18px; font-weight: 700; color: var(--blanco); margin-bottom: 3px; }
+.nexo-bundle-desc { font-size: 12px; color: rgba(255,255,255,.55); }
+.nexo-bundle-price { font-size: 22px; font-weight: 700; color: var(--cobalto-s); white-space: nowrap; }
+.nexo-bundle-cta { padding: 10px 22px; background: var(--cobalto); color: var(--blanco); font-size: 13px; font-weight: 600; cursor: pointer; border: none; transition: background .2s; white-space: nowrap; }
+.nexo-bundle-cta:hover { background: #1d4ed8; }
+
+/* ── Casos ── */
+#casos { background: var(--arena); }
+.casos-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; margin-top: 36px; }
+.caso-card { background: var(--blanco); border: 0.5px solid rgba(13,31,64,.08); padding: 24px 22px; display: flex; flex-direction: column; gap: 0; transition: transform .2s, box-shadow .2s; }
+.caso-card:hover { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(13,31,64,.09); }
+.caso-card-top { display: flex; align-items: center; gap: 13px; margin-bottom: 14px; }
+.caso-mono { width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; color: var(--blanco); flex-shrink: 0; letter-spacing: .5px; }
+.caso-meta { flex: 1; }
+.caso-client { font-size: 9px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--cobalto); margin-bottom: 3px; }
+.caso-name { font-family: Georgia,'Times New Roman',serif; font-size: 15px; font-weight: 700; color: var(--marina); line-height: 1.3; }
+.caso-desc { font-size: 12.5px; line-height: 1.65; color: #555; margin-bottom: 14px; flex: 1; }
+.caso-tags { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 14px; }
+.caso-tag-pill { font-size: 10px; font-weight: 600; padding: 3px 8px; background: var(--arena); color: var(--marina); letter-spacing: .3px; }
+.caso-result { font-size: 11px; font-weight: 700; color: var(--marina); letter-spacing: .3px; margin-bottom: 14px; padding: 8px 11px; background: rgba(37,99,235,.06); border-left: 2px solid var(--cobalto); }
+.caso-link { display: inline-flex; align-items: center; gap: 6px; font-size: 11.5px; font-weight: 600; color: var(--cobalto); letter-spacing: .3px; transition: gap .2s; text-decoration: none; }
+.caso-link:hover { gap: 10px; }
+.caso-link.inactive { color: #aaa; cursor: default; pointer-events: none; }
+
+/* ── Blog ── */
+#blog { background: var(--blanco); }
+.blog-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; margin-top: 36px; }
+.blog-card { background: var(--blanco); border: 0.5px solid rgba(13,31,64,.08); padding: 24px 22px; display: flex; flex-direction: column; transition: transform .2s, box-shadow .2s; }
+.blog-card:hover { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(13,31,64,.09); }
+.blog-card-top { display: flex; align-items: center; gap: 13px; margin-bottom: 14px; }
+.blog-icon { width: 44px; height: 44px; border-radius: 50%; background: rgba(37,99,235,.08); display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+.blog-card-top-meta { flex: 1; }
+.blog-cat { font-size: 9px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--cobalto); margin-bottom: 3px; }
+.blog-meta { font-size: 10px; color: #aaa; letter-spacing: .3px; }
+.blog-title { font-family: Georgia,'Times New Roman',serif; font-size: 15px; font-weight: 700; color: var(--marina); line-height: 1.4; margin-bottom: 10px; flex: 1; }
+.blog-excerpt { font-size: 12px; line-height: 1.7; color: #666; margin-bottom: 14px; flex: 1; }
+.blog-read { font-size: 11px; font-weight: 600; color: var(--cobalto); letter-spacing: .3px; display: flex; align-items: center; gap: 5px; transition: gap .2s; }
+.blog-card:hover .blog-read { gap: 9px; }
+.blog-cta-row { text-align: center; margin-top: 40px; }
+
 /* ── WhatsApp FAB ── */
 .wa-fab {
   position: fixed; bottom: 28px; right: 28px; z-index: 200;
@@ -362,6 +424,12 @@ footer { background: #070f1e; padding: 36px 80px; display: flex; justify-content
   .cat-accordion.open .cat-body { grid-template-columns: 1fr; }
   footer { flex-direction: column; gap: 20px; text-align: center; padding: 32px 24px; }
   .cta-h2 { font-size: 28px; }
+  .nexo-grid { grid-template-columns: 1fr; }
+  .nexo-bundle { flex-direction: column; align-items: flex-start; }
+  .casos-grid { grid-template-columns: 1fr; }
+  .blog-grid { grid-template-columns: 1fr; }
+  .nav-links a { font-size: 12px; }
+  .nav-links { gap: 20px; }
 }
 </style>
 </head>
@@ -403,9 +471,10 @@ footer { background: #070f1e; padding: 36px 80px; display: flex; justify-content
   </a>
   <nav class="nav-links">
     <a href="#servicios">Servicios</a>
+    <a href="#nexo">Nexo IA</a>
     <a href="#paquetes">Paquetes</a>
-    <a href="#builder">Arma tu plan</a>
-    <a href="#proceso">Proceso</a>
+    <a href="#casos">Casos</a>
+    <a href="#blog">Blog</a>
     <a href="#cta-final" class="nav-cta">Consultoría gratis</a>
   </nav>
   <div class="hamburger" onclick="toggleMenu()">
@@ -414,10 +483,12 @@ footer { background: #070f1e; padding: 36px 80px; display: flex; justify-content
 </header>
 
 <div class="mobile-menu" id="mobileMenu">
-  <a href="#servicios"  onclick="toggleMenu()">Servicios</a>
+  <a href="#servicios" onclick="toggleMenu()">Servicios</a>
+  <a href="#nexo"      onclick="toggleMenu()">Nexo IA</a>
   <a href="#paquetes"  onclick="toggleMenu()">Paquetes</a>
+  <a href="#casos"     onclick="toggleMenu()">Casos de éxito</a>
+  <a href="#blog"      onclick="toggleMenu()">Blog</a>
   <a href="#builder"   onclick="toggleMenu()">Arma tu plan</a>
-  <a href="#proceso"   onclick="toggleMenu()">Proceso</a>
   <a href="#cta-final" onclick="toggleMenu()">Consultoría gratis</a>
 </div>
 
@@ -551,6 +622,69 @@ footer { background: #070f1e; padding: 36px 80px; display: flex; justify-content
       </div>
     </div>
 
+  </div>
+</section>
+
+<!-- ── Nexo ── -->
+<section id="nexo">
+  <div class="reveal">
+    <span class="section-label" style="color:var(--cobalto-s)">Nexo · AI Agents for Business</span>
+    <h2 class="section-h2" style="color:var(--blanco)">Pon la IA a trabajar dentro de tu negocio.</h2>
+    <p class="section-sub" style="color:rgba(255,255,255,.55)">Nexo es el sistema de agentes de IA de VYNTRA. Responde clientes, califica leads, confirma citas y opera procesos repetitivos — sin personal adicional, sin tiempos de espera, 24/7.</p>
+  </div>
+
+  <div class="nexo-grid">
+
+    <div class="nexo-card reveal" style="transition-delay:.1s">
+      <span class="nexo-tag">Nexo 01 · Customer Service</span>
+      <div class="nexo-name">Nexo Atención al Cliente</div>
+      <div class="nexo-price">Desde $3,500/mes · Setup $8,000</div>
+      <div class="nexo-desc">Responde preguntas frecuentes, agenda citas y califica leads por WhatsApp en tiempo real. Sin esperas, sin personal adicional, sin interrupciones.</div>
+      <ul class="nexo-feats">
+        <li>Atención 24/7 en WhatsApp</li>
+        <li>Respuesta en menos de 30 segundos</li>
+        <li>Calificación automática de leads</li>
+        <li>Transferencia a humano cuando es necesario</li>
+        <li>Reportes semanales de conversaciones</li>
+      </ul>
+    </div>
+
+    <div class="nexo-card featured reveal" style="transition-delay:.2s">
+      <span class="nexo-tag">★ Nexo 02 · Sales Agent</span>
+      <div class="nexo-name">Nexo Ventas</div>
+      <div class="nexo-price">Desde $4,500/mes · Setup $10,000</div>
+      <div class="nexo-desc">Sigue el pipeline, hace seguimiento automático a prospectos y entrega leads listos para cerrar — con el contexto completo de cada conversación.</div>
+      <ul class="nexo-feats">
+        <li>Seguimiento automático de prospectos</li>
+        <li>Calificación BANT por conversación</li>
+        <li>Integración con tu CRM existente</li>
+        <li>Reporte semanal de pipeline</li>
+        <li>Alerta cuando un lead está listo para cerrar</li>
+      </ul>
+    </div>
+
+    <div class="nexo-card reveal" style="transition-delay:.3s">
+      <span class="nexo-tag">Nexo 03 · Operations</span>
+      <div class="nexo-name">Nexo Operativo</div>
+      <div class="nexo-price">Desde $2,500/mes · Setup $6,000</div>
+      <div class="nexo-desc">Confirma citas, envía recordatorios y gestiona reagendamiento automático — reduciendo no-shows y liberando tiempo de tu equipo para lo que importa.</div>
+      <ul class="nexo-feats">
+        <li>Confirmación automática de citas</li>
+        <li>Recordatorios 24h y 1h antes</li>
+        <li>Reagendamiento sin intervención humana</li>
+        <li>Integración con tu sistema de agenda</li>
+      </ul>
+    </div>
+
+  </div>
+
+  <div class="nexo-bundle reveal">
+    <div class="nexo-bundle-info">
+      <div class="nexo-bundle-name">Bundle Nexo 360</div>
+      <div class="nexo-bundle-desc">Los 3 agentes trabajando juntos: Atención + Ventas + Operativo — ecosistema completo de IA para tu negocio.</div>
+    </div>
+    <div class="nexo-bundle-price">Desde $9,500/mes</div>
+    <button class="nexo-bundle-cta" onclick="cotizar('Nexo 360')">Solicitar por WhatsApp</button>
   </div>
 </section>
 
@@ -699,6 +833,74 @@ footer { background: #070f1e; padding: 36px 80px; display: flex; justify-content
   </div>
 </section>
 
+<!-- ── Casos de éxito ── -->
+<section id="casos">
+  <div class="reveal">
+    <span class="section-label">Casos de éxito · Case Studies</span>
+    <h2 class="section-h2">Resultados reales para negocios reales.</h2>
+    <p class="section-sub">Cada proyecto entregado con código limpio, diseño a medida y presencia digital que el cliente puede ver y compartir desde el primer día.</p>
+  </div>
+
+  <div class="casos-grid">
+
+    <!-- Renov'Arch -->
+    <div class="caso-card reveal" style="transition-delay:.1s">
+      <div class="caso-card-top">
+        <div class="caso-mono" style="background:#2563EB">RA</div>
+        <div class="caso-meta">
+          <div class="caso-client">Arquitectura · Chihuahua</div>
+          <div class="caso-name">Renov' Arch</div>
+        </div>
+      </div>
+      <div class="caso-desc">Página web premium con 20+ fotos de proyectos reales, galería lightbox, blueprint SVG interactivo y animaciones GSAP/ScrollTrigger. Sitio que refleja la calidad del trabajo y posiciona al estudio ante clientes de alto perfil.</div>
+      <div class="caso-tags">
+        <span class="caso-tag-pill">Página web completa</span>
+        <span class="caso-tag-pill">GSAP / ScrollTrigger</span>
+        <span class="caso-tag-pill">Galería lightbox</span>
+      </div>
+      <a class="caso-link" href="https://vyntra-agency.github.io/renovarch" target="_blank">Ver sitio en vivo →</a>
+    </div>
+
+    <!-- YK Rental -->
+    <div class="caso-card reveal" style="transition-delay:.2s">
+      <div class="caso-card-top">
+        <div class="caso-mono" style="background:#CC0000">YK</div>
+        <div class="caso-meta">
+          <div class="caso-client">Renta de equipo · Chihuahua</div>
+          <div class="caso-name">YK Rental</div>
+        </div>
+      </div>
+      <div class="caso-desc">Catálogo digital dark theme con paleta de marca, 8 equipos con fotos reales del inventario y CTA directo a WhatsApp por equipo. SEO local para Chihuahua.</div>
+      <div class="caso-tags">
+        <span class="caso-tag-pill">Dark theme</span>
+        <span class="caso-tag-pill">Catálogo digital</span>
+        <span class="caso-tag-pill">SEO local</span>
+      </div>
+      <span class="caso-link inactive">En producción</span>
+    </div>
+
+    <!-- GAPS Internacional -->
+    <div class="caso-card reveal" style="transition-delay:.3s">
+      <div class="caso-card-top">
+        <div class="caso-mono" style="background:#0EA5E9">GI</div>
+        <div class="caso-meta">
+          <div class="caso-client">Educación Internacional · Chihuahua</div>
+          <div class="caso-name">GAPS Internacional</div>
+        </div>
+      </div>
+      <div class="caso-desc">Campaña de Messenger Ads orientada a captar estudiantes interesados en programas al extranjero. Leads calificados con bajo costo por resultado.</div>
+      <div class="caso-result">26 leads calificados · Messenger Ads · jul–ago 2026</div>
+      <div class="caso-tags">
+        <span class="caso-tag-pill">Messenger Ads</span>
+        <span class="caso-tag-pill">Lead generation</span>
+        <span class="caso-tag-pill">Meta Ads</span>
+      </div>
+      <span class="caso-link inactive">Campaña activa</span>
+    </div>
+
+  </div>
+</section>
+
 <!-- ── Add-on Builder ── -->
 <section id="builder">
   <div class="reveal">
@@ -730,6 +932,62 @@ footer { background: #070f1e; padding: 36px 80px; display: flex; justify-content
         <button class="cart-reset" onclick="resetCart()">Limpiar selección</button>
       </div>
     </div>
+  </div>
+</section>
+
+<!-- ── Blog ── -->
+<section id="blog">
+  <div class="reveal">
+    <span class="section-label">Blog · Recursos</span>
+    <h2 class="section-h2">Inteligencia que puedes aplicar hoy.</h2>
+    <p class="section-sub">Análisis prácticos sobre publicidad digital, IA aplicada a negocios y estrategias de crecimiento para empresas en el norte de México.</p>
+  </div>
+
+  <div class="blog-grid">
+
+    <div class="blog-card reveal" style="transition-delay:.1s">
+      <div class="blog-card-top">
+        <div class="blog-icon">📊</div>
+        <div class="blog-card-top-meta">
+          <div class="blog-cat">Meta Ads</div>
+          <div class="blog-meta">Ago 2026 · 6 min lectura</div>
+        </div>
+      </div>
+      <div class="blog-title">Cómo reducir tu costo por lead en Meta Ads sin aumentar el presupuesto</div>
+      <div class="blog-excerpt">La mayoría de los negocios asume que gastar más es la solución. La IA demuestra que el problema casi siempre está en la audiencia, no en el presupuesto.</div>
+      <span class="blog-read">Próximamente →</span>
+    </div>
+
+    <div class="blog-card reveal" style="transition-delay:.2s">
+      <div class="blog-card-top">
+        <div class="blog-icon">📈</div>
+        <div class="blog-card-top-meta">
+          <div class="blog-cat">Estrategia</div>
+          <div class="blog-meta">Ago 2026 · 4 min lectura</div>
+        </div>
+      </div>
+      <div class="blog-title">Por qué el 80% de los presupuestos publicitarios se desperdicia (y cómo evitarlo)</div>
+      <div class="blog-excerpt">Sin datos ni estructura, la mayoría del ad spend se pierde en audiencias frías o creativos sin propósito. Esto es lo que hace la diferencia.</div>
+      <span class="blog-read">Próximamente →</span>
+    </div>
+
+    <div class="blog-card reveal" style="transition-delay:.3s">
+      <div class="blog-card-top">
+        <div class="blog-icon">🤖</div>
+        <div class="blog-card-top-meta">
+          <div class="blog-cat">IA para negocios</div>
+          <div class="blog-meta">Ago 2026 · 5 min lectura</div>
+        </div>
+      </div>
+      <div class="blog-title">Agentes de IA vs. empleado de WhatsApp: el análisis que nadie hace</div>
+      <div class="blog-excerpt">No se trata de reemplazar personas. Se trata de que las personas hagan el trabajo que realmente importa, mientras la IA maneja el volumen.</div>
+      <span class="blog-read">Próximamente →</span>
+    </div>
+
+  </div>
+
+  <div class="blog-cta-row reveal">
+    <a href="https://wa.me/526142726674?text=Hola%20VYNTRA%2C%20me%20interesa%20recibir%20el%20blog%20cuando%20est%C3%A9%20disponible" target="_blank" class="btn btn-primary">Avísame cuando publiquen</a>
   </div>
 </section>
 
