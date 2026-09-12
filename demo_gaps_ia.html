@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Demo IA — GAPS Internacional</title>
+<style>
+  :root{
+    --marina:#0D1F40; --cobalto:#2563EB; --cobalto-suave:#6BA8F5;
+    --arena:#F1EFE8; --negro:#111111; --blanco:#FFFFFF;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{
+    font-family:'Inter',Helvetica,Arial,sans-serif; background:var(--arena); color:var(--negro);
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3{font-family:Georgia,'Times New Roman',serif;}
+
+  /* HEADER */
+  header{
+    background:var(--marina); color:var(--blanco); padding:48px 20px 40px; text-align:center;
+  }
+  header .tag{
+    display:inline-block; background:var(--cobalto); color:#fff; font-size:12px; font-weight:700;
+    letter-spacing:.08em; text-transform:uppercase; padding:6px 14px; border-radius:20px; margin-bottom:18px;
+  }
+  header h1{font-size:28px; line-height:1.3; margin-bottom:10px;}
+  header p{color:var(--cobalto-suave); font-size:15px; max-width:520px; margin:0 auto;}
+
+  section{max-width:760px; margin:0 auto; padding:44px 20px;}
+  section.divider-top{border-top:1px solid rgba(37,99,235,.15);}
+  section h2{font-size:22px; margin-bottom:8px; color:var(--marina);}
+  section .lead{color:#444; font-size:15px; margin-bottom:28px; max-width:560px;}
+
+  /* AVISO LEGAL */
+  .aviso{
+    background:var(--marina); color:var(--cobalto-suave); font-size:13px; line-height:1.6;
+    padding:18px 20px; text-align:center;
+  }
+  .aviso b{color:#fff;}
+
+  /* TABS PLATAFORMA */
+  .tabs{display:flex; gap:8px; margin-bottom:24px; flex-wrap:wrap;}
+  .tab-btn{
+    background:#fff; border:1px solid rgba(37,99,235,.25); color:var(--marina); font-size:13px; font-weight:600;
+    padding:9px 16px; border-radius:20px; cursor:pointer; transition:.15s;
+  }
+  .tab-btn.active{background:var(--cobalto); color:#fff; border-color:var(--cobalto);}
+
+  /* PHONE MOCKUP */
+  .phone{
+    max-width:340px; margin:0 auto; background:#000; border-radius:34px; padding:10px;
+    box-shadow:0 20px 50px rgba(13,31,64,.25);
+  }
+  .phone-screen{
+    background:#fff; border-radius:24px; overflow:hidden; min-height:460px; display:flex; flex-direction:column;
+  }
+  .app-bar{
+    display:flex; align-items:center; gap:10px; padding:14px 16px; font-weight:700; font-size:14px;
+    color:#fff;
+  }
+  .app-bar.messenger{background:linear-gradient(135deg,#00B2FF,#006AFF);}
+  .app-bar.instagram{background:linear-gradient(135deg,#f58529,#dd2a7b,#8134af,#515bd4);}
+  .app-bar.comment{background:var(--marina);}
+  .app-bar .avatar{width:30px; height:30px; border-radius:50%; background:rgba(255,255,255,.3); display:flex; align-items:center; justify-content:center; font-size:13px;}
+  .app-bar .sub{font-weight:400; font-size:11px; opacity:.85; display:block;}
+
+  .chat-body{flex:1; padding:14px; display:flex; flex-direction:column; gap:8px; background:#f6f7f9; overflow-y:auto;}
+  .bubble{max-width:78%; padding:9px 13px; border-radius:16px; font-size:13.5px; line-height:1.4; opacity:0; transform:translateY(8px); animation:pop .35s forwards;}
+  @keyframes pop{to{opacity:1; transform:translateY(0);}}
+  .bubble.them{background:#e9e9eb; align-self:flex-start; border-bottom-left-radius:4px;}
+  .bubble.me{background:var(--cobalto); color:#fff; align-self:flex-end; border-bottom-right-radius:4px;}
+  .bubble .tag-demo{display:block; margin-top:4px; font-size:10.5px; opacity:.75; font-style:italic;}
+  .typing{align-self:flex-start; background:#e9e9eb; padding:9px 13px; border-radius:16px; display:flex; gap:3px; opacity:0; animation:pop .3s forwards;}
+  .typing span{width:6px; height:6px; background:#999; border-radius:50%; animation:blink 1.2s infinite;}
+  .typing span:nth-child(2){animation-delay:.2s;} .typing span:nth-child(3){animation-delay:.4s;}
+  @keyframes blink{0%,60%,100%{opacity:.3;} 30%{opacity:1;}}
+
+  /* COMMENT MOCKUP */
+  .post-card{background:#fff;}
+  .post-media{height:150px; background:linear-gradient(135deg,var(--marina),var(--cobalto)); display:flex; align-items:center; justify-content:center; color:#fff; font-size:13px; font-weight:600; text-align:center; padding:12px;}
+  .comment{display:flex; gap:8px; padding:10px 14px; font-size:13px;}
+  .comment .av{width:26px; height:26px; border-radius:50%; background:#ccc; flex-shrink:0;}
+  .comment .av.brand{background:var(--cobalto); color:#fff; display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:700;}
+  .comment .name{font-weight:700; margin-right:4px;}
+
+  .replay-btn{
+    display:block; margin:16px auto 0; background:none; border:1px solid var(--cobalto); color:var(--cobalto);
+    font-size:12px; font-weight:600; padding:7px 16px; border-radius:20px; cursor:pointer;
+  }
+
+  /* FAQ CONFIANZA */
+  .faq{background:#fff; border:1px solid rgba(37,99,235,.15); border-radius:12px; padding:16px 18px; margin-bottom:12px;}
+  .faq .q{font-weight:700; color:var(--marina); font-size:14.5px; margin-bottom:6px;}
+  .faq .a{font-size:14px; color:#333; line-height:1.5;}
+
+  /* CHAT INTERACTIVO */
+  .live-wrap{background:var(--marina); border-radius:20px; padding:22px; }
+  .live-wrap h2, .live-wrap .lead{color:#fff;}
+  .live-wrap .lead{color:var(--cobalto-suave);}
+  .live-phone{background:#fff; border-radius:16px; overflow:hidden; display:flex; flex-direction:column; height:440px;}
+  .live-body{flex:1; padding:14px; overflow-y:auto; display:flex; flex-direction:column; gap:8px; background:#f6f7f9;}
+  .chips{display:flex; gap:6px; flex-wrap:wrap; padding:10px 12px; background:#fff; border-top:1px solid #eee;}
+  .chip{background:var(--arena); border:1px solid rgba(37,99,235,.2); color:var(--marina); font-size:11.5px; padding:6px 10px; border-radius:16px; cursor:pointer;}
+  .input-row{display:flex; gap:8px; padding:10px 12px; border-top:1px solid #eee; background:#fff;}
+  .input-row input{flex:1; border:1px solid #ddd; border-radius:20px; padding:10px 14px; font-size:13.5px; outline:none;}
+  .input-row button{background:var(--cobalto); color:#fff; border:none; border-radius:20px; padding:0 18px; font-weight:700; cursor:pointer; font-size:13px;}
+  .input-row button:disabled{opacity:.5; cursor:not-allowed;}
+  .limit-note{color:var(--cobalto-suave); font-size:11.5px; text-align:center; margin-top:10px;}
+
+  /* CIERRE */
+  .cierre{background:var(--marina); color:#fff; text-align:center; padding:50px 20px;}
+  .cierre h2{color:#fff; font-size:24px; margin-bottom:12px;}
+  .cierre p{color:var(--cobalto-suave); max-width:480px; margin:0 auto 24px; font-size:15px;}
+  .cierre a{
+    display:inline-block; background:var(--cobalto); color:#fff; text-decoration:none; font-weight:700;
+    padding:14px 30px; border-radius:30px; font-size:14px;
+  }
+
+  footer{text-align:center; padding:24px 20px; font-size:12px; color:#777;}
+
+  @media (max-width:480px){
+    header h1{font-size:22px;}
+    section{padding:32px 16px;}
+    .phone{max-width:100%;}
+    .live-phone{height:400px;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <span class="tag">Demo comercial · VYNTRA Intelligent Systems</span>
+  <h1>Así respondería una IA a tus candidatos<br>en Facebook, Instagram y comentarios</h1>
+  <p>Hecho para GAPS Internacional — para que veas cómo Mariana, tu asistente de reclutamiento con IA, atiende candidatos las 24 horas sin que se enfríen.</p>
+</header>
+
+<div class="aviso">
+  <b>Aviso:</b> esto es material de evaluación comercial de VYNTRA. El código, diseño y concepto son propiedad de VYNTRA hasta que exista un contrato firmado. Compartir este link no cede ningún derecho de uso.
+</div>
+
+<section>
+  <h2>Mira a Mariana en acción</h2>
+  <p class="lead">Estos son ejemplos reales de cómo respondería en cada plataforma. Dale play a cada uno.</p>
+  <div class="tabs">
+    <button class="tab-btn active" data-scene="messenger">Messenger</button>
+    <button class="tab-btn" data-scene="instagram">Instagram DM</button>
+    <button class="tab-btn" data-scene="comment">Comentario público</button>
+  </div>
+
+  <!-- MESSENGER -->
+  <div class="scene" id="scene-messenger">
+    <div class="phone">
+      <div class="phone-screen">
+        <div class="app-bar messenger">
+          <div class="avatar">👤</div>
+          <div>GAPS Internacional<span class="sub">Activo ahora</span></div>
+        </div>
+        <div class="chat-body" id="chat-messenger"></div>
+      </div>
+    </div>
+    <button class="replay-btn" data-replay="messenger">▶ Repetir</button>
+  </div>
+
+  <!-- INSTAGRAM -->
+  <div class="scene" id="scene-instagram" style="display:none;">
+    <div class="phone">
+      <div class="phone-screen">
+        <div class="app-bar instagram">
+          <div class="avatar">👤</div>
+          <div>gaps.internacional<span class="sub">Activo ahora</span></div>
+        </div>
+        <div class="chat-body" id="chat-instagram"></div>
+      </div>
+    </div>
+    <button class="replay-btn" data-replay="instagram">▶ Repetir</button>
+  </div>
+
+  <!-- COMENTARIO -->
+  <div class="scene" id="scene-comment" style="display:none;">
+    <div class="phone">
+      <div class="phone-screen">
+        <div class="app-bar comment">
+          <div class="avatar">👤</div>
+          <div>GAPS Internacional<span class="sub">Publicación · Vacante Oficial de Seguridad</span></div>
+        </div>
+        <div class="post-card">
+          <div class="post-media">📢 Vacante: Oficial de Seguridad<br>$12,000 MXN/mes + transporte</div>
+          <div class="chat-body" id="chat-comment" style="min-height:280px;"></div>
+        </div>
+      </div>
+    </div>
+    <button class="replay-btn" data-replay="comment">▶ Repetir</button>
+  </div>
+</section>
+
+<section class="divider-top">
+  <h2>¿Qué es esto exactamente?</h2>
+  <p class="lead">Sabemos que esta tecnología es nueva — aquí las dudas más comunes, respondidas sin rodeos.</p>
+
+  <div class="faq"><div class="q">¿Reemplaza a alguien de mi equipo?</div><div class="a">No. Mariana solo filtra y agenda el primer contacto. La entrevista y la decisión de contratar siempre las hace tu gente.</div></div>
+  <div class="faq"><div class="q">¿Qué pasa si responde algo incorrecto?</div><div class="a">Se corrige al instante y no vuelve a fallar en eso — tú tienes control total sobre lo que sabe y dice.</div></div>
+  <div class="faq"><div class="q">¿Ya está conectada a mi página de verdad?</div><div class="a">No todavía. Esto es una demostración. Se conecta a tu Messenger, Instagram y comentarios reales cuando ustedes decidan avanzar.</div></div>
+  <div class="faq"><div class="q">¿Es seguro confiar información real de la vacante?</div><div class="a">Sí — los datos importantes (sueldo, zona, proceso) siempre son los reales que tú definas. Nunca los inventa.</div></div>
+</section>
+
+<section class="divider-top">
+  <div class="live-wrap">
+    <h2>Pruébala tú mismo</h2>
+    <p class="lead">Escríbele a Mariana como si fueras un candidato. Es una demo real de IA — tiene un límite de mensajes.</p>
+    <div class="live-phone">
+      <div class="live-body" id="live-body"></div>
+      <div class="chips">
+        <div class="chip" data-msg="¿cuánto pagan?">¿Cuánto pagan?</div>
+        <div class="chip" data-msg="¿dónde es la vacante?">¿Dónde es?</div>
+        <div class="chip" data-msg="¿son turnos de 12 horas?">¿Turnos?</div>
+        <div class="chip" data-msg="¿eres un robot?">¿Eres un robot?</div>
+      </div>
+      <div class="input-row">
+        <input type="text" id="live-input" placeholder="Escribe tu pregunta..." maxlength="200">
+        <button id="live-send">Enviar</button>
+      </div>
+    </div>
+    <p class="limit-note" id="limit-note">Puedes enviar hasta 8 mensajes en esta demo.</p>
+  </div>
+</section>
+
+<section class="cierre" style="border-radius:0; max-width:100%;">
+  <h2>Esto es lo que dejaría de enfriarse en tu reclutamiento</h2>
+  <p>Respuesta inmediata a cada candidato, en Facebook, Instagram y comentarios — 24 horas al día, sin que se te escapen leads por tardar en contestar.</p>
+  <a href="https://wa.me/526142726674" target="_blank">Hablemos de tu proyecto →</a>
+</section>
+
+<footer>VYNTRA Intelligent Systems — Tu inversión, guiada por inteligencia real.</footer>
+
+<script>
+const API_URL = localStorage.getItem('vyntra_demo_gaps_url') || 'https://army-omission-drearily.ngrok-free.dev';
+
+// ---------- ESCENAS ANIMADAS ----------
+const scenes = {
+  messenger: [
+    { who:'them', text:'Hola, vi el anuncio de la vacante de seguridad, ¿cuánto pagan?' },
+    { who:'me', text:'¡Hola! 😊 El puesto de Oficial de Seguridad paga $12,000 al mes + transporte. Tenemos vacantes en Ciénega de Flores y General Escobedo. ¿En cuál zona vives?' },
+    { who:'them', text:'Vivo por Escobedo' },
+    { who:'me', text:'Perfecto, esa zona sí tiene vacante 👍 Para agendarte una entrevista solo necesito tu nombre completo y tu edad.' },
+  ],
+  instagram: [
+    { who:'them', text:'oigan es real la vacante que pusieron en el post?' },
+    { who:'me', text:'Sí, es real 😊 Buscamos Oficial de Seguridad, $12,000/mes + transporte, zona Ciénega de Flores o Escobedo. ¿Te gustaría que te agende una entrevista?' },
+    { who:'them', text:'dan uniforme?' },
+    { who:'me', text:'Sí, la empresa da uniforme completo desde el primer día.<br><span class="tag-demo">🔸 (dato de ejemplo para esta demo, no es información real de GAPS)</span>' },
+  ],
+  comment: [
+    { who:'them', text:'¿en qué parte de Escobedo es?' },
+    { who:'me', text:'¡Hola! Te mando inbox con todos los detalles para no llenar los comentarios 📩' },
+    { who:'them', text:'va, gracias' },
+  ]
+};
+
+function playScene(key){
+  const el = document.getElementById('chat-' + key);
+  el.innerHTML = '';
+  const msgs = scenes[key];
+  let i = 0;
+  function step(){
+    if (i >= msgs.length) return;
+    const typing = document.createElement('div');
+    typing.className = 'typing';
+    typing.innerHTML = '<span></span><span></span><span></span>';
+    el.appendChild(typing);
+    el.scrollTop = el.scrollHeight;
+    setTimeout(() => {
+      typing.remove();
+      const b = document.createElement('div');
+      b.className = 'bubble ' + (msgs[i].who === 'me' ? 'me' : 'them');
+      b.innerHTML = msgs[i].text;
+      el.appendChild(b);
+      el.scrollTop = el.scrollHeight;
+      i++;
+      setTimeout(step, 900);
+    }, msgs[i].who === 'me' ? 1100 : 500);
+  }
+  step();
+}
+
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('.scene').forEach(s => s.style.display = 'none');
+    const key = btn.dataset.scene;
+    document.getElementById('scene-' + key).style.display = 'block';
+    playScene(key);
+  });
+});
+document.querySelectorAll('[data-replay]').forEach(btn => {
+  btn.addEventListener('click', () => playScene(btn.dataset.replay));
+});
+playScene('messenger');
+
+// ---------- CHAT INTERACTIVO REAL ----------
+const liveBody = document.getElementById('live-body');
+const liveInput = document.getElementById('live-input');
+const liveSend = document.getElementById('live-send');
+const limitNote = document.getElementById('limit-note');
+let history = [];
+const MAX_MSGS = 8;
+
+function addBubble(who, text){
+  const b = document.createElement('div');
+  b.className = 'bubble ' + (who === 'me' ? 'me' : 'them');
+  b.textContent = text;
+  liveBody.appendChild(b);
+  liveBody.scrollTop = liveBody.scrollHeight;
+}
+
+async function sendLive(text){
+  if (!text.trim() || history.length >= MAX_MSGS * 2) return;
+  addBubble('them', text);
+  history.push({ role:'user', content:text });
+  liveInput.value = '';
+  liveInput.disabled = true; liveSend.disabled = true;
+
+  const typing = document.createElement('div');
+  typing.className = 'typing';
+  typing.innerHTML = '<span></span><span></span><span></span>';
+  liveBody.appendChild(typing);
+  liveBody.scrollTop = liveBody.scrollHeight;
+
+  try {
+    const r = await fetch(API_URL + '/api/demo-gaps', {
+      method:'POST',
+      headers:{'Content-Type':'application/json', 'ngrok-skip-browser-warning':'1'},
+      body: JSON.stringify({ messages: history })
+    });
+    const d = await r.json();
+    typing.remove();
+    if (!r.ok) { addBubble('me', d.error || 'Mariana no está disponible, intenta más tarde.'); }
+    else {
+      addBubble('me', d.respuesta);
+      history.push({ role:'assistant', content:d.respuesta });
+    }
+  } catch(e){
+    typing.remove();
+    addBubble('me', 'No pude conectar con Mariana en este momento — intenta de nuevo en un rato.');
+  }
+
+  const restantes = MAX_MSGS - history.filter(m=>m.role==='user').length;
+  if (restantes <= 0){
+    liveInput.disabled = true; liveSend.disabled = true;
+    document.querySelectorAll('.chip').forEach(c => c.style.pointerEvents='none');
+    limitNote.textContent = 'Llegaste al límite de esta demo — hablemos de la versión completa 👇';
+  } else {
+    liveInput.disabled = false; liveSend.disabled = false;
+    limitNote.textContent = `Te quedan ${restantes} mensaje(s) en esta demo.`;
+    liveInput.focus();
+  }
+}
+
+liveSend.addEventListener('click', () => sendLive(liveInput.value));
+liveInput.addEventListener('keydown', e => { if (e.key === 'Enter') sendLive(liveInput.value); });
+document.querySelectorAll('.chip').forEach(c => c.addEventListener('click', () => sendLive(c.dataset.msg)));
+
+addBubble('me', '¡Hola! Soy Mariana 😊 Pregúntame lo que quieras sobre la vacante de Oficial de Seguridad.');
+</script>
+
+</body>
+</html>
