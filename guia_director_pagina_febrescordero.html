@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Compartir la página de Facebook — Guía para el Director</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap');
+  :root {
+    --azul: #1B4593;
+    --azul-claro: #EEF3FF;
+    --amarillo: #F5B800;
+    --verde: #16A34A;
+    --gris: #6B7280;
+    --fondo: #F9FAFB;
+    --blanco: #FFFFFF;
+    --negro: #111827;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:'Inter',sans-serif; background:var(--fondo); color:var(--negro); line-height:1.6; padding-bottom:60px; }
+
+  .top-bar { background:var(--azul); padding:16px 20px; display:flex; align-items:center; justify-content:space-between; }
+  .top-bar .logo-text { font-size:13px; color:rgba(255,255,255,0.7); }
+  .top-bar .plantel { font-size:13px; color:#fff; font-weight:700; }
+
+  .hero { background:var(--azul); color:#fff; padding:28px 20px 32px; text-align:center; }
+  .hero h1 { font-size:23px; font-weight:800; line-height:1.3; margin-bottom:8px; }
+  .hero p { font-size:14px; color:rgba(255,255,255,0.8); max-width:340px; margin:0 auto; }
+  .tiempo-badge { display:inline-block; background:var(--amarillo); color:#78350F; font-size:12px; font-weight:700; padding:6px 16px; border-radius:20px; margin-top:14px; }
+
+  .container { max-width:520px; margin:0 auto; padding:20px 16px; }
+
+  .progress-box { background:var(--blanco); border-radius:14px; padding:18px; margin-bottom:20px; box-shadow:0 1px 4px rgba(0,0,0,0.06); }
+  .progress-title { font-size:13px; font-weight:700; color:var(--gris); margin-bottom:10px; text-transform:uppercase; letter-spacing:0.08em; }
+  .progress-row { display:flex; align-items:center; gap:10px; padding:6px 0; font-size:14px; }
+  .progress-icon { width:22px; height:22px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:12px; flex-shrink:0; }
+  .progress-icon.done { background:#DCFCE7; color:#16A34A; }
+  .progress-icon.pend { background:#FEF3C7; color:#D97706; }
+
+  .id-box { background:var(--blanco); border:2px solid var(--azul); border-radius:14px; padding:20px; margin-bottom:24px; text-align:center; }
+  .id-label { font-size:11px; font-weight:700; letter-spacing:0.15em; text-transform:uppercase; color:var(--gris); margin-bottom:6px; }
+  .id-number { font-size:28px; font-weight:800; color:var(--azul); letter-spacing:0.05em; font-family:monospace; }
+  .id-desc { font-size:12px; color:var(--gris); margin-top:6px; }
+  .copy-field { background:#F3F4F6; border-radius:8px; padding:10px 14px; margin-top:8px; display:flex; align-items:center; justify-content:space-between; gap:10px; }
+  .copy-value { font-family:monospace; font-size:16px; font-weight:700; color:var(--azul); }
+  .copy-btn { background:var(--azul); color:#fff; border:none; border-radius:6px; padding:6px 14px; font-size:12px; font-weight:700; cursor:pointer; flex-shrink:0; }
+  .copy-btn:active { background:#1e3a8a; }
+
+  .step-block { background:var(--blanco); border-radius:14px; padding:20px; margin-bottom:16px; box-shadow:0 1px 4px rgba(0,0,0,0.06); }
+  .step-header { display:flex; align-items:center; gap:14px; margin-bottom:14px; }
+  .step-num { width:40px; height:40px; background:var(--azul); color:#fff; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:18px; font-weight:800; flex-shrink:0; }
+  .step-title { font-size:16px; font-weight:700; color:var(--azul); line-height:1.3; }
+  .step-time { font-size:11px; color:var(--gris); margin-top:2px; }
+
+  .instruction { display:flex; gap:12px; align-items:flex-start; padding:10px 0; border-bottom:1px solid #F3F4F6; font-size:14px; }
+  .instruction:last-child { border-bottom:none; padding-bottom:0; }
+  .instruction-num { background:var(--azul-claro); color:var(--azul); font-size:12px; font-weight:700; width:24px; height:24px; border-radius:50%; display:flex; align-items:center; justify-content:center; flex-shrink:0; margin-top:1px; }
+  .instruction-text { flex:1; }
+  .instruction-text strong { color:var(--negro); }
+  .tap { display:inline-block; background:#F3F4F6; border:1px solid #E5E7EB; border-radius:6px; padding:1px 8px; font-size:12px; font-weight:600; color:var(--negro); white-space:nowrap; }
+
+  .note-box { background:var(--azul-claro); border-left:4px solid var(--azul); border-radius:0 8px 8px 0; padding:12px 14px; margin-top:12px; font-size:13px; color:#1e3a8a; }
+
+  .checklist { background:var(--blanco); border-radius:14px; padding:20px; margin-bottom:16px; box-shadow:0 1px 4px rgba(0,0,0,0.06); }
+  .checklist-title { font-size:15px; font-weight:700; color:var(--negro); margin-bottom:14px; }
+  .check-row { display:flex; align-items:flex-start; gap:12px; padding:10px 0; border-bottom:1px solid #F3F4F6; font-size:14px; }
+  .check-row:last-child { border-bottom:none; padding-bottom:0; }
+  .check-icon { width:24px; height:24px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:13px; flex-shrink:0; margin-top:1px; }
+  .check-icon.pend { background:#FEF3C7; color:#D97706; }
+  .check-icon.vyntra { background:#DCFCE7; color:#16A34A; }
+
+  .help-card { background:var(--azul); color:#fff; border-radius:14px; padding:20px; text-align:center; margin-bottom:16px; }
+  .help-card p { font-size:13px; color:rgba(255,255,255,0.8); margin-bottom:12px; }
+  .help-btn { display:block; background:var(--amarillo); color:#78350F; font-weight:700; font-size:15px; padding:14px; border-radius:10px; text-decoration:none; }
+
+  .footer { text-align:center; padding:20px; font-size:12px; color:var(--gris); }
+  .footer strong { color:var(--azul); }
+
+  .toast { position:fixed; bottom:24px; left:50%; transform:translateX(-50%); background:#111; color:#fff; padding:10px 20px; border-radius:30px; font-size:13px; font-weight:600; opacity:0; transition:opacity 0.3s; pointer-events:none; z-index:999; }
+  .toast.show { opacity:1; }
+</style>
+</head>
+<body>
+
+<div class="top-bar">
+  <span class="logo-text">VYNTRA · Guía de configuración</span>
+  <span class="plantel">Bachillerato Febres Cordero</span>
+</div>
+
+<div class="hero">
+  <h1>Un último paso — compartir la página de Facebook</h1>
+  <p>Ya está la cuenta publicitaria conectada. Falta un permiso más para poder activar la campaña.</p>
+  <div class="tiempo-badge">⏱ Tiempo estimado: 5 minutos</div>
+</div>
+
+<div class="container">
+
+  <div class="progress-box">
+    <div class="progress-title">Avance</div>
+    <div class="progress-row"><div class="progress-icon done">✓</div> Business Manager del plantel</div>
+    <div class="progress-row"><div class="progress-icon done">✓</div> Cuenta publicitaria + VYNTRA como socio</div>
+    <div class="progress-row"><div class="progress-icon pend">!</div> <strong>Falta:</strong> compartir la página de Facebook</div>
+  </div>
+
+  <div class="id-box">
+    <div class="id-label">ID de VYNTRA — el mismo de la vez pasada</div>
+    <div class="id-number">1011746758180028</div>
+    <div class="id-desc">Cópielo y téngalo listo para pegar en el Paso 1</div>
+    <div class="copy-field">
+      <span class="copy-value">1011746758180028</span>
+      <button class="copy-btn" onclick="copiar('1011746758180028')">Copiar</button>
+    </div>
+  </div>
+
+  <div class="step-block">
+    <div class="step-header">
+      <div class="step-num">1</div>
+      <div>
+        <div class="step-title">Compartir la página con VYNTRA</div>
+        <div class="step-time">⏱ ~5 minutos</div>
+      </div>
+    </div>
+
+    <div class="instruction">
+      <div class="instruction-num">1</div>
+      <div class="instruction-text">Vaya a <strong>business.facebook.com/settings</strong></div>
+    </div>
+    <div class="instruction">
+      <div class="instruction-num">2</div>
+      <div class="instruction-text">En el menú izquierdo, dentro de <strong>Cuentas</strong>, toque <span class="tap">Páginas</span></div>
+    </div>
+    <div class="instruction">
+      <div class="instruction-num">3</div>
+      <div class="instruction-text">Seleccione la página <strong>"Bachillerato Miguel Febres Cordero"</strong></div>
+    </div>
+    <div class="instruction">
+      <div class="instruction-num">4</div>
+      <div class="instruction-text">Toque <span class="tap">Asignar socio</span> (o <span class="tap">Agregar socio</span>)</div>
+    </div>
+    <div class="instruction">
+      <div class="instruction-num">5</div>
+      <div class="instruction-text">Pegue el ID de VYNTRA en el campo que aparece:</div>
+    </div>
+    <div class="copy-field" style="margin:0 0 8px;">
+      <span class="copy-value">1011746758180028</span>
+      <button class="copy-btn" onclick="copiar('1011746758180028')">Copiar</button>
+    </div>
+    <div class="instruction">
+      <div class="instruction-num">6</div>
+      <div class="instruction-text">Active los permisos de gestión de la página (contenido y anuncios) y toque <span class="tap">Guardar cambios</span> ✅</div>
+    </div>
+
+    <div class="note-box">Con esto VYNTRA puede usar la página para mostrar los anuncios y recibir mensajes — sin tocar nada más de su contenido o publicaciones.</div>
+  </div>
+
+  <div class="checklist">
+    <div class="checklist-title">✅ Checklist — ¿ya terminé?</div>
+    <div class="check-row">
+      <div class="check-icon vyntra">✓</div>
+      <span>Cuenta publicitaria conectada (ya hecho)</span>
+    </div>
+    <div class="check-row">
+      <div class="check-icon pend">1</div>
+      <span>Página de Facebook compartida con VYNTRA (ID 1011746758180028)</span>
+    </div>
+    <div class="check-row">
+      <div class="check-icon pend">2</div>
+      <span>VYNTRA activa la campaña — los primeros anuncios aparecen en 24-48 horas</span>
+    </div>
+  </div>
+
+  <div class="help-card">
+    <p>¿Alguna duda en este paso? Escríbanos y lo guiamos en tiempo real.</p>
+    <a class="help-btn" href="https://wa.me/526142726674?text=Hola%20VYNTRA%2C%20necesito%20ayuda%20compartiendo%20la%20p%C3%A1gina%20de%20Facebook%20del%20plantel">
+      💬 Escribir a VYNTRA · 614 272 6674
+    </a>
+  </div>
+
+</div>
+
+<div class="footer">
+  <strong>VYNTRA Intelligent Systems</strong><br>
+  Tu inversión, guiada por inteligencia real.<br>
+  vyntra.ex@gmail.com · 614 272 6674
+</div>
+
+<div class="toast" id="toast">Copiado ✓</div>
+
+<script>
+function copiar(texto) {
+  navigator.clipboard.writeText(texto).then(() => {
+    const t = document.getElementById('toast');
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 2000);
+  });
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Free Business Diagnosis — VYNTRA</title>
+<style>
+:root {
+  --marina:   #0D1F40;
+  --cobalto:  #2563EB;
+  --cobalto-s:#6BA8F5;
+  --blanco:   #FFFFFF;
+  --radius:   4px;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Inter', Helvetica, sans-serif; color: #111;
+  background: var(--marina);
+  background-image: radial-gradient(rgba(107,168,245,.12) 1px, transparent 1px);
+  background-size: 24px 24px;
+  min-height: 100vh; padding: 40px 20px;
+}
+.wrap { max-width: 560px; margin: 0 auto; }
+.logo { display: flex; align-items: center; gap: 10px; justify-content: center; margin-bottom: 28px; }
+.wordmark { font-family: Georgia,'Times New Roman',serif; font-size: 19px; font-weight: 700; color: var(--blanco); letter-spacing: 1px; }
+.hero { text-align: center; margin-bottom: 28px; }
+.hero h1 { font-size: 26px; color: var(--blanco); font-weight: 700; line-height: 1.25; margin-bottom: 10px; }
+.hero p { font-size: 14px; color: var(--cobalto-s); line-height: 1.5; }
+.card {
+  background: var(--blanco); border-radius: 8px; padding: 32px;
+  box-shadow: 0 0 0 1px rgba(107,168,245,.15), 0 20px 60px rgba(0,0,0,.4);
+}
+.field { margin-bottom: 22px; }
+.field label { display: block; font-size: 13px; font-weight: 600; color: var(--marina); margin-bottom: 6px; }
+.field input, .field select {
+  width: 100%; padding: 11px 14px; border: 1px solid rgba(13,31,64,.15); border-radius: var(--radius);
+  font-size: 14px; font-family: inherit; outline: none; transition: border-color .2s; background: var(--blanco);
+}
+.field input:focus, .field select:focus { border-color: var(--cobalto); }
+.field .hint { font-size: 11.5px; color: #888; margin-top: 4px; }
+.q { margin-bottom: 24px; }
+.q > .qlabel { display: block; font-size: 13.5px; font-weight: 600; color: var(--marina); margin-bottom: 10px; }
+.opt {
+  display: block; border: 1px solid rgba(13,31,64,.15); border-radius: var(--radius);
+  padding: 11px 14px; margin-bottom: 8px; cursor: pointer; font-size: 13.5px; transition: border-color .2s, background .2s;
+}
+.opt:hover { border-color: var(--cobalto-s); }
+.opt input { margin-right: 10px; accent-color: var(--cobalto); }
+.opt input:checked ~ span { color: var(--marina); font-weight: 600; }
+.divider { height: 1px; background: rgba(13,31,64,.1); margin: 26px 0; }
+.submit-btn {
+  width: 100%; padding: 14px; border: none; border-radius: var(--radius);
+  background: var(--cobalto); color: var(--blanco); font-size: 15px; font-weight: 700;
+  cursor: pointer; transition: background .2s;
+}
+.submit-btn:hover { background: #1d4ed8; }
+.submit-btn:disabled { background: #93b4f5; cursor: not-allowed; }
+.foot { text-align: center; margin-top: 20px; font-size: 10.5px; color: rgba(255,255,255,.3); line-height: 1.6; }
+.foot a { color: rgba(255,255,255,.45); text-decoration: underline; }
+@media (max-width: 480px) {
+  body { padding: 24px 14px; }
+  .hero h1 { font-size: 21px; }
+  .card { padding: 22px 18px; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="logo">
+    <svg width="24" height="24" viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg">
+      <line x1="40" y1="40" x2="64" y2="8"  stroke="#6BA8F5" stroke-width="1.6"/>
+      <circle cx="64" cy="8"  r="3.2" fill="#6BA8F5"/>
+      <line x1="40" y1="40" x2="11" y2="13" stroke="#6BA8F5" stroke-width="1.6"/>
+      <circle cx="11" cy="13" r="2.8" fill="#6BA8F5"/>
+      <line x1="40" y1="40" x2="75" y2="47" stroke="#6BA8F5" stroke-width="1.6"/>
+      <circle cx="75" cy="47" r="2.8" fill="#6BA8F5"/>
+      <line x1="40" y1="40" x2="58" y2="73" stroke="#6BA8F5" stroke-width="1.6"/>
+      <circle cx="58" cy="73" r="3.2" fill="#6BA8F5"/>
+      <line x1="40" y1="40" x2="13" y2="70" stroke="#6BA8F5" stroke-width="1.6"/>
+      <circle cx="13" cy="70" r="2.8" fill="#6BA8F5"/>
+      <line x1="40" y1="40" x2="7"  y2="43" stroke="#6BA8F5" stroke-width="1.6"/>
+      <circle cx="7"  cy="43" r="2.8" fill="#6BA8F5"/>
+      <circle cx="40" cy="40" r="5" fill="#FFFFFF"/>
+    </svg>
+    <span class="wordmark">VYNTRA</span>
+  </div>
+  <div class="hero">
+    <h1>How ready is your business to grow?</h1>
+    <p>Answer 6 questions (2 minutes) and get an instant diagnosis — free of charge.</p>
+  </div>
+  <div class="card">
+    <form id="form-diagnostico">
+      <input type="hidden" name="origen" id="origen" value="meta_tx">
+      <input type="hidden" name="lead_uid" id="lead_uid" value="">
+      <div class="field">
+        <label for="nombre">Your name</label>
+        <input type="text" id="nombre" name="nombre" required autocomplete="name">
+      </div>
+      <div class="field">
+        <label for="negocio">Business name</label>
+        <input type="text" id="negocio" name="negocio" required autocomplete="organization">
+      </div>
+      <div class="field">
+        <label for="whatsapp">WhatsApp (optional)</label>
+        <input type="tel" id="whatsapp" name="whatsapp" placeholder="915 000 0000" autocomplete="tel">
+        <div class="hint">Only if you'd like us to contact you directly with your results.</div>
+      </div>
+      <div class="field">
+        <label for="sector">Industry</label>
+        <select id="sector" name="sector" required>
+          <option value="" disabled selected>Select one</option>
+          <option value="restaurante">Restaurant / Food</option>
+          <option value="salud">Health / Clinic</option>
+          <option value="fitness">Gym / Fitness</option>
+          <option value="construccion">Construction / Architecture / Real Estate</option>
+          <option value="retail">Retail / Store</option>
+          <option value="servicios">Professional Services</option>
+          <option value="otro">Other</option>
+        </select>
+      </div>
+      <div class="divider"></div>
+      <div class="q">
+        <span class="qlabel">Are you currently running paid ads (Meta / Google)?</span>
+        <label class="opt"><input type="radio" name="ads" value="si_funciona" required><span>Yes, and I know it's working</span></label>
+        <label class="opt"><input type="radio" name="ads" value="si_no_se"><span>Yes, but I'm not sure if it's working</span></label>
+        <label class="opt"><input type="radio" name="ads" value="pause"><span>I tried it and paused it</span></label>
+        <label class="opt"><input type="radio" name="ads" value="nunca"><span>I've never run paid advertising</span></label>
+      </div>
+      <div class="q">
+        <span class="qlabel">Do you have your own website or landing page?</span>
+        <label class="opt"><input type="radio" name="web" value="actualizada" required><span>Yes, up to date</span></label>
+        <label class="opt"><input type="radio" name="web" value="desactualizada"><span>Yes, but outdated</span></label>
+        <label class="opt"><input type="radio" name="web" value="no_tengo"><span>No, I don't have one</span></label>
+      </div>
+      <div class="field">
+        <label for="sitio_web">Your website link (optional)</label>
+        <input type="text" id="sitio_web" name="sitio_web" placeholder="yourbusiness.com">
+        <div class="hint">Used for a more precise analysis in your results.</div>
+      </div>
+      <div class="q">
+        <span class="qlabel">How do you handle customer messages (WhatsApp / social media) today?</span>
+        <label class="opt"><input type="radio" name="atencion" value="sistema" required><span>I have a dedicated team or system</span></label>
+        <label class="opt"><input type="radio" name="atencion" value="yo_mismo"><span>I respond myself, all day</span></label>
+        <label class="opt"><input type="radio" name="atencion" value="se_me_pasa"><span>Sometimes I miss them</span></label>
+        <label class="opt"><input type="radio" name="atencion" value="no_sistema"><span>I have no system at all</span></label>
+      </div>
+      <div class="q">
+        <span class="qlabel">What's your biggest barrier to growth right now?</span>
+        <label class="opt"><input type="radio" name="freno" value="pocos_leads" required><span>Not enough potential customers reaching me</span></label>
+        <label class="opt"><input type="radio" name="freno" value="no_cierro"><span>They reach me, but I can't close the sale</span></label>
+        <label class="opt"><input type="radio" name="freno" value="sin_tiempo"><span>I don't have time to handle them all</span></label>
+        <label class="opt"><input type="radio" name="freno" value="no_se_si_funciona"><span>I'm not sure if what I'm doing today is working</span></label>
+      </div>
+      <button type="submit" class="submit-btn" id="btn-submit">See my diagnosis</button>
+    </form>
+  </div>
+  <div class="foot">
+    By using this form you agree to our <a href="https://vyntra-portal-clientes.onrender.com/aviso-privacidad" target="_blank">Privacy Notice</a>. We save your progress automatically even if you don't finish.
+    <br>VYNTRA Intelligent Systems — Your investment, guided by real intelligence.
+  </div>
+</div>
+<script>
+const RENDER = 'https://vyntra-portal-clientes.onrender.com';
+
+(function () {
+  var params = new URLSearchParams(window.location.search);
+  document.getElementById('origen').value = params.get('origen') || 'meta_tx';
+
+  var leadUid = localStorage.getItem('vyntra_diag_uid');
+  if (!leadUid) {
+    leadUid = (crypto.randomUUID ? crypto.randomUUID() : (Date.now() + '-' + Math.random().toString(36).slice(2)));
+    localStorage.setItem('vyntra_diag_uid', leadUid);
+  }
+  document.getElementById('lead_uid').value = leadUid;
+
+  fetch(RENDER + '/diagnostico/ping', { method: 'GET', mode: 'no-cors' }).catch(function(){});
+
+  var form = document.getElementById('form-diagnostico');
+  var btn  = document.getElementById('btn-submit');
+  var enviado = false;
+
+  function datosParciales() {
+    var fd = new FormData(form);
+    var nombre = (fd.get('nombre') || '').trim();
+    var negocio = (fd.get('negocio') || '').trim();
+    if (!nombre || !negocio) return null;
+    var p = new URLSearchParams();
+    ['lead_uid','nombre','negocio','whatsapp','sector','sitio_web','origen'].forEach(function(k){ p.set(k, fd.get(k) || ''); });
+    return p;
+  }
+
+  function guardarParcial() {
+    if (enviado) return;
+    var p = datosParciales();
+    if (!p) return;
+    fetch(RENDER + '/diagnostico/parcial', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: p.toString(),
+      keepalive: true
+    }).catch(function(){});
+  }
+
+  ['whatsapp','sector'].forEach(function(name) {
+    var el = form.elements[name];
+    if (el) el.addEventListener(name === 'sector' ? 'change' : 'blur', guardarParcial);
+  });
+
+  document.addEventListener('visibilitychange', function () {
+    if (document.visibilityState === 'hidden' && !enviado) {
+      var p = datosParciales();
+      if (p) navigator.sendBeacon(RENDER + '/diagnostico/parcial', new Blob([p.toString()], { type: 'application/x-www-form-urlencoded' }));
+    }
+  });
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    if (enviado) return;
+    enviado = true;
+    btn.disabled = true;
+    btn.textContent = 'Calculating...';
+    var body = new URLSearchParams(new FormData(form)).toString();
+    fetch(RENDER + '/diagnostico', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: body,
+      redirect: 'follow'
+    }).then(function(res) {
+      window.location.href = res.url;
+    }).catch(function() {
+      var f = document.createElement('form');
+      f.method = 'POST';
+      f.action = RENDER + '/diagnostico';
+      body.split('&').forEach(function(pair) {
+        var kv = pair.split('=');
+        var inp = document.createElement('input');
+        inp.type = 'hidden';
+        inp.name = decodeURIComponent(kv[0]);
+        inp.value = decodeURIComponent((kv[1] || '').replace(/\+/g,' '));
+        f.appendChild(inp);
+      });
+      document.body.appendChild(f);
+      f.submit();
+    });
+  });
+})();
+</script>
+</body>
+</html>
