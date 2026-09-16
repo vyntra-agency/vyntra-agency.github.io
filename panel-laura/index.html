@@ -365,23 +365,23 @@ body { font-family:'Inter',Helvetica,sans-serif; background:var(--sand); color:v
     <div class="sum-grid">
       <div class="sum-card">
         <div class="sum-label">Clientes Activos</div>
-        <div class="sum-val">4</div>
+        <div class="sum-val">1</div>
         <div class="sum-note">campañas corriendo</div>
       </div>
       <div class="sum-card">
         <div class="sum-label">Alertas Activas</div>
-        <div class="sum-val" style="color:var(--yellow)">1</div>
-        <div class="sum-note warn">Ecotienda CUU</div>
+        <div class="sum-val" id="sumAlertasVal">0</div>
+        <div class="sum-note" id="sumAlertasNote">sin alertas</div>
       </div>
       <div class="sum-card">
         <div class="sum-label">Gasto del Día</div>
-        <div class="sum-val">$1,240</div>
+        <div class="sum-val" id="sumGastoVal">$190</div>
         <div class="sum-note">MXN total</div>
       </div>
       <div class="sum-card">
         <div class="sum-label">ROAS Promedio</div>
-        <div class="sum-val">2.63</div>
-        <div class="sum-note up">↑ vs ayer 2.41</div>
+        <div class="sum-val" id="sumRoasVal">2.2</div>
+        <div class="sum-note">YK Rental CUU</div>
       </div>
     </div>
 
@@ -718,7 +718,7 @@ Socia Comercial · VYNTRA Intelligent Systems
       <div class="modal-title">Nuevo evento</div>
       <div class="form-group">
         <label class="form-label">Título *</label>
-        <input id="evTitulo" class="form-input" type="text" placeholder="Ej: Reunión con Cheesy Planet">
+        <input id="evTitulo" class="form-input" type="text" placeholder="Ej: Reunión con YK Rental CUU">
       </div>
       <div class="form-row">
         <div class="form-group">
@@ -799,39 +799,6 @@ Socia Comercial · VYNTRA Intelligent Systems
 const DATOS = {
   ultimaActualizacion: "28 May 2026 · 09:15 AM",
   clientes: [
-    {
-      id: "cheesy",
-      nombre: "Cheesy Planet",
-      sector: "Restaurante / Delivery",
-      status: "normal",
-      plataformas: ["meta"],
-      alerta: null,
-      metricas: { roas: 2.8, cpc: 4.20, ctr: 2.3, spend: 450 },
-      notas: "Campaña de pizza del mes con buen rendimiento. Aumentar presupuesto jueves-domingo.",
-      drive: "" // pegar link de Google Drive aquí
-    },
-    {
-      id: "ecotienda",
-      nombre: "Ecotienda CUU",
-      sector: "Energía Solar",
-      status: "alerta",
-      plataformas: ["meta","google"],
-      alerta: "ROAS por debajo del objetivo (meta: 2.5). Revisar segmentación de Google.",
-      metricas: { roas: 1.6, cpc: 7.80, ctr: 0.9, spend: 280 },
-      notas: "Campaña de paneles solares. CPC elevado en Google — ajuste pendiente.",
-      drive: "" // pegar link de Google Drive aquí
-    },
-    {
-      id: "santai",
-      nombre: "Santai Wellness",
-      sector: "Spa / 2 sucursales",
-      status: "normal",
-      plataformas: ["meta"],
-      alerta: null,
-      metricas: { roas: 3.4, cpc: 3.10, ctr: 3.2, spend: 320 },
-      notas: "Mejor ROAS del portafolio. Campaña de masajes + membresías funcionando.",
-      drive: "" // pegar link de Google Drive aquí
-    },
     {
       id: "ykrental",
       nombre: "YK Rental CUU",
@@ -978,6 +945,47 @@ function show(id, el, isMobile = false) {
 function setTimestamp() {
   const ts = document.getElementById('ts');
   if (ts) ts.textContent = `Actualizado: ${DATOS.ultimaActualizacion}`;
+}
+
+// ─── DATOS REALES (jalados de Meta Ads cada 3h por sync_ykrental_panel.js) ───
+async function cargarDatosReales() {
+  try {
+    const r = await fetch(`./data.json?t=${Date.now()}`, { cache: 'no-store' });
+    if (!r.ok) return;
+    const d = await r.json();
+
+    const yk = DATOS.clientes.find(c => c.id === 'ykrental');
+    if (yk) {
+      yk.metricas.roas = d.roas ?? yk.metricas.roas;
+      yk.metricas.cpc = d.cpc ?? yk.metricas.cpc;
+      yk.metricas.ctr = d.ctr ?? yk.metricas.ctr;
+      yk.metricas.spend = d.spend ?? yk.metricas.spend;
+      yk.notas = `${d.conversiones ?? 0} conversación(es) · $${(d.costo_por_conversion ?? 0).toFixed(2)} c/u · estado: ${d.estado || 'N/D'}`;
+      if (d.estado && !/active/i.test(d.estado)) {
+        yk.status = 'alerta';
+        yk.alerta = `Campaña en estado: ${d.estado}`;
+      } else {
+        yk.status = 'normal';
+        yk.alerta = null;
+      }
+    }
+    DATOS.ultimaActualizacion = d.actualizado || DATOS.ultimaActualizacion;
+
+    const alertas = DATOS.clientes.filter(c => c.alerta).length;
+    const alVal = document.getElementById('sumAlertasVal');
+    const alNote = document.getElementById('sumAlertasNote');
+    if (alVal) alVal.textContent = alertas;
+    if (alNote) alNote.textContent = alertas ? DATOS.clientes.find(c => c.alerta).nombre : 'sin alertas';
+    const gastoEl = document.getElementById('sumGastoVal');
+    if (gastoEl) gastoEl.textContent = `$${Math.round(d.spend ?? 0).toLocaleString()}`;
+    const roasEl = document.getElementById('sumRoasVal');
+    if (roasEl) roasEl.textContent = (d.roas ?? 0).toFixed(1);
+
+    renderClientes();
+    setTimestamp();
+  } catch (e) {
+    console.warn('No se pudieron cargar datos reales (data.json):', e.message);
+  }
 }
 
 // ──────────────────────────────────────────────
@@ -1250,6 +1258,8 @@ setTimestamp();
 updateUrlBar();
 cargarAgenda('hoy');
 if (chatUrl) initPush();
+cargarDatosReales();
+setInterval(cargarDatosReales, 3 * 60 * 60 * 1000); // refresco cada 3h si la pestaña sigue abierta
 </script>
 </body>
 </html>
