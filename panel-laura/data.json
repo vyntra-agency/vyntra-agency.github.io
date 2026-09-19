@@ -1,17 +1,17 @@
 {
-  "actualizado": "18 sep 2026, 06:00 p.m.",
-  "spend": 44.46,
+  "actualizado": "18 sep 2026, 09:00 p.m.",
+  "spend": 56.24,
   "roas": 0,
-  "cpc": 11.12,
-  "ctr": 0.53,
+  "cpc": 11.25,
+  "ctr": 0.51,
   "conversiones": 1,
-  "costo_por_conversion": 44.46,
+  "costo_por_conversion": 56.24,
   "estado": "ACTIVE, PAUSED",
   "campanas": [
     {
       "nombre": "VYNTRA YK Rental Mensajes Sep 2026",
       "estado": "ACTIVE",
-      "gasto": 44.46,
+      "gasto": 56.24,
       "conversiones": 1
     },
     {
