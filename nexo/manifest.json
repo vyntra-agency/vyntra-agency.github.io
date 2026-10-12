@@ -1,0 +1,23 @@
+{
+  "id": "./",
+  "name": "Nexo — VYNTRA",
+  "short_name": "Nexo",
+  "description": "Asistente personal de Alfredo — VYNTRA",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#081530",
+  "theme_color": "#081530",
+  "orientation": "portrait",
+  "lang": "es-MX",
+  "categories": ["business", "productivity"],
+  "icons": [
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ],
+  "shortcuts": [
+    { "name": "Mi día", "url": "./?q=%C2%BFQu%C3%A9%20tengo%20hoy%3F", "icons": [{ "src": "icon-192.png", "sizes": "192x192" }] },
+    { "name": "Hablar con Nexo", "url": "./?chat=1", "icons": [{ "src": "icon-192.png", "sizes": "192x192" }] }
+  ]
+}
