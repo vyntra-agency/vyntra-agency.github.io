@@ -1,9 +1,16 @@
 // Service worker de Nexo — funciona igual en vyntra-agency.github.io/nexo/ y en localhost:3001
-const CACHE = 'nexo-v3';
+const CACHE = 'nexo-v4';
 const ASSETS = ['manifest.json', 'icon-192.png', 'icon-512.png', 'badge-96.png'];
 
+// El caché de íconos es opcional: si falla (Chrome a veces lanza "Entry already exists" en
+// addAll), el service worker se instala igual — lo indispensable aquí son las notificaciones.
 self.addEventListener('install', e => {
-  e.waitUntil(caches.open(CACHE).then(c => c.addAll(ASSETS)).then(() => self.skipWaiting()));
+  e.waitUntil(
+    caches.open(CACHE)
+      .then(c => Promise.allSettled(ASSETS.map(a => c.add(a))))
+      .catch(() => {})
+      .then(() => self.skipWaiting())
+  );
 });
 
 self.addEventListener('activate', e => {
