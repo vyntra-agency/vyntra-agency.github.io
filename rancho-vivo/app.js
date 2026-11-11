@@ -7,7 +7,7 @@
   var sb = supabase.createClient(RV_CONFIG.url, RV_CONFIG.anonKey, { auth: { persistSession: true, autoRefreshToken: true } });
   var app = document.getElementById('app');
   var hoja = document.getElementById('hoja');
-  var VERSION = '2.3.0';
+  var VERSION = '2.4.0';
   var TABLAS = ['campo_potreros', 'campo_animales', 'campo_eventos', 'campo_finanzas'];
 
   var CATEGORIAS = {
@@ -1243,10 +1243,13 @@
     var de = potreroId || conGanado[0].id;
     abrirHoja(esMover ? 'Mover ganado' : 'Vacunar o tratar lote',
       campo('fl-de', esMover ? 'Desde' : 'Potrero', '<select id="fl-de">' + conGanado.map(function (p) { return '<option value="' + p.id + '"' + (p.id === de ? ' selected' : '') + '>' + e(p.nombre) + '</option>'; }).join('') + '</select>') +
-      '<div class="campo"><span class="rotulo">Quiénes</span>' + seg('fl-quien', [['', 'Todos'], ['hembra', 'Hembras'], ['macho', 'Machos']], '') + '</div>' +
-      '<div class="campo lote"><div class="lote-cab"><span class="rotulo" id="fl-cuenta"></span><button type="button" id="fl-todos"></button></div>' +
-      '<input id="fl-busca" type="search" inputmode="search" placeholder="Buscar arete" aria-label="Buscar arete" autocomplete="off">' +
-      '<ul class="lote-lista" id="fl-lista"></ul></div>' +
+      '<div class="campo cuantos"><span class="rotulo">Cuántos</span>' +
+      '<div class="cuantos-fila"><label for="fl-nh">Hembras <small id="fl-th"></small></label><input id="fl-nh" type="number" inputmode="numeric" min="0" step="1" placeholder="Todas"></div>' +
+      '<div class="cuantos-fila"><label for="fl-nm">Machos <small id="fl-tm"></small></label><input id="fl-nm" type="number" inputmode="numeric" min="0" step="1" placeholder="Todos"></div>' +
+      '<p class="ayuda">Vacío = todos. Ponga 0 si no quiere mover ninguno.</p></div>' +
+      '<div class="campo lote"><button type="button" class="lote-abrir" id="fl-abrir" aria-expanded="false"><span id="fl-cuenta"></span><span>Elegir uno por uno ' + ico('chev') + '</span></button>' +
+      '<div id="fl-detalle" hidden><div class="lote-cab"><input id="fl-busca" type="search" inputmode="search" placeholder="Buscar arete" aria-label="Buscar arete" autocomplete="off"><button type="button" id="fl-todos"></button></div>' +
+      '<ul class="lote-lista" id="fl-lista"></ul></div></div>' +
       (esMover ? campo('fl-a', 'Hacia', '<select id="fl-a">' + opcionesPotrero('') + '</select>')
         : '<div class="campo"><span class="rotulo">Tipo</span>' + seg('fl-tipo', [['vacuna', 'Vacuna'], ['tratamiento', 'Tratamiento']], 'vacuna') + '</div>' +
           campo('fl-prod', 'Producto o motivo', entrada('fl-prod', 'text', '', ' maxlength="80" placeholder="Ej. Desparasitante"')) +
@@ -1254,14 +1257,17 @@
       campo('fl-fecha', 'Fecha', entrada('fl-fecha', 'date', hoy(), ' max="' + hoy() + '"')),
       '<button type="submit" class="btn ancho" id="fl-ok"></button>',
       function (f) {
-        // Todos van palomeados; el usuario quita los que no, o "Quitar todos" y palomea 3 o 4.
+        // Por cantidad: "70 hembras y 20 machos" (vacío = todos). Se toman en orden de arete,
+        // y la lista de abajo deja quitar o agregar uno por uno.
         var quitados = {};
-        var enPotrero = function () { var q = grupo('fl-quien'); return activos().filter(function (a) { return a.potrero_id === v('fl-de') && (!q || a.sexo === q); }).sort(function (a, b) { return String(a.arete).localeCompare(String(b.arete), 'es', { numeric: true }); }); };
+        var orden = function (a, b) { return String(a.arete).localeCompare(String(b.arete), 'es', { numeric: true }); };
+        var enPotrero = function () { return activos().filter(function (a) { return a.potrero_id === v('fl-de'); }).sort(orden); };
         var grupoAnimales = function () { return enPotrero().filter(function (a) { return !quitados[a.id]; }); };
         var etiquetar = function () {
-          var base = enPotrero(), n = grupoAnimales().length; delete f.dataset.ok;
+          var base = enPotrero(), sel = grupoAnimales(), n = sel.length; delete f.dataset.ok;
+          var h = sel.filter(function (a) { return a.sexo === 'hembra'; }).length;
           hoja.querySelector('#fl-ok').textContent = (esMover ? 'Mover ' : 'Registrar a ') + n + (n === 1 ? ' animal' : ' animales');
-          hoja.querySelector('#fl-cuenta').textContent = n + ' de ' + base.length + ' seleccionados';
+          hoja.querySelector('#fl-cuenta').textContent = n + ' de ' + base.length + ' · ' + h + ' H, ' + (n - h) + ' M';
           hoja.querySelector('#fl-todos').textContent = n ? 'Quitar todos' : 'Marcar todos';
         };
         var pintarLista = function () {
@@ -1273,15 +1279,30 @@
           hoja.querySelectorAll('#fl-lista input').forEach(function (c) { c.onchange = function () { if (c.checked) delete quitados[c.dataset.id]; else quitados[c.dataset.id] = 1; etiquetar(); }; });
           etiquetar();
         };
+        var porCantidad = function () {
+          var base = enPotrero(); quitados = {};
+          [['hembra', 'fl-nh', 'fl-th'], ['macho', 'fl-nm', 'fl-tm']].forEach(function (x) {
+            var l = base.filter(function (a) { return a.sexo === x[0]; }), inp = hoja.querySelector('#' + x[1]);
+            hoja.querySelector('#' + x[2]).textContent = 'de ' + l.length;
+            inp.max = l.length; inp.disabled = !l.length;
+            var c = inp.value === '' ? l.length : Math.max(0, Math.min(l.length, Math.floor(+inp.value) || 0));
+            l.slice(c).forEach(function (a) { quitados[a.id] = 1; });
+            inp.closest('.cuantos-fila').classList.toggle('error', inp.value !== '' && +inp.value > l.length);
+          });
+          pintarLista();
+        };
+        hoja.querySelector('#fl-nh').oninput = hoja.querySelector('#fl-nm').oninput = porCantidad;
+        hoja.querySelector('#fl-abrir').onclick = function () {
+          var d = hoja.querySelector('#fl-detalle'); d.hidden = !d.hidden; this.setAttribute('aria-expanded', !d.hidden);
+        };
         hoja.querySelector('#fl-todos').onclick = function () {
           var hay = grupoAnimales().length; enPotrero().forEach(function (a) { if (hay) quitados[a.id] = 1; else delete quitados[a.id]; }); pintarLista();
         };
         hoja.querySelector('#fl-busca').oninput = pintarLista;
         hoja.querySelector('#fl-busca').onkeydown = function (ev) { if (ev.key === 'Enter') ev.preventDefault(); };
-        hoja.querySelector('#fl-de').onchange = function () { quitados = {}; pintarLista(); };
+        hoja.querySelector('#fl-de').onchange = function () { hoja.querySelector('#fl-nh').value = hoja.querySelector('#fl-nm').value = ''; porCantidad(); };
         if (esMover) hoja.querySelector('#fl-a').onchange = etiquetar;
-        hoja.querySelector('#fl-quien').onelegir = pintarLista;
-        pintarLista();
+        porCantidad();
         f.onsubmit = function (ev) {
           ev.preventDefault(); limpiarErrores();
           var l = grupoAnimales(), fe = v('fl-fecha') || hoy();

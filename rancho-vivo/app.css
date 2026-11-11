@@ -475,3 +475,20 @@ dialog#hoja::backdrop { background: rgba(0, 0, 0, .4); }
 .ayuda-sel { margin: 0 0 10px; font-size: 14px; color: var(--tinta-2); }
 .sel-avatares { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
 .avatar.mas { background: var(--fondo-2); color: var(--tinta-2); font-weight: 700; }
+
+/* Mover ganado: cuántas hembras y cuántos machos */
+.cuantos-fila { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 6px 0; }
+.cuantos-fila label { font-size: 16px; font-weight: 650; color: var(--tinta); margin: 0; }
+.cuantos-fila label small { font-weight: 500; color: var(--tinta-3); margin-left: 4px; }
+.cuantos-fila input { width: 112px; text-align: center; font-size: 18px; font-weight: 700; }
+.cuantos-fila input::placeholder { font-weight: 600; font-size: 16px; }
+.cuantos-fila input:disabled { opacity: .45; }
+.cuantos-fila.error input { border-color: var(--gasto); color: var(--gasto); }
+.lote-abrir { width: 100%; display: flex; align-items: center; justify-content: space-between; gap: 10px; min-height: 48px; padding: 0 14px; border: 0; border-radius: 14px; background: var(--fondo-2); font: 600 14px var(--sans); color: var(--tinta-2); text-align: left; }
+.lote-abrir > span:last-child { display: inline-flex; align-items: center; gap: 4px; color: var(--primario-hondo); font-weight: 650; white-space: nowrap; }
+.lote-abrir svg { width: 16px; height: 16px; transform: rotate(90deg); transition: transform .2s; }
+.lote-abrir[aria-expanded="true"] svg { transform: rotate(-90deg); }
+#fl-detalle { margin-top: 8px; }
+#fl-detalle .lote-cab { align-items: center; }
+#fl-detalle .lote-cab input { flex: 1; margin: 0 0 8px; }
+#fl-detalle .lote-cab button { margin-bottom: 8px; }
