@@ -1,0 +1,1 @@
+window.RV_CONFIG = {"url":"https://phudylxuzskfbcbmagzu.supabase.co","anonKey":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBodWR5bHh1enNrZmJjYm1hZ3p1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE5NzE3OTgsImV4cCI6MjA5NzU0Nzc5OH0.nvytxPcFsGBXywthAx4sixyp6tSGv0LK3T3WZe4BeGg"};
