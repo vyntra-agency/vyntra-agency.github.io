@@ -7,7 +7,7 @@
   var sb = supabase.createClient(RV_CONFIG.url, RV_CONFIG.anonKey, { auth: { persistSession: true, autoRefreshToken: true } });
   var app = document.getElementById('app');
   var hoja = document.getElementById('hoja');
-  var VERSION = '2.1.1';
+  var VERSION = '2.1.2';
   var TABLAS = ['campo_potreros', 'campo_animales', 'campo_eventos', 'campo_finanzas'];
 
   var CATEGORIAS = {
@@ -444,10 +444,10 @@
     var cats = [['', 'Todos'], ['hembras', 'Hembras'], ['machos', 'Machos']].concat(['vaca', 'vaquilla', 'becerra', 'becerro', 'novillo', 'toro'].map(function (k) { return [k, NOMBRE_CAT[k] + 's']; }));
     var cuerpo =
       '<div class="buscador">' + ico('buscar') + '<input id="g-q" type="search" inputmode="search" placeholder="Buscar arete o nombre" value="' + e(filtroGanado.q) + '" aria-label="Buscar arete o nombre" autocomplete="off"></div>' +
-      '<div class="chips" role="group" aria-label="Tipo">' + cats.map(function (c) { return '<button class="chip" data-cat="' + c[0] + '" aria-pressed="' + (filtroGanado.cat === c[0]) + '">' + c[1] + '</button>'; }).join('') + '</div>' +
-      '<div class="chips" role="group" aria-label="Estado y potrero">' +
-      [['activo', 'En el rancho'], ['vendido', 'Vendidos'], ['muerto', 'Bajas']].map(function (c) { return '<button class="chip" data-est="' + c[0] + '" aria-pressed="' + (filtroGanado.estado === c[0]) + '">' + c[1] + '</button>'; }).join('') +
-      '<select class="chip" id="g-pot" aria-label="Potrero"><option value="">Todos los potreros</option>' + tabla('campo_potreros').slice().sort(function (a, b) { return a.nombre.localeCompare(b.nombre, 'es', { numeric: true }); }).map(function (p) { return '<option value="' + p.id + '"' + (filtroGanado.potrero === p.id ? ' selected' : '') + '>' + e(p.nombre) + '</option>'; }).join('') + '</select></div>' +
+      '<div class="filtros" role="group" aria-label="Filtros">' +
+      '<select id="g-cat" aria-label="Tipo de animal">' + cats.map(function (c) { return '<option value="' + c[0] + '"' + (filtroGanado.cat === c[0] ? ' selected' : '') + '>' + (c[0] ? c[1] : 'Todos') + '</option>'; }).join('') + '</select>' +
+      '<select id="g-est" aria-label="Estado">' + [['activo', 'En rancho'], ['vendido', 'Vendidos'], ['muerto', 'Bajas']].map(function (c) { return '<option value="' + c[0] + '"' + (filtroGanado.estado === c[0] ? ' selected' : '') + '>' + c[1] + '</option>'; }).join('') + '</select>' +
+      '<select id="g-pot" aria-label="Potrero"><option value="">Potreros</option>' + tabla('campo_potreros').slice().sort(function (a, b) { return a.nombre.localeCompare(b.nombre, 'es', { numeric: true }); }).map(function (p) { return '<option value="' + p.id + '"' + (filtroGanado.potrero === p.id ? ' selected' : '') + '>' + e(p.nombre) + '</option>'; }).join('') + '</select></div>' +
       '<ul class="lista" id="g-fijos">' + fijos + '</ul><p class="conteo" id="g-conteo"></p><ul class="lista" id="g-lista"></ul>';
     marco('Hato · ' + act.length + ' cabezas · ' + h + ' hembras', cuerpo, { activa: 'ganado', derecha: '<button class="btn-icono" id="b-voz" aria-label="Dictar al ganado">' + ico('mic') + '</button>' });
     document.getElementById('b-voz').onclick = function () { dictarGanado(); };
@@ -469,8 +469,11 @@
     };
     document.getElementById('g-q').oninput = function () { filtroGanado.q = this.value; pintar(); };
     document.getElementById('g-pot').onchange = function () { filtroGanado.potrero = this.value; pintar(); };
-    app.querySelectorAll('[data-cat]').forEach(function (b) { b.onclick = function () { filtroGanado.cat = b.getAttribute('data-cat'); app.querySelectorAll('[data-cat]').forEach(function (x) { x.setAttribute('aria-pressed', x === b); }); pintar(); }; });
-    app.querySelectorAll('[data-est]').forEach(function (b) { b.onclick = function () { filtroGanado.estado = b.getAttribute('data-est'); app.querySelectorAll('[data-est]').forEach(function (x) { x.setAttribute('aria-pressed', x === b); }); pintar(); }; });
+    var marcarFiltros = function () { app.querySelectorAll('.filtros select').forEach(function (s) { s.classList.toggle('activo', s.id === 'g-est' ? s.value !== 'activo' : !!s.value); }); };
+    document.getElementById('g-cat').onchange = function () { filtroGanado.cat = this.value; marcarFiltros(); pintar(); };
+    document.getElementById('g-est').onchange = function () { filtroGanado.estado = this.value; marcarFiltros(); pintar(); };
+    document.getElementById('g-pot').addEventListener('change', marcarFiltros);
+    marcarFiltros();
     pintar();
   }
 
