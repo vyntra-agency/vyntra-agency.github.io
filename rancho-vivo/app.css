@@ -492,3 +492,11 @@ dialog#hoja::backdrop { background: rgba(0, 0, 0, .4); }
 #fl-detalle .lote-cab { align-items: center; }
 #fl-detalle .lote-cab input { flex: 1; margin: 0 0 8px; }
 #fl-detalle .lote-cab button { margin-bottom: 8px; }
+
+/* Cambios que el servidor no aceptó: se guardan aparte para revisarlos */
+.rechazados { list-style: none; margin: 0; padding: 0; }
+.rechazados li { display: grid; grid-template-columns: 1fr auto; gap: 2px 12px; align-items: center; padding: 12px 0; border-bottom: 1px solid var(--regla); }
+.rechazados b { font-size: 15px; }
+.rechazados small { grid-column: 1; font-size: 13px; color: var(--gasto); overflow-wrap: anywhere; }
+.rechazados button { grid-column: 2; grid-row: 1 / span 2; border: 0; background: var(--fondo-2); border-radius: 16px; height: 34px; padding: 0 14px; font: 650 13.5px var(--sans); color: var(--tinta-2); }
+.rechazados button[data-seguro="1"] { background: var(--gasto); color: #fff; }

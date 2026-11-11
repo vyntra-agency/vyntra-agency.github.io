@@ -7,7 +7,7 @@
   var sb = supabase.createClient(RV_CONFIG.url, RV_CONFIG.anonKey, { auth: { persistSession: true, autoRefreshToken: true } });
   var app = document.getElementById('app');
   var hoja = document.getElementById('hoja');
-  var VERSION = '2.4.0';
+  var VERSION = '2.5.1';
   var TABLAS = ['campo_potreros', 'campo_animales', 'campo_eventos', 'campo_finanzas'];
 
   var CATEGORIAS = {
@@ -104,10 +104,12 @@
   function leerLocal(k) { try { return JSON.parse(localStorage.getItem(k)); } catch (x) { return null; } }
 
   /* ---------- Estado y sincronización ---------- */
-  var S = { usuario: null, rancho: null, rol: null, miembro: null, ranchos: [], datos: null, cola: [], sincronizando: false, ultimaCarga: 0 };
+  var S = { usuario: null, rancho: null, rol: null, miembro: null, ranchos: [], datos: null, cola: [], rechazados: [], sincronizando: false, ultimaCarga: 0 };
+  // Pide al teléfono que no borre los datos guardados para trabajar sin señal.
+  try { if (navigator.storage && navigator.storage.persist) navigator.storage.persist(); } catch (x) { }
   function claveDatos() { return 'rv:datos:' + S.rancho.id; }
   function vacio() { var d = {}; TABLAS.forEach(function (t) { d[t] = []; }); return d; }
-  function persistir() { guardarLocal(claveDatos(), S.datos); guardarLocal('rv:cola', S.cola); }
+  function persistir() { guardarLocal(claveDatos(), S.datos); guardarLocal('rv:cola', S.cola); guardarLocal('rv:rechazados', S.rechazados); }
   function tabla(t) { return S.datos[t]; }
   function buscarId(t, id) { var l = S.datos[t]; for (var i = 0; i < l.length; i++) if (l[i].id === id) return l[i]; return null; }
 
@@ -121,9 +123,10 @@
     return fila;
   }
   function borrar(t, id) {
+    var antes = buscarId(t, id);
     S.datos[t] = S.datos[t].filter(function (x) { return x.id !== id; });
     if (t === 'campo_animales') S.datos.campo_eventos = S.datos.campo_eventos.filter(function (x) { return x.animal_id !== id; });
-    S.cola.push({ t: t, op: 'borrar', id: id });
+    S.cola.push({ t: t, op: 'borrar', id: id, fila: antes ? Object.assign({}, antes) : null });
     persistir();
   }
   function limpiarFila(t, f) {
@@ -132,6 +135,41 @@
     return c;
   }
   function esErrorDeRed(err) { return !err || !err.code || /fetch|network|Failed/i.test(err.message || ''); }
+  function esErrorDeSesion(err) { return /^PGRST30/.test(err.code || '') || /jwt|token|expired/i.test(err.message || ''); }
+  function describirCambio(op) {
+    var f = op.fila || {}, que;
+    if (op.t === 'campo_eventos') { var a = buscarId('campo_animales', f.animal_id); que = (EVENTOS[f.tipo] ? EVENTOS[f.tipo][0] : f.tipo) + (a ? ' · arete ' + a.arete : '') + (f.peso ? ' · ' + kg(f.peso) : ''); }
+    else if (op.t === 'campo_animales') que = 'Animal' + (f.arete ? ' arete ' + f.arete : '');
+    else if (op.t === 'campo_finanzas') que = (f.tipo === 'ingreso' ? 'Ingreso' : 'Gasto') + (f.monto ? ' ' + pesos(f.monto) : '') + (f.concepto ? ' · ' + f.concepto : '');
+    else if (op.t === 'campo_potreros') que = 'Potrero' + (f.nombre ? ' ' + f.nombre : '');
+    else que = 'Cambio';
+    return (op.op === 'borrar' ? 'Borrar: ' : '') + que + (f.fecha ? ' · ' + fecha(f.fecha, true) : '');
+  }
+  function formRechazados() {
+    abrirHoja('Cambios por revisar',
+      '<p class="ayuda-sel">Estos cambios no se pudieron guardar en el servidor. No se borraron: puede volver a intentarlo o descartarlos.</p>' +
+      '<ul class="rechazados">' + S.rechazados.map(function (op, k) {
+        return '<li><b>' + e(describirCambio(op)) + '</b><small>' + e(op.error || '') + '</small><button type="button" data-descartar="' + k + '">Descartar</button></li>';
+      }).join('') + '</ul>',
+      '<button type="submit" class="btn ancho">Volver a intentar ' + (S.rechazados.length === 1 ? 'el cambio' : 'los ' + S.rechazados.length) + '</button>',
+      function (f) {
+        hoja.querySelectorAll('[data-descartar]').forEach(function (b) {
+          b.onclick = function () {
+            if (b.dataset.seguro !== '1') { b.dataset.seguro = '1'; b.textContent = '¿Seguro?'; return; }
+            S.rechazados.splice(+b.dataset.descartar, 1); persistir(); hoja.close();
+            if (S.rechazados.length) formRechazados(); else { aviso('Listo, ya no hay cambios por revisar.'); ruta(); }
+          };
+        });
+        f.onsubmit = async function (ev) {
+          ev.preventDefault();
+          S.rechazados.forEach(function (op) { delete op.error; delete op.cuando; S.cola.push(op); });
+          S.rechazados = []; persistir(); hoja.close();
+          if (!navigator.onLine) { aviso('Sin señal. Se subirán cuando vuelva.'); ruta(); return; }
+          await subir(); ruta();
+          if (!S.rechazados.length && !S.cola.length) aviso('Cambios guardados.');
+        };
+      });
+  }
 
   async function subir() {
     if (S.sincronizando || !S.cola.length || !navigator.onLine) { pintarRed(); return; }
@@ -143,9 +181,23 @@
         else r = await sb.from(op.t).delete().eq('id', op.id);
         if (r.error) {
           if (esErrorDeRed(r.error)) break;
-          S.cola.shift(); persistir();
-          var msg = r.error.code === '23505' ? 'Ese número de arete ya existe en el rancho.' : 'No se pudo guardar un cambio (' + (r.error.message || r.error.code) + ').';
-          aviso(msg, true);
+          // Sesión vencida (muchos días sin señal): se renueva sola y se reintenta; nunca se tira el cambio.
+          if (esErrorDeSesion(r.error)) {
+            var ref = await sb.auth.refreshSession();
+            if (!ref.error && !op.reintentoSesion) { op.reintentoSesion = true; continue; }
+            aviso('No se pudo confirmar su sesión. Sus cambios siguen guardados en el teléfono y se subirán después.', true);
+            break;
+          }
+          // Rechazado por la base: no se pierde, queda apartado para revisarlo en Más.
+          S.cola.shift();
+          delete op.reintentoSesion;
+          op.error = r.error.code === '23505' ? 'Ese número de arete ya existe en el rancho.'
+            : r.error.code === '42501' ? 'Su usuario no tiene permiso para este cambio.'
+            : 'El servidor no lo aceptó. Si vuelve a pasar, avise a soporte: WhatsApp 614 272 6674.';
+          op.tecnico = (r.error.code || '') + ' ' + (r.error.message || '');
+          op.cuando = new Date().toISOString();
+          S.rechazados.push(op); persistir();
+          aviso((r.error.code === '23505' ? 'Ese número de arete ya existe. ' : 'Un cambio no se pudo guardar. ') + 'Quedó apartado en Más → Cambios por revisar.', true);
           await cargar(true);
           continue;
         }
@@ -184,9 +236,9 @@
   function pintarRed() {
     var el = document.getElementById('red');
     if (!el) return;
-    var off = !navigator.onLine, pend = S.cola.length;
-    el.className = 'estado-red' + (off || pend ? ' off' : '');
-    var texto = off ? 'Sin señal' + (pend ? ' · ' + pend + ' por subir' : '') : pend ? 'Subiendo ' + pend : 'Al día';
+    var off = !navigator.onLine, pend = S.cola.length, rev = S.rechazados.length;
+    el.className = 'estado-red' + (off || pend || rev ? ' off' : '');
+    var texto = off ? 'Sin señal' + (pend ? ' · ' + pend + ' por subir' : '') : pend ? 'Subiendo ' + pend : rev ? rev + ' por revisar en Más' : 'Al día';
     el.innerHTML = '<i></i><span>' + texto + '</span>';
     el.title = texto; el.setAttribute('aria-label', texto);
   }
@@ -219,6 +271,7 @@
     guardarLocal('rv:sesion', g);
     S.datos = leerLocal(claveDatos()) || null;
     S.cola = leerLocal('rv:cola') || [];
+    S.rechazados = leerLocal('rv:rechazados') || [];
     if (!S.datos) {
       app.innerHTML = '<div class="marco"><div class="contenido" style="padding-top:40px"><div class="esqueleto"></div><div class="esqueleto"></div><div class="esqueleto"></div></div></div>';
       S.datos = vacio();
@@ -252,7 +305,8 @@
     });
   }
   async function salir() {
-    if (S.cola.length && !confirmar.salir) { confirmar.salir = true; aviso('Hay ' + S.cola.length + ' cambios sin subir. Toque otra vez para salir de todos modos.', true); setTimeout(function () { confirmar.salir = false; }, 4000); return; }
+    var sinSubir = S.cola.length + S.rechazados.length;
+    if (sinSubir && !confirmar.salir) { confirmar.salir = true; aviso('Hay ' + sinSubir + ' cambios que no están en el servidor y se perderían. Conéctese a señal primero. Toque otra vez solo si quiere salir de todos modos.', true); setTimeout(function () { confirmar.salir = false; }, 4000); return; }
     await sb.auth.signOut();
     try { Object.keys(localStorage).forEach(function (k) { if (k.indexOf('rv:') === 0) localStorage.removeItem(k); }); } catch (x) {}
     location.hash = ''; location.reload();
@@ -853,6 +907,7 @@
     var item = function (id, ic, t, s) { return '<li><button class="fila" id="' + id + '"><span class="avatar">' + ico(ic) + '</span><span class="fila-cuerpo"><span class="fila-titulo">' + t + '</span>' + (s ? '<span class="fila-sub">' + s + '</span>' : '') + '</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 6 6 6-6 6"/></svg></button></li>'; };
     var roles = { dueno: 'Dueño', encargado: 'Encargado', vaquero: 'Vaquero' };
     var cuerpo =
+      (S.rechazados.length ? '<div class="panel"><ul class="lista">' + item('m-rech', 'alerta', S.rechazados.length + (S.rechazados.length === 1 ? ' cambio por revisar' : ' cambios por revisar'), 'No se guardaron en el servidor · toque para revisar') + '</ul></div>' : '') +
       '<div class="panel"><ul class="lista">' + item('m-pot', 'potrero', 'Potreros', tabla('campo_potreros').length + ' registrados') +
       (puedeDinero() ? item('m-edos', 'reporte', 'Estados financieros', 'Resultados, valor del hato y flujo') : '') +
       item('m-csv-g', 'descargar', 'Descargar ganado', 'Archivo para Excel') +
@@ -867,6 +922,7 @@
       '<p class="pie-app">Rancho Vivo ' + VERSION + ' · Hecho por VYNTRA, Chihuahua<br>Soporte: WhatsApp 614 272 6674</p>';
     marco('Más', cuerpo, { activa: 'mas' });
     document.getElementById('m-pot').onclick = function () { location.hash = '#/potreros'; };
+    if (S.rechazados.length) document.getElementById('m-rech').onclick = formRechazados;
     document.getElementById('m-csv-g').onclick = csvGanado;
     if (puedeDinero()) document.getElementById('m-csv-d').onclick = csvDinero;
     if (puedeDinero()) document.getElementById('m-edos').onclick = function () { location.hash = '#/estados/' + hoy().slice(0, 4); };
@@ -1619,7 +1675,7 @@
   }
 
   /* ---------- Arranque ---------- */
-  if ('serviceWorker' in navigator && location.protocol === 'https:') navigator.serviceWorker.register('sw.js').catch(function () {});
+  if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost')) navigator.serviceWorker.register('sw.js').catch(function () {});
   sb.auth.onAuthStateChange(function (ev) { if (ev === 'SIGNED_OUT' && S.rancho) location.reload(); });
   iniciar();
   setInterval(function () { if (S.cola.length && navigator.onLine) subir(); }, 20000);
