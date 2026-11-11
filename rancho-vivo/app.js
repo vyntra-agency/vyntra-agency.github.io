@@ -7,7 +7,7 @@
   var sb = supabase.createClient(RV_CONFIG.url, RV_CONFIG.anonKey, { auth: { persistSession: true, autoRefreshToken: true } });
   var app = document.getElementById('app');
   var hoja = document.getElementById('hoja');
-  var VERSION = '2.1.2';
+  var VERSION = '2.3.0';
   var TABLAS = ['campo_potreros', 'campo_animales', 'campo_eventos', 'campo_finanzas'];
 
   var CATEGORIAS = {
@@ -418,7 +418,7 @@
   function filaAnimal(a, ultimos) {
     var mapa = ultimos && typeof ultimos === 'object' && !Array.isArray(ultimos) ? ultimos : ultimosEventos(), u = mapa[a.id];
     var est = a.estado !== 'activo' ? '<span class="etiqueta ' + (a.estado === 'vendido' ? 'azul' : 'mal') + '">' + (a.estado === 'vendido' ? 'Vendido' : 'Muerto') + '</span>' : '';
-    return '<li><a class="fila" href="#/animal/' + a.id + '">' + avatarAnimal(a) +
+    return '<li><a class="fila" href="#/animal/' + a.id + '" data-animal="' + a.id + '"><i class="palomita sel-check" aria-hidden="true"></i>' + avatarAnimal(a) +
       '<span class="fila-cuerpo"><span class="fila-arriba"><b>' + e(a.arete) + ' · ' + e(NOMBRE_CAT[a.categoria]) + (a.nombre ? ' ' + e(a.nombre) : '') + '</b>' +
       (u ? '<time' + (u.fecha === hoy() ? ' class="nuevo"' : '') + '>' + cuando(u.fecha) + '</time>' : '') + '</span>' +
       '<span class="fila-abajo"><span class="fila-sub">' + e(u ? resumenEvento(u) : nombrePotrero(a.potrero_id)) + '</span>' + est + '</span></span></a></li>';
@@ -444,14 +444,58 @@
     var cats = [['', 'Todos'], ['hembras', 'Hembras'], ['machos', 'Machos']].concat(['vaca', 'vaquilla', 'becerra', 'becerro', 'novillo', 'toro'].map(function (k) { return [k, NOMBRE_CAT[k] + 's']; }));
     var cuerpo =
       '<div class="buscador">' + ico('buscar') + '<input id="g-q" type="search" inputmode="search" placeholder="Buscar arete o nombre" value="' + e(filtroGanado.q) + '" aria-label="Buscar arete o nombre" autocomplete="off"></div>' +
+      '<div class="estados-hato" role="group" aria-label="Estado">' + [['activo', 'En el rancho'], ['vendido', 'Vendidos'], ['muerto', 'Bajas']].map(function (c) { return '<button data-est="' + c[0] + '" aria-pressed="' + (filtroGanado.estado === c[0]) + '">' + c[1] + '</button>'; }).join('') + '</div>' +
       '<div class="filtros" role="group" aria-label="Filtros">' +
-      '<select id="g-cat" aria-label="Tipo de animal">' + cats.map(function (c) { return '<option value="' + c[0] + '"' + (filtroGanado.cat === c[0] ? ' selected' : '') + '>' + (c[0] ? c[1] : 'Todos') + '</option>'; }).join('') + '</select>' +
-      '<select id="g-est" aria-label="Estado">' + [['activo', 'En rancho'], ['vendido', 'Vendidos'], ['muerto', 'Bajas']].map(function (c) { return '<option value="' + c[0] + '"' + (filtroGanado.estado === c[0] ? ' selected' : '') + '>' + c[1] + '</option>'; }).join('') + '</select>' +
-      '<select id="g-pot" aria-label="Potrero"><option value="">Potreros</option>' + tabla('campo_potreros').slice().sort(function (a, b) { return a.nombre.localeCompare(b.nombre, 'es', { numeric: true }); }).map(function (p) { return '<option value="' + p.id + '"' + (filtroGanado.potrero === p.id ? ' selected' : '') + '>' + e(p.nombre) + '</option>'; }).join('') + '</select></div>' +
-      '<ul class="lista" id="g-fijos">' + fijos + '</ul><p class="conteo" id="g-conteo"></p><ul class="lista" id="g-lista"></ul>';
+      '<select id="g-pot" aria-label="Potrero"><option value="">Potreros</option>' + tabla('campo_potreros').slice().sort(function (a, b) { return a.nombre.localeCompare(b.nombre, 'es', { numeric: true }); }).map(function (p) { return '<option value="' + p.id + '"' + (filtroGanado.potrero === p.id ? ' selected' : '') + '>' + e(p.nombre) + '</option>'; }).join('') + '</select>' +
+      '<select id="g-cat" aria-label="Tipo de ganado">' + cats.map(function (c) { return '<option value="' + c[0] + '"' + (filtroGanado.cat === c[0] ? ' selected' : '') + '>' + (c[0] ? c[1] : 'Tipo de ganado') + '</option>'; }).join('') + '</select></div>' +
+      '<ul class="lista" id="g-fijos">' + fijos + '</ul><div class="conteo-fila"><p class="conteo" id="g-conteo"></p><button id="g-sel" type="button">Seleccionar</button></div><ul class="lista" id="g-lista"></ul>' +
+      '<div class="barra-sel" id="g-barra" hidden><button type="button" class="btn-icono" id="gs-salir" aria-label="Terminar selección">' + ico('cerrar') + '</button><b id="gs-n"></b>' +
+      '<button type="button" id="gs-todos">Todos</button><button type="button" class="btn" id="gs-mover">' + ico('mover') + 'Mover</button><button type="button" class="btn sec" id="gs-tratar" aria-label="Vacunar">' + ico('jeringa') + '</button></div>';
     marco('Hato · ' + act.length + ' cabezas · ' + h + ' hembras', cuerpo, { activa: 'ganado', derecha: '<button class="btn-icono" id="b-voz" aria-label="Dictar al ganado">' + ico('mic') + '</button>' });
     document.getElementById('b-voz').onclick = function () { dictarGanado(); };
     var ultimos = ultimosEventos(), clave = function (a) { var u = ultimos[a.id]; return u ? u.fecha + (u.creado_en || '9') : ''; };
+    var visibles = [];
+    // Selección de varios animales (como en WhatsApp): botón "Seleccionar" o dejar presionado un animal.
+    var sel = null, lista = document.getElementById('g-lista'), barra = document.getElementById('g-barra');
+    var pintarSel = function () {
+      var activo = !!sel, n = sel ? Object.keys(sel).length : 0;
+      lista.classList.toggle('seleccionando', activo); barra.hidden = !activo;
+      var fab = document.getElementById('b-registrar'); if (fab) fab.hidden = activo;
+      document.getElementById('g-sel').textContent = activo ? 'Listo' : 'Seleccionar';
+      lista.querySelectorAll('[data-animal]').forEach(function (r) { r.classList.toggle('marcado', !!(sel && sel[r.dataset.animal])); });
+      if (!activo) return;
+      document.getElementById('gs-n').textContent = n + (n === 1 ? ' animal' : ' animales');
+      var todos = visibles.length && visibles.every(function (a) { return sel[a.id]; });
+      document.getElementById('gs-todos').textContent = todos ? 'Ninguno' : 'Todos';
+      document.getElementById('gs-mover').disabled = document.getElementById('gs-tratar').disabled = !n;
+    };
+    var alternar = function (id) { if (!sel) sel = {}; if (sel[id]) delete sel[id]; else sel[id] = 1; pintarSel(); };
+    document.getElementById('g-sel').onclick = function () { sel = sel ? null : {}; pintarSel(); };
+    document.getElementById('gs-salir').onclick = function () { sel = null; pintarSel(); };
+    document.getElementById('gs-todos').onclick = function () {
+      var todos = visibles.every(function (a) { return sel[a.id]; });
+      visibles.forEach(function (a) { if (todos) delete sel[a.id]; else sel[a.id] = 1; }); pintarSel();
+    };
+    var elegidos = function () { return Object.keys(sel || {}).map(function (id) { return buscarId('campo_animales', id); }).filter(function (a) { return a && a.estado === 'activo'; }); };
+    document.getElementById('gs-mover').onclick = function () { formSeleccion('mover', elegidos(), function () { sel = null; }); };
+    document.getElementById('gs-tratar').onclick = function () { formSeleccion('tratar', elegidos(), function () { sel = null; }); };
+    var presion = null, largo = false;
+    lista.addEventListener('pointerdown', function (ev) {
+      var r = ev.target.closest('[data-animal]'); if (!r || filtroGanado.estado !== 'activo') return;
+      largo = false; clearTimeout(presion);
+      presion = setTimeout(function () { largo = true; if (navigator.vibrate) navigator.vibrate(15); if (!sel) sel = {}; sel[r.dataset.animal] = 1; pintarSel(); }, 450);
+    });
+    ['pointerup', 'pointercancel', 'pointerleave'].forEach(function (t) { lista.addEventListener(t, function () { clearTimeout(presion); }); });
+    lista.addEventListener('scroll', function () { clearTimeout(presion); }, true);
+    var x0 = 0, y0 = 0;
+    lista.addEventListener('pointerdown', function (ev) { x0 = ev.clientX; y0 = ev.clientY; });
+    lista.addEventListener('pointermove', function (ev) { if (Math.abs(ev.clientX - x0) + Math.abs(ev.clientY - y0) > 10) clearTimeout(presion); });
+    lista.addEventListener('contextmenu', function (ev) { if (ev.target.closest('[data-animal]')) ev.preventDefault(); });
+    lista.addEventListener('click', function (ev) {
+      var r = ev.target.closest('[data-animal]'); if (!r) return;
+      if (largo) { ev.preventDefault(); largo = false; return; }
+      if (sel) { ev.preventDefault(); alternar(r.dataset.animal); }
+    });
     var pintar = function () {
       var q = filtroGanado.q.trim().toLowerCase(), c = filtroGanado.cat;
       var l = tabla('campo_animales').filter(function (a) {
@@ -464,14 +508,18 @@
       }).sort(function (a, b) { return clave(b).localeCompare(clave(a)) || ordenArete(a, b); });
       document.getElementById('g-fijos').hidden = !!(q || c || filtroGanado.potrero || filtroGanado.estado !== 'activo');
       document.getElementById('g-conteo').textContent = l.length + (l.length === 1 ? ' animal' : ' animales');
+      visibles = l.slice(0, 400);
+      document.getElementById('g-sel').hidden = filtroGanado.estado !== 'activo' || !l.length;
+      if (filtroGanado.estado !== 'activo') sel = null;
       document.getElementById('g-lista').innerHTML = l.length ? l.slice(0, 400).map(function (a) { return filaAnimal(a, ultimos); }).join('') + (l.length > 400 ? '<li class="vacio">Mostrando 400. Use el buscador para encontrar los demás.</li>' : '')
         : '<li class="vacio"><b>Sin resultados</b>' + (tabla('campo_animales').length ? 'Pruebe con otro filtro.' : 'Toque el botón + para registrar su primer animal, o díctelo con el micrófono.') + '</li>';
+      pintarSel();
     };
     document.getElementById('g-q').oninput = function () { filtroGanado.q = this.value; pintar(); };
     document.getElementById('g-pot').onchange = function () { filtroGanado.potrero = this.value; pintar(); };
-    var marcarFiltros = function () { app.querySelectorAll('.filtros select').forEach(function (s) { s.classList.toggle('activo', s.id === 'g-est' ? s.value !== 'activo' : !!s.value); }); };
+    var marcarFiltros = function () { app.querySelectorAll('.filtros select').forEach(function (s) { s.classList.toggle('activo', !!s.value); }); };
     document.getElementById('g-cat').onchange = function () { filtroGanado.cat = this.value; marcarFiltros(); pintar(); };
-    document.getElementById('g-est').onchange = function () { filtroGanado.estado = this.value; marcarFiltros(); pintar(); };
+    app.querySelectorAll('[data-est]').forEach(function (b) { b.onclick = function () { filtroGanado.estado = b.getAttribute('data-est'); app.querySelectorAll('[data-est]').forEach(function (x) { x.setAttribute('aria-pressed', x === b); }); pintar(); }; });
     document.getElementById('g-pot').addEventListener('change', marcarFiltros);
     marcarFiltros();
     pintar();
@@ -1147,6 +1195,47 @@
       });
   }
 
+  /* Mover o vacunar a los animales elegidos en la lista del hato (pueden venir de potreros distintos). */
+  function formSeleccion(modo, l, alTerminar) {
+    if (!l.length) return aviso('Seleccione al menos un animal.', true);
+    var esMover = modo === 'mover', n = l.length + (l.length === 1 ? ' animal' : ' animales');
+    var desde = {}; l.forEach(function (a) { var k = nombrePotrero(a.potrero_id); desde[k] = (desde[k] || 0) + 1; });
+    var resumen = Object.keys(desde).map(function (k) { return desde[k] + ' de ' + k; }).join(' · ');
+    abrirHoja(esMover ? 'Mover ' + n : 'Vacunar o tratar ' + n,
+      '<p class="ayuda-sel">' + e(resumen) + '</p>' +
+      '<div class="sel-avatares">' + l.slice(0, 12).map(function (a) { return avatarAnimal(a, 'chico'); }).join('') + (l.length > 12 ? '<span class="avatar chico mas">+' + (l.length - 12) + '</span>' : '') + '</div>' +
+      (esMover ? campo('fs-a', 'Hacia', '<select id="fs-a">' + opcionesPotrero('') + '</select>')
+        : '<div class="campo"><span class="rotulo">Tipo</span>' + seg('fs-tipo', [['vacuna', 'Vacuna'], ['tratamiento', 'Tratamiento']], 'vacuna') + '</div>' +
+          campo('fs-prod', 'Producto o motivo', entrada('fs-prod', 'text', '', ' maxlength="80" placeholder="Ej. Desparasitante"')) +
+          (puedeDinero() ? campo('fs-costo', 'Costo total (opcional)', entrada('fs-costo', 'number', '', ' inputmode="decimal" min="0" step="any"'), 'Se anota como un solo gasto.') : '')) +
+      campo('fs-fecha', 'Fecha', entrada('fs-fecha', 'date', hoy(), ' max="' + hoy() + '"')),
+      '<button type="submit" class="btn ancho" id="fs-ok">' + (esMover ? 'Mover ' : 'Registrar a ') + n + '</button>',
+      function (f) {
+        if (esMover) hoja.querySelector('#fs-a').onchange = function () { delete f.dataset.ok; hoja.querySelector('#fs-ok').textContent = 'Mover ' + n; };
+        f.onsubmit = function (ev) {
+          ev.preventDefault(); limpiarErrores();
+          var fe = v('fs-fecha') || hoy();
+          if (esMover) {
+            var a2 = v('fs-a'); if (!a2) return marcarError('fs-a', 'Elija a qué potrero.');
+            var p2 = buscarId('campo_potreros', a2);
+            if (p2.agua === 'sin_agua' && !f.dataset.ok) { f.dataset.ok = '1'; hoja.querySelector('#fs-ok').textContent = 'Sí, moverlos aunque no tenga agua'; return marcarError('fs-a', p2.nombre + ' está marcado sin agua.'); }
+            var mov = l.filter(function (a) { return a.potrero_id !== a2; });
+            if (!mov.length) return marcarError('fs-a', 'Esos animales ya están en ' + p2.nombre + '.');
+            mov.forEach(function (a) { var o = nombrePotrero(a.potrero_id); guardar('campo_animales', { id: a.id, potrero_id: a2 }); evento(a, 'movimiento', { fecha: fe, detalle: 'De ' + o + ' a ' + p2.nombre }); });
+            if (alTerminar) alTerminar();
+            listo(mov.length + (mov.length === 1 ? ' animal movido' : ' animales movidos') + ' a ' + p2.nombre + '.');
+          } else {
+            var prod = v('fs-prod'), costo = num(v('fs-costo'));
+            if (!prod) return marcarError('fs-prod', 'Escriba el producto o el motivo.');
+            var tipo = grupo('fs-tipo') || 'vacuna';
+            l.forEach(function (a) { evento(a, tipo, { fecha: fe, detalle: prod }); });
+            if (costo > 0) guardar('campo_finanzas', { tipo: 'gasto', categoria: 'Medicinas y vacunas', concepto: prod + ' · ' + n, monto: costo, fecha: fe });
+            if (alTerminar) alTerminar();
+            listo('Registrado a ' + n + '.');
+          }
+        };
+      });
+  }
   function formLote(modo, potreroId) {
     var esMover = modo === 'mover';
     var conGanado = tabla('campo_potreros').filter(function (p) { return activos().some(function (a) { return a.potrero_id === p.id; }); });
@@ -1155,6 +1244,9 @@
     abrirHoja(esMover ? 'Mover ganado' : 'Vacunar o tratar lote',
       campo('fl-de', esMover ? 'Desde' : 'Potrero', '<select id="fl-de">' + conGanado.map(function (p) { return '<option value="' + p.id + '"' + (p.id === de ? ' selected' : '') + '>' + e(p.nombre) + '</option>'; }).join('') + '</select>') +
       '<div class="campo"><span class="rotulo">Quiénes</span>' + seg('fl-quien', [['', 'Todos'], ['hembra', 'Hembras'], ['macho', 'Machos']], '') + '</div>' +
+      '<div class="campo lote"><div class="lote-cab"><span class="rotulo" id="fl-cuenta"></span><button type="button" id="fl-todos"></button></div>' +
+      '<input id="fl-busca" type="search" inputmode="search" placeholder="Buscar arete" aria-label="Buscar arete" autocomplete="off">' +
+      '<ul class="lote-lista" id="fl-lista"></ul></div>' +
       (esMover ? campo('fl-a', 'Hacia', '<select id="fl-a">' + opcionesPotrero('') + '</select>')
         : '<div class="campo"><span class="rotulo">Tipo</span>' + seg('fl-tipo', [['vacuna', 'Vacuna'], ['tratamiento', 'Tratamiento']], 'vacuna') + '</div>' +
           campo('fl-prod', 'Producto o motivo', entrada('fl-prod', 'text', '', ' maxlength="80" placeholder="Ej. Desparasitante"')) +
@@ -1162,12 +1254,34 @@
       campo('fl-fecha', 'Fecha', entrada('fl-fecha', 'date', hoy(), ' max="' + hoy() + '"')),
       '<button type="submit" class="btn ancho" id="fl-ok"></button>',
       function (f) {
-        var grupoAnimales = function () { var q = grupo('fl-quien'); return activos().filter(function (a) { return a.potrero_id === v('fl-de') && (!q || a.sexo === q); }); };
-        var etiquetar = function () { var n = grupoAnimales().length; delete f.dataset.ok; hoja.querySelector('#fl-ok').textContent = (esMover ? 'Mover ' : 'Registrar a ') + n + (n === 1 ? ' animal' : ' animales'); };
-        hoja.querySelector('#fl-de').onchange = etiquetar;
+        // Todos van palomeados; el usuario quita los que no, o "Quitar todos" y palomea 3 o 4.
+        var quitados = {};
+        var enPotrero = function () { var q = grupo('fl-quien'); return activos().filter(function (a) { return a.potrero_id === v('fl-de') && (!q || a.sexo === q); }).sort(function (a, b) { return String(a.arete).localeCompare(String(b.arete), 'es', { numeric: true }); }); };
+        var grupoAnimales = function () { return enPotrero().filter(function (a) { return !quitados[a.id]; }); };
+        var etiquetar = function () {
+          var base = enPotrero(), n = grupoAnimales().length; delete f.dataset.ok;
+          hoja.querySelector('#fl-ok').textContent = (esMover ? 'Mover ' : 'Registrar a ') + n + (n === 1 ? ' animal' : ' animales');
+          hoja.querySelector('#fl-cuenta').textContent = n + ' de ' + base.length + ' seleccionados';
+          hoja.querySelector('#fl-todos').textContent = n ? 'Quitar todos' : 'Marcar todos';
+        };
+        var pintarLista = function () {
+          var t = normArete(v('fl-busca')), l = enPotrero().filter(function (a) { return !t || normArete(a.arete).indexOf(t) > -1 || (a.nombre && a.nombre.toLowerCase().indexOf(t) > -1); });
+          hoja.querySelector('#fl-lista').innerHTML = l.length ? l.map(function (a) {
+            return '<li><label><input type="checkbox" data-id="' + a.id + '"' + (quitados[a.id] ? '' : ' checked') + '>' + avatarAnimal(a, 'chico') +
+              '<span><b>' + e(a.arete) + (a.nombre ? ' · ' + e(a.nombre) : '') + '</b><small>' + NOMBRE_CAT[a.categoria] + (a.peso ? ' · ' + kg(a.peso) : '') + '</small></span><i class="palomita" aria-hidden="true"></i></label></li>';
+          }).join('') : '<li class="nada">Sin animales con ese filtro</li>';
+          hoja.querySelectorAll('#fl-lista input').forEach(function (c) { c.onchange = function () { if (c.checked) delete quitados[c.dataset.id]; else quitados[c.dataset.id] = 1; etiquetar(); }; });
+          etiquetar();
+        };
+        hoja.querySelector('#fl-todos').onclick = function () {
+          var hay = grupoAnimales().length; enPotrero().forEach(function (a) { if (hay) quitados[a.id] = 1; else delete quitados[a.id]; }); pintarLista();
+        };
+        hoja.querySelector('#fl-busca').oninput = pintarLista;
+        hoja.querySelector('#fl-busca').onkeydown = function (ev) { if (ev.key === 'Enter') ev.preventDefault(); };
+        hoja.querySelector('#fl-de').onchange = function () { quitados = {}; pintarLista(); };
         if (esMover) hoja.querySelector('#fl-a').onchange = etiquetar;
-        hoja.querySelector('#fl-quien').onelegir = etiquetar;
-        etiquetar();
+        hoja.querySelector('#fl-quien').onelegir = pintarLista;
+        pintarLista();
         f.onsubmit = function (ev) {
           ev.preventDefault(); limpiarErrores();
           var l = grupoAnimales(), fe = v('fl-fecha') || hoy();

@@ -427,4 +427,51 @@ dialog#hoja::backdrop { background: rgba(0, 0, 0, .4); }
 .filtros select { -webkit-appearance: none; appearance: none; min-width: 0; width: 100%; height: 38px; padding: 0 24px 0 12px; border-radius: 19px; border: 1.5px solid transparent; background: var(--fondo-2) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23998877' stroke-width='2.5' stroke-linecap='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E") no-repeat right 8px center / 13px; font: 600 14px var(--sans); color: var(--tinta-2); text-overflow: ellipsis; white-space: nowrap; overflow: hidden; }
 .filtros select.activo { border-color: var(--primario); color: var(--tinta); background-color: var(--primario-suave); }
 .filtros select:focus-visible { outline: 2px solid var(--primario); outline-offset: 2px; }
-@media (max-width: 359px) { .filtros { grid-template-columns: 1fr 1fr; } .filtros #g-pot { grid-column: 1 / -1; } }
+
+
+/* Estado del hato: tres botones fijos que caben sin deslizar */
+.estados-hato { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; margin: 0 16px 8px; padding: 4px; border-radius: 22px; background: var(--fondo-2); }
+.estados-hato button { height: 36px; border: 0; border-radius: 18px; background: transparent; font: 650 14px var(--sans); color: var(--tinta-2); white-space: nowrap; }
+.estados-hato button[aria-pressed="true"] { background: var(--fondo); color: var(--tinta); box-shadow: var(--sombra); }
+.filtros { grid-template-columns: 1fr 1fr; }
+
+/* Mover / vacunar lote: elegir animales uno por uno */
+.lote-cab { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; }
+.lote-cab button { border: 0; background: none; font: 650 14px var(--sans); color: var(--primario-hondo); padding: 4px 0; }
+.lote input[type=search] { margin: 6px 0 8px; }
+.lote-lista { list-style: none; margin: 0; padding: 0; max-height: 264px; overflow-y: auto; border-radius: 14px; background: var(--fondo-2); overscroll-behavior: contain; }
+.lote-lista li + li { border-top: 1px solid var(--regla); }
+.lote-lista label { position: relative; display: flex; align-items: center; gap: 12px; padding: 8px 12px; min-height: 56px; cursor: pointer; }
+.lote-lista label > span:not(.avatar) { flex: 1; min-width: 0; }
+.lote-lista b { display: block; font-size: 15px; }
+.lote-lista small { display: block; font-size: 13px; color: var(--tinta-3); }
+.lote-lista input { position: absolute; opacity: 0; pointer-events: none; }
+.palomita { flex: none; width: 26px; height: 26px; border-radius: 50%; border: 2px solid var(--tinta-3); display: grid; place-items: center; }
+.lote-lista input:checked ~ .palomita { background: var(--primario); border-color: var(--primario); }
+.lote-lista input:checked ~ .palomita::after { content: ''; width: 6px; height: 11px; border: solid #fff; border-width: 0 2.5px 2.5px 0; transform: translateY(-1px) rotate(45deg); }
+.lote-lista input:focus-visible ~ .palomita { outline: 2px solid var(--primario); outline-offset: 2px; }
+.lote-lista .nada { padding: 16px; color: var(--tinta-3); text-align: center; }
+
+/* Seleccionar varios animales en el hato */
+.conteo-fila { display: flex; align-items: baseline; justify-content: space-between; padding-right: 16px; }
+.conteo-fila button { border: 0; background: none; font: 650 14px var(--sans); color: var(--primario-hondo); padding: 6px 0; }
+.sel-check { display: none; }
+.seleccionando .sel-check { display: grid; flex: none; width: 24px; height: 24px; margin-right: -4px; }
+.seleccionando .fila { -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; }
+.seleccionando .fila time { display: none; }
+.fila.marcado { background: var(--primario-suave); }
+.fila.marcado .palomita { background: var(--primario); border-color: var(--primario); }
+.fila.marcado .palomita::after { content: ''; width: 6px; height: 11px; border: solid #fff; border-width: 0 2.5px 2.5px 0; transform: translateY(-1px) rotate(45deg); }
+.seleccionando { padding-bottom: 84px; }
+.barra-sel { position: fixed; z-index: 32; left: 12px; right: 12px; bottom: calc(var(--tabs) + var(--abajo) + 10px); display: flex; align-items: center; gap: 6px; padding: 8px 8px 8px 6px; border-radius: 22px; background: var(--carbon); color: #fff; box-shadow: 0 6px 20px rgba(0, 0, 0, .3); }
+.barra-sel[hidden] { display: none; }
+.barra-sel .btn-icono { color: #fff; }
+.barra-sel b { flex: 1; min-width: 0; font-size: 15px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.barra-sel #gs-todos { border: 0; background: none; color: var(--oro); font: 650 14px var(--sans); padding: 0 6px; }
+.barra-sel .btn { height: 42px; padding: 0 16px; font-size: 15px; }
+.barra-sel .btn svg { width: 18px; height: 18px; }
+.barra-sel #gs-tratar { width: 42px; padding: 0; background: rgba(255, 255, 255, .14); color: #fff; }
+.barra-sel .btn:disabled { opacity: .45; }
+.ayuda-sel { margin: 0 0 10px; font-size: 14px; color: var(--tinta-2); }
+.sel-avatares { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
+.avatar.mas { background: var(--fondo-2); color: var(--tinta-2); font-weight: 700; }
