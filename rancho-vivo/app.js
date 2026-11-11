@@ -7,7 +7,7 @@
   var sb = supabase.createClient(RV_CONFIG.url, RV_CONFIG.anonKey, { auth: { persistSession: true, autoRefreshToken: true } });
   var app = document.getElementById('app');
   var hoja = document.getElementById('hoja');
-  var VERSION = '2.8.0';
+  var VERSION = '2.8.1';
   var TABLAS = ['campo_potreros', 'campo_animales', 'campo_eventos', 'campo_finanzas'];
 
   var CATEGORIAS = {
@@ -1437,6 +1437,7 @@
     var de = potreroId || conGanado[0].id;
     abrirHoja(esMover ? 'Mover ganado' : 'Vacunar o tratar lote',
       campo('fl-de', esMover ? 'Desde' : 'Potrero', '<select id="fl-de">' + conGanado.map(function (p) { return '<option value="' + p.id + '"' + (p.id === de ? ' selected' : '') + '>' + e(p.nombre) + '</option>'; }).join('') + '</select>') +
+      (esMover ? campo('fl-a', 'Hacia', '<select id="fl-a">' + opcionesPotrero((tabla('campo_potreros').filter(function (p) { return p.id !== de; })[0] || {}).id || '') + '</select>') : '') +
       '<div class="campo cuantos"><span class="rotulo">Cuántos</span>' +
       '<div class="cuantos-fila"><label for="fl-nh">Hembras <small id="fl-th"></small></label><input id="fl-nh" type="number" inputmode="numeric" min="0" step="1" placeholder="Todas"></div>' +
       '<div class="cuantos-fila"><label for="fl-nm">Machos <small id="fl-tm"></small></label><input id="fl-nm" type="number" inputmode="numeric" min="0" step="1" placeholder="Todos"></div>' +
@@ -1444,7 +1445,7 @@
       '<div class="campo lote"><button type="button" class="lote-abrir" id="fl-abrir" aria-expanded="false"><span id="fl-cuenta"></span><span>Elegir uno por uno ' + ico('chev') + '</span></button>' +
       '<div id="fl-detalle" hidden><div class="lote-cab"><input id="fl-busca" type="search" inputmode="search" placeholder="Buscar arete" aria-label="Buscar arete" autocomplete="off"><button type="button" id="fl-todos"></button></div>' +
       '<ul class="lote-lista" id="fl-lista"></ul></div></div>' +
-      (esMover ? campo('fl-a', 'Hacia', '<select id="fl-a">' + opcionesPotrero('') + '</select>')
+      (esMover ? ''
         : '<div class="campo"><span class="rotulo">Tipo</span>' + seg('fl-tipo', [['vacuna', 'Vacuna'], ['tratamiento', 'Tratamiento']], 'vacuna') + '</div>' +
           campo('fl-prod', 'Producto o motivo', entrada('fl-prod', 'text', '', ' maxlength="80" placeholder="Ej. Desparasitante"')) +
           (puedeDinero() ? campo('fl-costo', 'Costo total (opcional)', entrada('fl-costo', 'number', '', ' inputmode="decimal" min="0" step="any"'), 'Se anota como un solo gasto.') : '')) +
