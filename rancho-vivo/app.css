@@ -309,8 +309,8 @@ dialog#hoja::backdrop { background: rgba(0, 0, 0, .4); }
 .hoja-cab::before { content: ""; position: absolute; left: 50%; top: 7px; width: 36px; height: 4px; border-radius: 2px; background: var(--regla); transform: translateX(-50%); }
 .hoja-cab h2 { flex: 1; font-size: 19px; font-weight: 700; }
 .hoja-cuerpo { padding: 8px 20px 16px; overflow-y: auto; }
-.hoja-pie { padding: 10px 20px calc(var(--abajo) + 14px); display: flex; gap: 10px; }
-.hoja-pie .btn { flex: 1; white-space: nowrap; }
+.hoja-pie { padding: 10px 20px calc(var(--abajo) + 14px); display: flex; align-items: center; gap: 10px; }
+.hoja-pie .btn { flex: 1; white-space: nowrap; margin: 0; }
 .campo { margin-bottom: 14px; }
 .campo > label, .campo > .rotulo { display: block; font-size: 13.5px; font-weight: 600; color: var(--tinta-2); margin: 0 0 6px 4px; }
 .campo input, .campo select, .campo textarea { width: 100%; min-height: 48px; border: 0; border-radius: 14px; background: var(--fondo-2); padding: 10px 14px; font-size: 16.5px; }
@@ -500,3 +500,33 @@ dialog#hoja::backdrop { background: rgba(0, 0, 0, .4); }
 .rechazados small { grid-column: 1; font-size: 13px; color: var(--gasto); overflow-wrap: anywhere; }
 .rechazados button { grid-column: 2; grid-row: 1 / span 2; border: 0; background: var(--fondo-2); border-radius: 16px; height: 34px; padding: 0 14px; font: 650 13.5px var(--sans); color: var(--tinta-2); }
 .rechazados button[data-seguro="1"] { background: var(--gasto); color: #fff; }
+
+/* Historial de cambios */
+.historial { list-style: none; margin: 4px 0 24px; padding: 0; }
+.hist-dia { display: flex; justify-content: center; padding: 10px 0 4px; }
+.hist-dia span { padding: 4px 12px; border-radius: 8px; background: var(--fondo-2); color: var(--tinta-2); font-size: 12.5px; font-weight: 650; }
+.hist-fila { display: flex; gap: 12px; padding: 10px 16px; text-decoration: none; color: inherit; }
+a.hist-fila:active { background: var(--fondo-2); }
+.hist-txt { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+.hist-arriba { font-size: 14px; color: var(--tinta-2); display: flex; gap: 4px; align-items: baseline; }
+.hist-arriba b { color: var(--tinta); }
+.hist-arriba time { margin-left: auto; font-size: 12.5px; color: var(--tinta-3); }
+.hist-que { font-size: 15px; font-weight: 600; color: var(--tinta); overflow-wrap: anywhere; }
+.hist-cambios { margin-top: 4px; padding: 6px 10px; border-radius: 10px; background: var(--fondo-2); font-size: 13.5px; color: var(--tinta-2); line-height: 1.5; }
+.hist-cambios s { color: var(--tinta-3); }
+.avatar.hist-alta { background: var(--primario-suave); color: var(--primario-hondo); }
+.avatar.hist-cambio { background: var(--oro); color: #2a2216; }
+.avatar.hist-borrado { background: var(--gasto); color: #fff; }
+
+/* Aviso para instalar la app */
+.instalar-cab { display: flex; align-items: center; gap: 14px; margin-bottom: 14px; }
+.instalar-cab img { border-radius: 16px; box-shadow: var(--sombra); }
+.instalar-cab b { display: block; font-family: var(--titulo); font-size: 20px; }
+.instalar-cab span { color: var(--tinta-2); font-size: 14px; }
+.instalar-pros { list-style: none; margin: 0 0 14px; padding: 0; }
+.instalar-pros li { position: relative; padding: 6px 0 6px 28px; font-size: 15px; }
+.instalar-pros li::before { content: ''; position: absolute; left: 4px; top: 10px; width: 6px; height: 11px; border: solid var(--ingreso); border-width: 0 2.5px 2.5px 0; transform: rotate(45deg); }
+.pasos { list-style: none; margin: 0 0 6px; padding: 12px 14px; border-radius: 14px; background: var(--fondo-2); }
+.pasos li { display: flex; gap: 12px; align-items: flex-start; padding: 6px 0; font-size: 15px; line-height: 1.4; }
+.paso-n { flex: none; width: 24px; height: 24px; border-radius: 50%; background: var(--primario); color: #fff; display: grid; place-items: center; font-size: 13px; font-weight: 700; }
+.ico-ios { width: 18px; height: 18px; vertical-align: -3px; color: var(--primario-hondo); }

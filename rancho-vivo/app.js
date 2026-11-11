@@ -7,7 +7,7 @@
   var sb = supabase.createClient(RV_CONFIG.url, RV_CONFIG.anonKey, { auth: { persistSession: true, autoRefreshToken: true } });
   var app = document.getElementById('app');
   var hoja = document.getElementById('hoja');
-  var VERSION = '2.5.1';
+  var VERSION = '2.7.0';
   var TABLAS = ['campo_potreros', 'campo_animales', 'campo_eventos', 'campo_finanzas'];
 
   var CATEGORIAS = {
@@ -49,6 +49,7 @@
     agua: '<path d="M12 3s6 6.5 6 11a6 6 0 0 1-12 0c0-4.5 6-11 6-11z"/>',
     descargar: '<path d="M12 4v11M7 10l5 5 5-5M5 20h14"/>',
     reporte: '<path d="M6 3h9l4 4v14H6z"/><path d="M14 3v5h5M9 17v-3M12 17v-6M15 17v-4"/>',
+    historial: '<path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5M12 7v5l3 2"/>',
     salir: '<path d="M15 4h4v16h-4M10 8l-4 4 4 4M6 12h10"/>',
     sync: '<path d="M20 11a8 8 0 0 0-14.5-4.5L4 8M4 4v4h4M4 13a8 8 0 0 0 14.5 4.5L20 16M20 20v-4h-4"/>',
     alerta: '<path d="M12 3 2 20h20zM12 10v4M12 17h.01"/>',
@@ -279,6 +280,44 @@
     } else if (!sinRed) { ruta(); await cargar(true); }
     ruta();
     subir();
+    setTimeout(function () { ofrecerInstalar(false); }, 1200);
+  }
+
+  /* ---------- Instalar la app en el celular (la primera vez que entra) ---------- */
+  var promptInstalar = null;
+  window.addEventListener('beforeinstallprompt', function (ev) { ev.preventDefault(); promptInstalar = ev; });
+  window.addEventListener('appinstalled', function () { promptInstalar = null; guardarLocal('rv:instalar', 'instalada'); if (hoja.open) hoja.close(); aviso('Listo, Rancho Vivo quedó en su pantalla de inicio.'); });
+  function instalada() { return (window.matchMedia && matchMedia('(display-mode: standalone)').matches) || navigator.standalone === true; }
+  function esIOS() { return /iPhone|iPad|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1); }
+  function enAppAjena() { return /FBAN|FBAV|Instagram|Line\/|WhatsApp|GSA\//i.test(navigator.userAgent); }
+  function ofrecerInstalar(forzar) {
+    if (instalada() || (!forzar && leerLocal('rv:instalar'))) return;
+    if (!forzar && hoja.open) return;
+    guardarLocal('rv:instalar', 'visto');
+    var paso = function (n, html) { return '<li><span class="paso-n">' + n + '</span><span>' + html + '</span></li>'; };
+    var compartir = '<svg class="ico-ios" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-label="Compartir"><path d="M12 3v12M8 7l4-4 4 4"/><path d="M6 11H5v10h14V11h-1"/></svg>';
+    var menu = '<svg class="ico-ios" viewBox="0 0 24 24" fill="currentColor" aria-label="Menú"><circle cx="12" cy="5" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="19" r="2"/></svg>';
+    var pasos = '';
+    if (enAppAjena()) pasos = '<ol class="pasos">' + paso(1, 'Esta liga se abrió dentro de otra app. Toque ' + (esIOS() ? compartir + ' o los tres puntos' : menu) + ' y elija <b>Abrir en ' + (esIOS() ? 'Safari' : 'Chrome') + '</b>.') + paso(2, 'Ahí le volverá a salir este aviso para instalarla.') + '</ol>';
+    else if (!promptInstalar && esIOS()) pasos = '<ol class="pasos">' + paso(1, 'Toque el botón <b>Compartir</b> ' + compartir + ' (abajo en Safari, o arriba en iPad).') + paso(2, 'Baje y elija <b>Agregar a inicio</b>.') + paso(3, 'Toque <b>Agregar</b>. Listo: ábrala desde el ícono.') + '</ol>';
+    else if (!promptInstalar) pasos = '<ol class="pasos">' + paso(1, 'Toque el menú ' + menu + ' del navegador (arriba a la derecha).') + paso(2, 'Elija <b>Instalar app</b> o <b>Agregar a pantalla principal</b>.') + paso(3, 'Confirme. Listo: ábrala desde el ícono.') + '</ol>';
+    abrirHoja('Instale Rancho Vivo',
+      '<div class="instalar-cab"><img src="icons/icon-192.png" alt="" width="64" height="64"><div><b>Rancho Vivo</b><span>Directo en su pantalla de inicio</span></div></div>' +
+      '<ul class="instalar-pros"><li>Abre con un toque, como cualquier app</li><li>Funciona en el monte, sin señal</li><li>Pantalla completa, sin barra del navegador</li></ul>' + pasos,
+      (promptInstalar ? '<button type="submit" class="btn ancho">Instalar ahora</button>' : '<button type="submit" class="btn ancho">Entendido</button>') +
+      '<button type="button" class="btn sec ancho" id="ins-luego">Ahora no</button>',
+      function (f) {
+        hoja.querySelector('#ins-luego').onclick = function () { hoja.close(); aviso('Puede instalarla después en Más → Instalar en el celular.'); };
+        f.onsubmit = async function (ev) {
+          ev.preventDefault();
+          if (!promptInstalar) { hoja.close(); return; }
+          var p = promptInstalar; promptInstalar = null;
+          p.prompt();
+          var r = await p.userChoice.catch(function () { return {}; });
+          hoja.close();
+          if (r.outcome !== 'accepted') aviso('Puede instalarla después en Más → Instalar en el celular.');
+        };
+      });
   }
   function pantallaLogin(error) {
     app.innerHTML =
@@ -344,6 +383,7 @@
     if (v === 'animal' && h[1]) return vistaAnimal(h[1]);
     if (v === 'dinero' && puedeDinero()) return vistaDinero(h[1]);
     if (v === 'estados' && puedeDinero()) return vistaEstados(h[1]);
+    if (v === 'historial' && puedeDinero()) return vistaHistorial();
     if (v === 'potreros') return vistaPotreros();
     if (v === 'potrero' && h[1]) return vistaPotrero(h[1]);
     if (v === 'mas') return vistaMas();
@@ -809,6 +849,100 @@
     };
   }
 
+  /* ---------- Historial de cambios (lo escribe la base de datos; aquí solo se lee) ---------- */
+  var CAMPOS_HIST = {
+    campo_animales: { arete: 'Arete', nombre: 'Nombre', sexo: 'Sexo', categoria: 'Tipo', raza: 'Raza', color: 'Color', potrero_id: 'Potrero', peso: 'Peso', estado: 'Estado', nacimiento: 'Nacimiento', madre_id: 'Madre', notas: 'Notas' },
+    campo_finanzas: { tipo: 'Tipo', categoria: 'Categoría', concepto: 'Concepto', monto: 'Monto', fecha: 'Fecha', proveedor: 'Proveedor' },
+    campo_eventos: { tipo: 'Registro', fecha: 'Fecha', peso: 'Peso', monto: 'Monto', detalle: 'Detalle' },
+    campo_potreros: { nombre: 'Nombre', hectareas: 'Hectáreas', agua: 'Agua', notas: 'Notas' }
+  };
+  function valorHist(campo, x) {
+    if (x == null || x === '') return '—';
+    if (campo === 'potrero_id') return nombrePotrero(x);
+    if (campo === 'madre_id') { var m = buscarId('campo_animales', x); return m ? 'arete ' + m.arete : '—'; }
+    if (campo === 'peso') return kg(x);
+    if (campo === 'monto') return pesos(x);
+    if (campo === 'fecha' || campo === 'nacimiento') return fecha(x, true);
+    if (campo === 'categoria' && NOMBRE_CAT[x]) return NOMBRE_CAT[x];
+    if (campo === 'agua' && AGUA[x]) return AGUA[x][0];
+    if (campo === 'estado') return ({ activo: 'En el rancho', vendido: 'Vendido', muerto: 'Baja' })[x] || x;
+    if (campo === 'tipo' && EVENTOS[x]) return EVENTOS[x][0];
+    if (campo === 'tipo') return x === 'gasto' ? 'Gasto' : x === 'ingreso' ? 'Ingreso' : x;
+    return String(x);
+  }
+  function describirHist(h) {
+    var f = h.despues || h.antes || {}, que, enlace = null;
+    if (h.tabla === 'campo_eventos') {
+      var an = buscarId('campo_animales', f.animal_id);
+      que = (EVENTOS[f.tipo] ? EVENTOS[f.tipo][0] : 'Registro') + (an ? ' · arete ' + an.arete : '') + (f.peso ? ' · ' + kg(f.peso) : '') + (f.monto ? ' · ' + pesos(f.monto) : '') + (f.detalle ? ' · ' + f.detalle : '');
+      if (an) enlace = '#/animal/' + an.id;
+    } else if (h.tabla === 'campo_animales') {
+      que = 'Animal arete ' + (f.arete || '') + (f.categoria && NOMBRE_CAT[f.categoria] ? ' (' + NOMBRE_CAT[f.categoria] + ')' : '');
+      if (buscarId('campo_animales', h.registro_id)) enlace = '#/animal/' + h.registro_id;
+    } else if (h.tabla === 'campo_finanzas') {
+      que = (f.tipo === 'ingreso' ? 'Ingreso' : 'Gasto') + ' · ' + (f.concepto || f.categoria || '') + ' · ' + pesos(f.monto);
+      enlace = '#/dinero/' + String(f.fecha || '').slice(0, 7);
+    } else {
+      que = 'Potrero ' + (f.nombre || '');
+      if (buscarId('campo_potreros', h.registro_id)) enlace = '#/potrero/' + h.registro_id;
+    }
+    var cambios = [];
+    if (h.accion === 'cambio' && h.antes && h.despues) {
+      var campos = CAMPOS_HIST[h.tabla] || {};
+      Object.keys(campos).forEach(function (c) {
+        if (String(h.antes[c] == null ? '' : h.antes[c]) !== String(h.despues[c] == null ? '' : h.despues[c])) cambios.push([campos[c], valorHist(c, h.antes[c]), valorHist(c, h.despues[c])]);
+      });
+    }
+    return { verbo: ({ alta: 'anotó', cambio: 'cambió', borrado: 'borró' })[h.accion], que: que, cambios: cambios, enlace: enlace };
+  }
+  var filtroHist = { quien: '', tipo: '' };
+  async function vistaHistorial() {
+    var cab = '<div class="filtros"><select id="h-quien" aria-label="Persona"><option value="">Todas las personas</option></select>' +
+      '<select id="h-tipo" aria-label="Qué"><option value="">Todo</option><option value="ganado">Ganado</option><option value="dinero">Dinero</option><option value="campo_potreros">Potreros</option></select></div>';
+    marco('Historial', cab + '<div id="h-cuerpo"><div class="esqueleto"></div><div class="esqueleto"></div></div>', { atras: '#/mas', activa: 'mas', sub: 'Quién anotó, cambió o borró qué' });
+    var cuerpo = document.getElementById('h-cuerpo');
+    if (!navigator.onLine) { cuerpo.innerHTML = '<div class="vacio"><b>Sin señal</b>El historial se consulta en el servidor. Ábralo cuando tenga señal.</div>'; return; }
+    var r = await sb.from('campo_historial').select('*').eq('rancho_id', S.rancho.id).order('cuando', { ascending: false }).limit(400);
+    if (location.hash !== '#/historial') return;
+    if (r.error) { cuerpo.innerHTML = '<div class="vacio"><b>No se pudo cargar</b>' + ((r.error.code === '42P01' || r.error.code === 'PGRST205') ? 'Falta activar el historial en el servidor.' : 'Intente de nuevo en un momento.') + '</div>'; return; }
+    // El peso o potrero de un animal cambia junto con su pesaje o movimiento: no se repite.
+    var conEvento = {};
+    r.data.forEach(function (h) { if (h.tabla === 'campo_eventos' && h.despues) conEvento[h.despues.animal_id + '|' + h.usuario_id + '|' + h.cuando.slice(0, 15)] = 1; });
+    var lista = r.data.filter(function (h) {
+      if (h.tabla !== 'campo_animales' || h.accion !== 'cambio' || !h.antes || !h.despues) return true;
+      var otros = Object.keys(CAMPOS_HIST.campo_animales).filter(function (c) { return c !== 'peso' && c !== 'potrero_id' && String(h.antes[c]) !== String(h.despues[c]); });
+      return otros.length || !conEvento[h.registro_id + '|' + h.usuario_id + '|' + h.cuando.slice(0, 15)];
+    });
+    var personas = {}; lista.forEach(function (h) { personas[h.quien || 'Sistema'] = 1; });
+    var selQ = document.getElementById('h-quien'), selT = document.getElementById('h-tipo');
+    selQ.innerHTML += Object.keys(personas).sort().map(function (p) { return '<option' + (filtroHist.quien === p ? ' selected' : '') + '>' + e(p) + '</option>'; }).join('');
+    selT.value = filtroHist.tipo;
+    var pintar = function () {
+      var l = lista.filter(function (h) {
+        if (filtroHist.quien && (h.quien || 'Sistema') !== filtroHist.quien) return false;
+        if (filtroHist.tipo === 'ganado') return h.tabla === 'campo_animales' || h.tabla === 'campo_eventos';
+        if (filtroHist.tipo === 'dinero') return h.tabla === 'campo_finanzas';
+        return !filtroHist.tipo || h.tabla === filtroHist.tipo;
+      });
+      selQ.classList.toggle('activo', !!filtroHist.quien); selT.classList.toggle('activo', !!filtroHist.tipo);
+      if (!l.length) { cuerpo.innerHTML = '<div class="vacio"><b>Sin movimientos</b>' + (lista.length ? 'Pruebe con otro filtro.' : 'Aquí aparecerá cada registro que se anote, cambie o borre.') + '</div>'; return; }
+      var dia = '', html = '<ul class="historial">';
+      l.forEach(function (h) {
+        var d = new Date(h.cuando), clave = d.getFullYear() + '-' + ('0' + (d.getMonth() + 1)).slice(-2) + '-' + ('0' + d.getDate()).slice(-2);
+        if (clave !== dia) { dia = clave; html += '<li class="hist-dia"><span>' + (clave === hoy() ? 'Hoy' : fecha(clave)) + '</span></li>'; }
+        var x = describirHist(h), quien = h.quien || 'Sistema';
+        var cuerpoH = '<span class="avatar chico hist-' + h.accion + '">' + e(iniciales(quien)) + '</span><span class="hist-txt"><span class="hist-arriba"><b>' + e(quien) + '</b> ' + x.verbo +
+          '<time>' + d.toLocaleTimeString('es-MX', { hour: 'numeric', minute: '2-digit' }) + '</time></span><span class="hist-que">' + e(x.que) + '</span>' +
+          (x.cambios.length ? '<span class="hist-cambios">' + x.cambios.map(function (c) { return e(c[0]) + ': <s>' + e(c[1]) + '</s> → <b>' + e(c[2]) + '</b>'; }).join('<br>') + '</span>' : '') + '</span>';
+        html += '<li>' + (x.enlace && h.accion !== 'borrado' ? '<a class="hist-fila" href="' + x.enlace + '">' + cuerpoH + '</a>' : '<div class="hist-fila">' + cuerpoH + '</div>') + '</li>';
+      });
+      cuerpo.innerHTML = html + '</ul>' + (r.data.length >= 400 ? '<p class="nota-edo legal">Se muestran los últimos 400 movimientos.</p>' : '');
+    };
+    selQ.onchange = function () { filtroHist.quien = this.value; pintar(); };
+    selT.onchange = function () { filtroHist.tipo = this.value; pintar(); };
+    pintar();
+  }
+
   function vistaPotreros() {
     var act = activos();
     var l = tabla('campo_potreros').slice().sort(function (a, b) { return a.nombre.localeCompare(b.nombre, 'es', { numeric: true }); });
@@ -908,8 +1042,10 @@
     var roles = { dueno: 'Dueño', encargado: 'Encargado', vaquero: 'Vaquero' };
     var cuerpo =
       (S.rechazados.length ? '<div class="panel"><ul class="lista">' + item('m-rech', 'alerta', S.rechazados.length + (S.rechazados.length === 1 ? ' cambio por revisar' : ' cambios por revisar'), 'No se guardaron en el servidor · toque para revisar') + '</ul></div>' : '') +
+      (instalada() ? '' : '<div class="panel"><ul class="lista">' + item('m-inst', 'descargar', 'Instalar en el celular', 'Ícono en su pantalla y funciona sin señal') + '</ul></div>') +
       '<div class="panel"><ul class="lista">' + item('m-pot', 'potrero', 'Potreros', tabla('campo_potreros').length + ' registrados') +
       (puedeDinero() ? item('m-edos', 'reporte', 'Estados financieros', 'Resultados, valor del hato y flujo') : '') +
+      (puedeDinero() ? item('m-hist', 'historial', 'Historial de cambios', 'Quién anotó, cambió o borró qué') : '') +
       item('m-csv-g', 'descargar', 'Descargar ganado', 'Archivo para Excel') +
       (puedeDinero() ? item('m-csv-d', 'descargar', 'Descargar dinero', 'Archivo para Excel') : '') +
       item('m-sync', 'sync', 'Actualizar datos', S.cola.length ? S.cola.length + ' cambios por subir' : 'Todo está guardado') + '</ul></div>' +
@@ -922,10 +1058,12 @@
       '<p class="pie-app">Rancho Vivo ' + VERSION + ' · Hecho por VYNTRA, Chihuahua<br>Soporte: WhatsApp 614 272 6674</p>';
     marco('Más', cuerpo, { activa: 'mas' });
     document.getElementById('m-pot').onclick = function () { location.hash = '#/potreros'; };
+    if (!instalada()) document.getElementById('m-inst').onclick = function () { ofrecerInstalar(true); };
     if (S.rechazados.length) document.getElementById('m-rech').onclick = formRechazados;
     document.getElementById('m-csv-g').onclick = csvGanado;
     if (puedeDinero()) document.getElementById('m-csv-d').onclick = csvDinero;
     if (puedeDinero()) document.getElementById('m-edos').onclick = function () { location.hash = '#/estados/' + hoy().slice(0, 4); };
+    if (puedeDinero()) document.getElementById('m-hist').onclick = function () { location.hash = '#/historial'; };
     document.getElementById('m-sync').onclick = async function () {
       if (!navigator.onLine) return aviso('Sin señal. Se subirá solo cuando vuelva.', true);
       await subir(); var ok = await cargar(true); aviso(ok ? 'Datos al día.' : 'No se pudo actualizar. Intente de nuevo.', !ok); ruta();
