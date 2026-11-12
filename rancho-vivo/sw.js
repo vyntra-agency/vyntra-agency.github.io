@@ -1,7 +1,7 @@
 // Guarda la app en el teléfono para que abra sin señal.
 // Al publicar una versión nueva, cambiar VERSION.
-var VERSION = 'rv-2.8.1';
-var ARCHIVOS = ['./', 'index.html', 'app.css', 'app.js', 'config.js', 'vendor/supabase.js', 'vendor/inter.woff2', 'manifest.webmanifest', 'icons/marca.svg', 'icons/curvas.svg', 'icons/topo.svg', 'icons/lomas.svg', 'vendor/cinzel.woff2', 'icons/icon-192.png', 'icons/icon-512.png'];
+var VERSION = 'rv-2.9.0';
+var ARCHIVOS = ['./', 'index.html', 'bienvenida.js', 'app.css', 'app.js', 'config.js', 'vendor/supabase.js', 'vendor/inter.woff2', 'manifest.webmanifest', 'icons/marca.svg', 'icons/curvas.svg', 'icons/topo.svg', 'icons/lomas.svg', 'vendor/cinzel.woff2', 'icons/icon-192.png', 'icons/icon-512.png'];
 
 self.addEventListener('install', function (ev) {
   ev.waitUntil(caches.open(VERSION).then(function (c) { return c.addAll(ARCHIVOS); }).then(function () { return self.skipWaiting(); }));

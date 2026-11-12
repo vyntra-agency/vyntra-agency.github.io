@@ -7,7 +7,7 @@
   var sb = supabase.createClient(RV_CONFIG.url, RV_CONFIG.anonKey, { auth: { persistSession: true, autoRefreshToken: true } });
   var app = document.getElementById('app');
   var hoja = document.getElementById('hoja');
-  var VERSION = '2.8.1';
+  var VERSION = '2.9.0';
   var TABLAS = ['campo_potreros', 'campo_animales', 'campo_eventos', 'campo_finanzas'];
 
   var CATEGORIAS = {
@@ -227,6 +227,12 @@
         return t === 'campo_finanzas' && !puedeDinero() ? Promise.resolve([]) : traerTodo(t);
       }));
       TABLAS.forEach(function (t, i) { d[t] = lotes[i]; });
+      // Los precios de venta/compra viven aparte (el vaquero no los puede leer); el patrón los junta aquí.
+      if (puedeDinero()) {
+        var precios = {};
+        try { (await traerTodo('campo_precios')).forEach(function (p) { precios[p.id] = p.monto; }); } catch (x) { /* aún sin schema-v5 */ }
+        d.campo_eventos.forEach(function (ev) { if (ev.monto == null && precios[ev.id] != null) ev.monto = precios[ev.id]; });
+      }
       S.datos = d; S.ultimaCarga = Date.now(); persistir();
       return true;
     } catch (x) { return false; }
@@ -852,6 +858,7 @@
   /* ---------- Historial de cambios (lo escribe la base de datos; aquí solo se lee) ---------- */
   var CAMPOS_HIST = {
     campo_animales: { arete: 'Arete', nombre: 'Nombre', sexo: 'Sexo', categoria: 'Tipo', raza: 'Raza', color: 'Color', potrero_id: 'Potrero', peso: 'Peso', estado: 'Estado', nacimiento: 'Nacimiento', madre_id: 'Madre', notas: 'Notas' },
+    campo_precios: { monto: 'Precio' },
     campo_finanzas: { tipo: 'Tipo', categoria: 'Categoría', concepto: 'Concepto', monto: 'Monto', fecha: 'Fecha', proveedor: 'Proveedor' },
     campo_eventos: { tipo: 'Registro', fecha: 'Fecha', peso: 'Peso', monto: 'Monto', detalle: 'Detalle' },
     campo_potreros: { nombre: 'Nombre', hectareas: 'Hectáreas', agua: 'Agua', notas: 'Notas' }
@@ -879,6 +886,10 @@
     } else if (h.tabla === 'campo_animales') {
       que = 'Animal arete ' + (f.arete || '') + (f.categoria && NOMBRE_CAT[f.categoria] ? ' (' + NOMBRE_CAT[f.categoria] + ')' : '');
       if (buscarId('campo_animales', h.registro_id)) enlace = '#/animal/' + h.registro_id;
+    } else if (h.tabla === 'campo_precios') {
+      var evp = buscarId('campo_eventos', h.registro_id), anp = evp && buscarId('campo_animales', evp.animal_id);
+      que = 'Precio de ' + (evp && EVENTOS[evp.tipo] ? EVENTOS[evp.tipo][0].toLowerCase() : 'venta') + (anp ? ' · arete ' + anp.arete : '') + ' · ' + pesos(f.monto);
+      if (anp) enlace = '#/animal/' + anp.id;
     } else if (h.tabla === 'campo_finanzas') {
       que = (f.tipo === 'ingreso' ? 'Ingreso' : 'Gasto') + ' · ' + (f.concepto || f.categoria || '') + ' · ' + pesos(f.monto);
       enlace = '#/dinero/' + String(f.fecha || '').slice(0, 7);
@@ -921,7 +932,7 @@
       var l = lista.filter(function (h) {
         if (filtroHist.quien && (h.quien || 'Sistema') !== filtroHist.quien) return false;
         if (filtroHist.tipo === 'ganado') return h.tabla === 'campo_animales' || h.tabla === 'campo_eventos';
-        if (filtroHist.tipo === 'dinero') return h.tabla === 'campo_finanzas';
+        if (filtroHist.tipo === 'dinero') return h.tabla === 'campo_finanzas' || h.tabla === 'campo_precios';
         return !filtroHist.tipo || h.tabla === filtroHist.tipo;
       });
       selQ.classList.toggle('activo', !!filtroHist.quien); selT.classList.toggle('activo', !!filtroHist.tipo);

@@ -2,6 +2,7 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https://phudylxuzskfbcbmagzu.supabase.co; media-src 'self' blob:; font-src 'self'; connect-src 'self' https://phudylxuzskfbcbmagzu.supabase.co wss://phudylxuzskfbcbmagzu.supabase.co; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#2A2622">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -18,6 +19,8 @@
 #bienvenida { position: fixed; inset: 0; z-index: 100; display: grid; place-items: center; align-content: center; gap: 26px;
   background: radial-gradient(120% 80% at 50% 36%, #4A433B 0%, #2A2622 70%); color: #F3E7C9; overflow: hidden;
   transition: opacity .45s ease, transform .45s ease; }
+#bienvenida { animation: b-se-va .45s 3.2s forwards; }
+@keyframes b-se-va { to { opacity: 0; visibility: hidden; } }
 #bienvenida.fuera { opacity: 0; transform: scale(1.04); pointer-events: none; }
 #bienvenida .lomas-b { position: absolute; left: 0; right: 0; bottom: 0; width: 100%; height: 26vh; }
 #bienvenida .ficha { width: min(46vw, 190px); aspect-ratio: 1; border-radius: 22.5%; overflow: hidden; position: relative;
@@ -74,13 +77,7 @@
 </div>
 <div id="aviso" role="status"></div>
 <dialog id="hoja" aria-labelledby="hoja-titulo"></dialog>
-<script>
-// La bienvenida dura lo que tarda la animación (2.3 s); la app se arma detrás mientras tanto.
-(function () {
-  var b = document.getElementById('bienvenida'), corto = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
-  setTimeout(function () { b.classList.add('fuera'); setTimeout(function () { b.remove(); }, 500); }, corto ? 500 : 2300);
-})();
-</script>
+<script src="bienvenida.js"></script>
 <script src="vendor/supabase.js"></script>
 <script src="config.js"></script>
 <script src="app.js"></script>
