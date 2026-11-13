@@ -7,7 +7,7 @@
   var sb = supabase.createClient(RV_CONFIG.url, RV_CONFIG.anonKey, { auth: { persistSession: true, autoRefreshToken: true } });
   var app = document.getElementById('app');
   var hoja = document.getElementById('hoja');
-  var VERSION = '2.9.0';
+  var VERSION = '2.10.0';
   var TABLAS = ['campo_potreros', 'campo_animales', 'campo_eventos', 'campo_finanzas'];
 
   var CATEGORIAS = {
@@ -15,7 +15,9 @@
     macho: [['toro', 'Toro'], ['novillo', 'Novillo'], ['becerro', 'Becerro']]
   };
   var NOMBRE_CAT = { vaca: 'Vaca', vaquilla: 'Vaquilla', becerra: 'Becerra', toro: 'Toro', novillo: 'Novillo', becerro: 'Becerro' };
-  var CAT_GASTO = ['Alimento y suplemento', 'Medicinas y vacunas', 'Veterinario', 'Mano de obra', 'Combustible', 'Mantenimiento', 'Compra de ganado', 'Agua y luz', 'Fletes', 'Otro'];
+  var CAT_GASTO = ['Alimento y suplemento', 'Sal y minerales', 'Medicinas y vacunas', 'Veterinario', 'Inseminación y genética', 'Mano de obra', 'Combustible', 'Mantenimiento',
+    'Cercos y corrales', 'Maquinaria y herramienta', 'Compra de ganado', 'Agua y luz', 'Fletes', 'Renta de tierra o pasto', 'Siembra y pastos', 'Fertilizantes y herbicidas',
+    'Aretes y trámites', 'Cuotas e impuestos', 'Seguros', 'Otro'];
   var CAT_INGRESO = ['Venta de ganado', 'Apoyos y subsidios', 'Renta de pasto', 'Otro'];
   var EVENTOS = {
     alta: ['Alta en el registro', 'nota'], pesaje: ['Pesaje', 'bascula'], vacuna: ['Vacuna', 'jeringa'], tratamiento: ['Tratamiento', 'jeringa'],
@@ -422,9 +424,18 @@
   var COLOR_CAT = {
     'Alimento y suplemento': '#FF8A3D', 'Medicinas y vacunas': '#FF5C8A', 'Veterinario': '#B57BFF', 'Mano de obra': '#4DA3FF', 'Combustible': '#FFC53D',
     'Mantenimiento': '#3DD6C6', 'Compra de ganado': '#8BD450', 'Agua y luz': '#5CC8FF', 'Fletes': '#E58CFF', 'Otro': '#9AA4B5',
+    'Sal y minerales': '#D9A066', 'Inseminación y genética': '#C77DD1', 'Cercos y corrales': '#A0785A', 'Maquinaria y herramienta': '#7C8B99',
+    'Renta de tierra o pasto': '#6FAF5F', 'Siembra y pastos': '#9ACD32', 'Fertilizantes y herbicidas': '#58B09C', 'Aretes y trámites': '#E0B84F',
+    'Cuotas e impuestos': '#D46A6A', 'Seguros': '#6C8EBF',
     'Venta de ganado': '#2BD47D', 'Apoyos y subsidios': '#2BD47D', 'Renta de pasto': '#2BD47D'
   };
-  function colorCat(c) { return COLOR_CAT[c] || '#9AA4B5'; }
+  // Categorías que el ganadero crea él mismo: color estable a partir del nombre
+  var COLORES_EXTRA = ['#E07A5F', '#81B29A', '#F2CC8F', '#3D9BD1', '#B56576', '#6D9DC5', '#C9A227', '#8E7DBE'];
+  function colorCat(c) {
+    if (COLOR_CAT[c]) return COLOR_CAT[c];
+    var h = 0; String(c || '').split('').forEach(function (l) { h = (h * 31 + l.charCodeAt(0)) >>> 0; });
+    return c ? COLORES_EXTRA[h % COLORES_EXTRA.length] : '#9AA4B5';
+  }
   /* Ingresos y gastos de los últimos meses, barras pareadas */
   function graficaMeses(hasta, n) {
     var meses = mesesAtras(hasta, n), W = 320, H = 120, base = 98, alto = 84;
@@ -747,6 +758,14 @@
   var PESO_TIPICO = { vaca: 450, toro: 650, vaquilla: 320, novillo: 350, becerra: 170, becerro: 180 };
   function clavePrecio() { return 'rv:preciokg:' + S.rancho.id; }
   function precioKg() { try { var p = +localStorage.getItem(clavePrecio()); return p > 0 ? p : 60; } catch (x) { return 60; } }
+  // Precio por kilo de cada tipo de animal (el becerro no vale lo mismo que la vaca de desecho).
+  // Si aún no se ha puesto, todos arrancan con el precio general anterior.
+  var ORDEN_CAT = ['becerro', 'becerra', 'novillo', 'vaquilla', 'vaca', 'toro'];
+  function preciosCat() {
+    var base = precioKg(), guardados = leerLocal('rv:preciocat:' + S.rancho.id) || {}, o = {};
+    ORDEN_CAT.forEach(function (k) { o[k] = +guardados[k] > 0 ? +guardados[k] : base; });
+    return o;
+  }
   function periodo(c) {
     var y = +c.slice(0, 4), meses = [], tipo, nombre, previo;
     var mm = function (yy, m) { return yy + '-' + ('0' + m).slice(-2); };
@@ -789,6 +808,7 @@
       o.n++; o.kg += +a.peso > 0 ? +a.peso : PESO_TIPICO[a.categoria] || 300;
     });
     var kgTot = Object.keys(porCat).reduce(function (s, k) { return s + porCat[k].kg; }, 0);
+    var pc = preciosCat(), valorHato = Object.keys(porCat).reduce(function (s, k) { return s + porCat[k].kg * (pc[k] || pk); }, 0);
     var delta = function (a, b, inverso) {
       if (!b) return '';
       var d = (a - b) / Math.abs(b) * 100, bueno = inverso ? d <= 0 : d >= 0;
@@ -824,14 +844,14 @@
       '<div class="cifra"><small>Costo por cabeza</small><b class="num">' + (cab ? pesos(r.g / cab) : '—') + '</b><span>En el periodo</span></div>' +
       '<div class="cifra"><small>Nacimientos</small><b class="num">' + cuenta('parto') + '</b><span>' + cuenta('compra') + ' compradas · ' + cuenta('venta') + ' vendidas</span></div>' +
       '<div class="cifra"><small>Destete promedio</small><b class="num">' + (destetes.length ? kg(destetes.reduce(function (s, x) { return s + +x.peso; }, 0) / destetes.length) : '—') + '</b><span>' + destetes.length + ' destetes · ' + cuenta('muerte') + ' muertes</span></div></div></section>' +
-      '<section class="seccion"><div class="seccion-titulo"><h2>Valor estimado del hato</h2><button class="no-imprimir" id="b-precio">Precio: ' + pesos(pk) + '/kg</button></div><div class="tabla-edo"><table>' +
-      '<thead><tr><th>Categoría</th><th class="num">Cabezas</th><th class="num">Kilos</th><th class="num">Valor</th></tr></thead><tbody>' +
+      '<section class="seccion"><div class="seccion-titulo"><h2>Valor estimado del hato</h2><button class="no-imprimir" id="b-precio">Precios por kilo</button></div><div class="tabla-edo"><table class="cinco">' +
+      '<thead><tr><th>Tipo</th><th class="num">Cab.</th><th class="num">Kilos</th><th class="num">$/kg</th><th class="num">Valor</th></tr></thead><tbody>' +
       (Object.keys(porCat).length ? Object.keys(porCat).sort(function (a, b) { return porCat[b].kg - porCat[a].kg; }).map(function (k) {
-        return '<tr><td>' + NOMBRE_CAT[k] + '</td><td class="num">' + porCat[k].n + '</td><td class="num">' + Math.round(porCat[k].kg).toLocaleString('es-MX') + '</td><td class="num">' + pesos(porCat[k].kg * pk) + '</td></tr>';
-      }).join('') : '<tr><td colspan="4" class="nada">Sin animales activos</td></tr>') +
-      '<tr class="final"><td>Total</td><td class="num">' + cab + '</td><td class="num">' + Math.round(kgTot).toLocaleString('es-MX') + '</td><td class="num">' + pesos(kgTot * pk) + '</td></tr></tbody></table>' +
-      '<p class="nota-edo">Con el último peso de cada animal; si no tiene, se usa un peso típico de su categoría. Precio en pie de ' + pesos(pk) + '/kg.</p></div></section>' +
-      (flujo ? '<section class="seccion"><div class="seccion-titulo"><h2>Flujo de efectivo</h2></div><div class="tabla-edo"><table>' +
+        return '<tr><td>' + NOMBRE_CAT[k] + '</td><td class="num">' + porCat[k].n + '</td><td class="num">' + Math.round(porCat[k].kg).toLocaleString('es-MX') + '</td><td class="num">' + pesos(pc[k]) + '</td><td class="num">' + pesos(porCat[k].kg * pc[k]) + '</td></tr>';
+      }).join('') : '<tr><td colspan="5" class="nada">Sin animales activos</td></tr>') +
+      '<tr class="final"><td>Total</td><td class="num">' + cab + '</td><td class="num">' + Math.round(kgTot).toLocaleString('es-MX') + '</td><td></td><td class="num">' + pesos(valorHato) + '</td></tr></tbody></table>' +
+      '<p class="nota-edo">Con el último peso de cada animal; si no tiene, se usa un peso típico de su categoría. Precio en pie por kilo según el tipo de animal.</p></div></section>' +
+      (flujo ? '<section class="seccion"><div class="seccion-titulo"><h2>Flujo de efectivo</h2></div><div class="tabla-edo"><table class="cinco">' +
         '<thead><tr><th>Mes</th><th class="num">Entró</th><th class="num">Salió</th><th class="num">Neto</th><th class="num">Acumulado</th></tr></thead><tbody>' + flujo + '</tbody></table></div></section>' : '') +
       '<div class="no-imprimir acciones-edo"><button class="btn ancho" id="b-pdf">' + ico('descargar') + ' Descargar PDF</button></div>' +
       '<p class="nota-edo legal">Reporte de gestión con los registros capturados en Rancho Vivo. No sustituye la contabilidad fiscal ni los estados financieros de su contador.</p>';
@@ -842,14 +862,22 @@
     };
     document.getElementById('b-precio').onclick = function () {
       abrirHoja('Precio del ganado en pie',
-        campo('fp-precio', 'Pesos por kilo', entrada('fp-precio', 'number', pk, ' inputmode="decimal" min="1" step="any" required'), 'Use el precio de la subasta o del comprador de su zona.'),
-        '<button type="submit" class="btn ancho">Guardar precio</button>',
+        '<p class="ayuda-sel">Pesos por kilo de cada tipo de animal. Use el precio de la subasta o del comprador de su zona.</p>' +
+        '<div class="campo cuantos precios-cat">' + ORDEN_CAT.map(function (k) {
+          return '<div class="cuantos-fila"><label for="fp-' + k + '">' + NOMBRE_CAT[k] + ' <small>$/kg</small></label>' + entrada('fp-' + k, 'number', pc[k], ' inputmode="decimal" min="1" step="any" required') + '</div>';
+        }).join('') + '</div>',
+        '<button type="submit" class="btn ancho">Guardar precios</button>',
         function (f) {
           f.onsubmit = function (ev) {
             ev.preventDefault(); limpiarErrores();
-            var n = num(v('fp-precio')); if (!(n > 0 && n < 1000)) return marcarError('fp-precio', 'Revise el precio.');
-            try { localStorage.setItem(clavePrecio(), n); } catch (x) { }
-            hoja.close(); aviso('Precio actualizado.'); ruta();
+            var nuevos = {};
+            for (var i = 0; i < ORDEN_CAT.length; i++) {
+              var k = ORDEN_CAT[i], n = num(v('fp-' + k));
+              if (!(n > 0 && n < 1000)) return marcarError('fp-' + k, 'Revise el precio.');
+              nuevos[k] = n;
+            }
+            guardarLocal('rv:preciocat:' + S.rancho.id, nuevos);
+            hoja.close(); aviso('Precios actualizados.'); ruta();
           };
         });
     };
@@ -1537,13 +1565,22 @@
     extra = extra || {};
     var dd = extra.datos || {};
     var nuevo = !f0; f0 = f0 || { tipo: dd.tipo || tipo0 || 'gasto', fecha: dd.fecha || hoy(), monto: dd.monto, proveedor: dd.proveedor, concepto: dd.concepto, categoria: dd.categoria };
-    var cats = function (t) { return t === 'ingreso' ? CAT_INGRESO : CAT_GASTO; };
-    var chips = function (t, sel) { return cats(t).map(function (c) { return '<button data-v="' + e(c) + '" aria-pressed="' + (c === sel) + '">' + e(c) + '</button>'; }).join(''); };
+    // Las de la lista + las que el ganadero ya inventó antes (para que las vuelva a encontrar)
+    var cats = function (t) {
+      var base = (t === 'ingreso' ? CAT_INGRESO : CAT_GASTO).slice(), propias = [];
+      tabla('campo_finanzas').forEach(function (f) { if (f.tipo === t && f.categoria && base.indexOf(f.categoria) < 0 && propias.indexOf(f.categoria) < 0) propias.push(f.categoria); });
+      return base.slice(0, -1).concat(propias.sort(), base.slice(-1));
+    };
+    var chips = function (t, sel) {
+      var l = cats(t); if (sel && l.indexOf(sel) < 0) l.splice(l.length - 1, 0, sel);
+      return l.map(function (c) { return '<button data-v="' + e(c) + '" aria-pressed="' + (c === sel) + '">' + e(c) + '</button>'; }).join('') + '<button data-v="" data-nueva="1" class="chip-nueva">+ Otra</button>';
+    };
     abrirHoja(nuevo ? (f0.tipo === 'ingreso' ? 'Nuevo ingreso' : 'Nuevo gasto') : 'Editar movimiento',
       (extra.nota ? '<div class="leido' + (dd.monto ? '' : ' mal') + '">' + (extra.foto ? '<img src="' + extra.foto + '" alt="Foto del ticket">' : '<span class="leido-ico">' + ico(extra.icono || (extra.origen === 'audio' ? 'mic' : 'foto')) + '</span>') + '<p>' + e(extra.nota) + '</p></div>' : '') +
       '<div class="campo">' + seg('fd-tipo', [['gasto', 'Gasto'], ['ingreso', 'Ingreso']], f0.tipo) + '</div>' +
       campo('fd-monto', 'Monto', '<div class="monto"><span>$</span>' + entrada('fd-monto', 'number', f0.monto, ' inputmode="decimal" min="0" step="any" required') + '</div>') +
-      '<div class="campo"><span class="rotulo">Categoría</span><div class="opciones" id="fd-cat" data-valor="' + e(f0.categoria || '') + '">' + chips(f0.tipo, f0.categoria) + '</div></div>' +
+      '<div class="campo"><span class="rotulo">Categoría</span><div class="opciones" id="fd-cat" data-valor="' + e(f0.categoria || '') + '">' + chips(f0.tipo, f0.categoria) + '</div>' +
+      '<div id="fd-cat-otra" hidden style="margin-top:8px">' + entrada('fd-cat-nueva', 'text', '', ' maxlength="40" placeholder="Nombre de la categoría, ej. Nómina de diciembre" aria-label="Nueva categoría"') + '</div></div>' +
       campo('fd-concepto', 'Concepto', entrada('fd-concepto', 'text', f0.concepto, ' maxlength="120" placeholder="Ej. 40 pacas de avena"')) +
       '<div class="dos-campos">' + campo('fd-prov', 'Proveedor o cliente', entrada('fd-prov', 'text', f0.proveedor, ' maxlength="80"')) +
       campo('fd-fecha', 'Fecha', entrada('fd-fecha', 'date', f0.fecha, ' max="' + hoy() + '"')) + '</div>' +
@@ -1553,9 +1590,13 @@
       function (f) {
         var segT = hoja.querySelector('#fd-tipo'), opc = hoja.querySelector('#fd-cat');
         var enlazar = function () {
-          opc.querySelectorAll('button').forEach(function (b) { b.type = 'button'; b.onclick = function () { opc.querySelectorAll('button').forEach(function (x) { x.setAttribute('aria-pressed', x === b); }); opc.dataset.valor = b.dataset.v; }; });
+          opc.querySelectorAll('button').forEach(function (b) { b.type = 'button'; b.onclick = function () {
+            opc.querySelectorAll('button').forEach(function (x) { x.setAttribute('aria-pressed', x === b); }); opc.dataset.valor = b.dataset.v;
+            var otra = hoja.querySelector('#fd-cat-otra'); otra.hidden = !b.dataset.nueva;
+            if (b.dataset.nueva) hoja.querySelector('#fd-cat-nueva').focus();
+          }; });
         };
-        segT.onelegir = function (t) { opc.innerHTML = chips(t, ''); opc.dataset.valor = ''; enlazar(); hoja.querySelector('#hoja-titulo').textContent = nuevo ? (t === 'ingreso' ? 'Nuevo ingreso' : 'Nuevo gasto') : 'Editar movimiento'; };
+        segT.onelegir = function (t) { opc.innerHTML = chips(t, ''); opc.dataset.valor = ''; hoja.querySelector('#fd-cat-otra').hidden = true; enlazar(); hoja.querySelector('#hoja-titulo').textContent = nuevo ? (t === 'ingreso' ? 'Nuevo ingreso' : 'Nuevo gasto') : 'Editar movimiento'; };
         enlazar();
         var ver = hoja.querySelector('#fd-ver');
         if (ver) ver.onclick = async function () {
@@ -1573,6 +1614,12 @@
         f.onsubmit = function (ev) {
           ev.preventDefault(); limpiarErrores();
           var monto = num(v('fd-monto')), cat = opc.dataset.valor;
+          if (!hoja.querySelector('#fd-cat-otra').hidden) {
+            cat = v('fd-cat-nueva').replace(/\s+/g, ' ');
+            if (!cat) return marcarError('fd-cat-nueva', 'Escriba el nombre de la categoría.');
+            var igual = cats(grupo('fd-tipo') || 'gasto').filter(function (c) { return c.toLowerCase() === cat.toLowerCase(); })[0];
+            if (igual) cat = igual; else cat = cat.charAt(0).toUpperCase() + cat.slice(1);
+          }
           if (!(monto > 0)) return marcarError('fd-monto', 'Escriba el monto.');
           if (!cat) return aviso('Elija una categoría.', true);
           guardar('campo_finanzas', { id: f0.id, tipo: grupo('fd-tipo') || 'gasto', monto: monto, categoria: cat, concepto: v('fd-concepto') || null, proveedor: v('fd-prov') || null, fecha: v('fd-fecha') || hoy(), animal_id: f0.animal_id || null,

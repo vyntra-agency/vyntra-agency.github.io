@@ -530,3 +530,10 @@ a.hist-fila:active { background: var(--fondo-2); }
 .pasos li { display: flex; gap: 12px; align-items: flex-start; padding: 6px 0; font-size: 15px; line-height: 1.4; }
 .paso-n { flex: none; width: 24px; height: 24px; border-radius: 50%; background: var(--primario); color: #fff; display: grid; place-items: center; font-size: 13px; font-weight: 700; }
 .ico-ios { width: 18px; height: 18px; vertical-align: -3px; color: var(--primario-hondo); }
+
+/* Precios por kilo de cada tipo de animal */
+.chip-nueva { border-style: dashed !important; }
+.tabla-edo { overflow-x: auto; }
+.tabla-edo table.cinco { font-size: 13.5px; }
+.tabla-edo table.cinco th, .tabla-edo table.cinco td { padding-left: 4px; padding-right: 4px; }
+.tabla-edo table.cinco tr.final td { font-size: 14.5px; }
