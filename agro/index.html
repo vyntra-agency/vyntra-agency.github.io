@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="es-MX">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Rancho Vivo · El control de su rancho en el celular | VYNTRA Agro</title>
+<meta name="description" content="Registro de ganado, gastos e ingresos y estados financieros del rancho desde el celular, aunque no haya señal. Se le dicta por voz o se le toma foto al ticket.">
+<meta name="theme-color" content="#2A2622">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Rancho Vivo · El control de su rancho en el celular">
+<meta property="og:description" content="Su ganado y su dinero en orden. Se le dicta por voz, funciona sin señal y sus vaqueros no ven su dinero.">
+<meta property="og:image" content="https://vyntra-agency.github.io/agro/img/compartir.jpg">
+<meta property="og:url" content="https://vyntra-agency.github.io/agro/">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="img/icono.png">
+<link rel="apple-touch-icon" href="img/icono.png">
+<style>
+@font-face { font-family: "Cinzel"; font-weight: 500 700; font-display: swap; src: url("fonts/cinzel.woff2") format("woff2"); }
+@font-face { font-family: "Inter"; font-weight: 400 800; font-display: swap; src: url("fonts/inter.woff2") format("woff2"); }
+:root {
+  --carbon: #2A2622; --carbon-2: #34302B; --cuero: #7A4B2A; --cuero-claro: #9A6438; --oro: #C9A227;
+  --crema: #F6F1E7; --arena: #EFE6D6; --tinta: #231F1B; --tinta-2: #5C5248; --claro: #F3E7C9; --claro-2: #CDBFA6;
+  --verde: #4F7A35; --linea: rgba(201, 162, 39, .22); --linea-osc: rgba(122, 75, 42, .16);
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0; background: var(--crema); color: var(--tinta); font: 17px/1.6 Inter, system-ui, -apple-system, Segoe UI, sans-serif; -webkit-font-smoothing: antialiased; }
+img { max-width: 100%; height: auto; display: block; }
+a { color: inherit; }
+.ancho { max-width: 1120px; margin: 0 auto; padding: 0 28px; }
+h1, h2, h3 { font-family: Cinzel, Georgia, serif; font-weight: 700; letter-spacing: .02em; line-height: 1.15; margin: 0; }
+h2 { font-size: clamp(28px, 3.6vw, 40px); }
+.etiqueta { display: inline-block; font-size: 13px; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; color: var(--cuero); margin-bottom: 14px; }
+.oscuro .etiqueta { color: var(--oro); }
+.boton { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 54px; padding: 0 26px; border-radius: 28px; font-weight: 700; font-size: 17px; text-decoration: none; transition: transform .15s ease, box-shadow .15s ease; }
+.boton:hover { transform: translateY(-1px); }
+.boton.principal { background: var(--oro); color: #241D12; box-shadow: 0 6px 18px rgba(201, 162, 39, .28); }
+.boton.secundario { border: 1.5px solid currentColor; color: var(--claro); }
+.claro .boton.secundario, .crema .boton.secundario { color: var(--cuero); }
+.boton svg { width: 22px; height: 22px; flex: none; }
+section { padding: 88px 0; }
+section + section { border-top: 1px solid var(--linea-osc); }
+.oscuro { background: radial-gradient(120% 90% at 20% 0%, #4A433B 0%, var(--carbon) 60%); color: var(--claro); }
+.oscuro + section, section + .oscuro { border-top-color: var(--linea); }
+.blanco { background: #FFFDF8; }
+.crema { background: var(--crema); }
+.arena { background: var(--arena); }
+
+/* Barra superior */
+.barra { position: sticky; top: 0; z-index: 10; background: rgba(42, 38, 34, .94); backdrop-filter: blur(8px); border-bottom: 1px solid var(--linea); }
+.barra .ancho { display: flex; align-items: center; justify-content: space-between; height: 64px; }
+.marca { display: flex; align-items: center; gap: 12px; text-decoration: none; color: var(--claro); }
+.marca img { width: 38px; height: 38px; border-radius: 10px; }
+.marca b { font-family: Cinzel, Georgia, serif; font-size: 19px; letter-spacing: .05em; }
+.marca small { display: block; font-size: 11px; letter-spacing: .16em; color: var(--oro); text-transform: uppercase; }
+.barra .boton { min-height: 42px; padding: 0 18px; font-size: 15px; }
+
+/* Portada */
+.portada { padding: 72px 0 0; overflow: hidden; position: relative; }
+.portada .ancho { display: grid; grid-template-columns: 1.1fr .9fr; gap: 48px; align-items: center; }
+.portada h1 { font-size: clamp(36px, 5.2vw, 62px); color: #FFF6E2; }
+.portada .bajada { font-size: 20px; color: var(--claro-2); margin: 20px 0 30px; max-width: 34em; }
+.portada .acciones { display: flex; flex-wrap: wrap; gap: 14px; }
+.portada .datos { display: flex; flex-wrap: wrap; gap: 10px 26px; margin: 34px 0 64px; padding: 0; list-style: none; color: var(--claro-2); font-size: 15px; }
+.portada .datos li::before { content: "✓ "; color: var(--oro); font-weight: 700; }
+.lomas { position: absolute; left: 0; right: 0; bottom: 0; height: 90px; width: 100%; }
+.cel { position: relative; width: 300px; margin: 0 auto; border-radius: 38px; padding: 10px; background: #15120F; box-shadow: 0 30px 60px rgba(0, 0, 0, .45), inset 0 0 0 1.5px #3B342D; }
+.cel img { border-radius: 30px; width: 100%; }
+.portada .cel { margin-bottom: -40px; z-index: 1; }
+
+/* Así se usa */
+.tres { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; margin-top: 48px; }
+.tres figure { margin: 0; }
+.tres .cel { width: 100%; max-width: 270px; }
+.tres figcaption { margin-top: 22px; text-align: center; }
+.tres figcaption b { display: block; font-size: 19px; margin-bottom: 4px; }
+.tres figcaption span { color: var(--tinta-2); font-size: 16px; }
+.cabeza-seccion { max-width: 720px; }
+.cabeza-seccion p { color: var(--tinta-2); font-size: 18px; margin: 14px 0 0; }
+.oscuro .cabeza-seccion p { color: var(--claro-2); }
+
+/* Qué incluye: lista sin tarjetas */
+.lista-dos { display: grid; grid-template-columns: 1fr 1fr; gap: 0 56px; margin: 40px 0 0; padding: 0; list-style: none; }
+.lista-dos li { display: flex; gap: 16px; padding: 22px 0; border-top: 1px solid var(--linea-osc); }
+.lista-dos li:nth-child(-n+2) { border-top: 0; }
+.lista-dos .ico { flex: none; width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center; background: var(--arena); color: var(--cuero); }
+.lista-dos .ico svg { width: 22px; height: 22px; }
+.lista-dos b { display: block; font-size: 18px; }
+.lista-dos span { color: var(--tinta-2); font-size: 16px; }
+
+/* Patrón y vaquero */
+.dos-col { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: center; }
+.roles { margin: 30px 0 0; padding: 0; list-style: none; }
+.roles li { padding: 18px 0; border-top: 1px solid var(--linea-osc); }
+.roles li:first-child { border-top: 0; }
+.roles b { display: block; font-size: 18px; margin-bottom: 4px; }
+.roles span { color: var(--tinta-2); }
+
+/* Satélite */
+.sat .ancho { display: grid; grid-template-columns: 1.2fr .8fr; gap: 56px; align-items: center; }
+.sat h2 { color: #FFF6E2; }
+.sat p { color: var(--claro-2); font-size: 18px; }
+.sat .pasos-sat { margin: 24px 0 32px; padding: 0; list-style: none; counter-reset: s; }
+.sat .pasos-sat li { counter-increment: s; display: flex; gap: 14px; padding: 10px 0; color: var(--claro); }
+.sat .pasos-sat li::before { content: counter(s); flex: none; width: 28px; height: 28px; border-radius: 50%; border: 1.5px solid var(--oro); color: var(--oro); display: grid; place-items: center; font-weight: 700; font-size: 14px; }
+.mapa-sat { aspect-ratio: 1; border-radius: 50%; position: relative; overflow: hidden; border: 2px solid var(--oro); box-shadow: 0 0 0 10px rgba(201, 162, 39, .08);
+  background: radial-gradient(circle at 30% 35%, #5E8A3A 0 14%, transparent 15%), radial-gradient(circle at 65% 30%, #8FA24B 0 12%, transparent 13%), radial-gradient(circle at 55% 68%, #3F6B2E 0 18%, transparent 19%), radial-gradient(circle at 25% 72%, #B9A253 0 11%, transparent 12%), linear-gradient(135deg, #6E7C3A, #A0954E 45%, #5C6E33); }
+.mapa-sat::after { content: ""; position: absolute; inset: 0; background: repeating-linear-gradient(90deg, transparent 0 24%, rgba(255, 246, 226, .35) 24% 24.6%), repeating-linear-gradient(0deg, transparent 0 32%, rgba(255, 246, 226, .35) 32% 32.6%); }
+
+/* Precio */
+.precio-fila { display: grid; grid-template-columns: 1fr 1fr; gap: 0; margin-top: 44px; border-top: 2px solid var(--tinta); }
+.precio-fila > div { padding: 30px 0; }
+.precio-fila > div + div { border-left: 1px solid var(--linea-osc); padding-left: 44px; }
+.precio-fila .num { font-family: Cinzel, Georgia, serif; font-size: clamp(40px, 5vw, 56px); font-weight: 700; color: var(--cuero); line-height: 1; }
+.precio-fila .num small { font-family: Inter, sans-serif; font-size: 18px; font-weight: 600; color: var(--tinta-2); }
+.precio-fila h3 { font-family: Inter, sans-serif; font-size: 15px; letter-spacing: .14em; text-transform: uppercase; color: var(--tinta-2); margin-bottom: 12px; }
+.precio-fila ul { margin: 18px 0 0; padding-left: 20px; color: var(--tinta-2); }
+.precio-fila li { margin: 5px 0; }
+.anual { margin-top: 10px; padding: 18px 0 0; border-top: 1px solid var(--linea-osc); color: var(--tinta-2); }
+.anual b { color: var(--tinta); }
+
+/* Cómo empezamos */
+.pasos { display: grid; grid-template-columns: repeat(3, 1fr); gap: 48px; margin: 44px 0 0; padding: 0; list-style: none; counter-reset: p; }
+.pasos li { counter-increment: p; border-top: 2px solid var(--oro); padding-top: 22px; }
+.pasos li::before { content: "0" counter(p); display: block; font-family: Cinzel, Georgia, serif; font-size: 34px; color: var(--oro); margin-bottom: 8px; }
+.pasos b { display: block; font-size: 19px; margin-bottom: 6px; }
+.pasos span { color: var(--tinta-2); }
+
+/* Preguntas */
+.preguntas { margin-top: 36px; max-width: 820px; }
+.preguntas details { border-top: 1px solid var(--linea-osc); }
+.preguntas details:last-child { border-bottom: 1px solid var(--linea-osc); }
+.preguntas summary { cursor: pointer; list-style: none; padding: 22px 40px 22px 0; font-weight: 700; font-size: 18px; position: relative; }
+.preguntas summary::-webkit-details-marker { display: none; }
+.preguntas summary::after { content: "+"; position: absolute; right: 6px; top: 16px; font-size: 26px; color: var(--cuero); font-weight: 400; transition: transform .2s; }
+.preguntas details[open] summary::after { transform: rotate(45deg); }
+.preguntas details p { margin: 0 0 22px; color: var(--tinta-2); }
+
+/* Cierre */
+.cierre { text-align: center; }
+.cierre h2 { color: #FFF6E2; max-width: 16em; margin: 0 auto; }
+.cierre p { color: var(--claro-2); font-size: 19px; margin: 16px auto 30px; max-width: 32em; }
+.cierre .acciones { display: flex; justify-content: center; flex-wrap: wrap; gap: 14px; }
+footer { background: #1E1B18; color: #A89A84; font-size: 14px; padding: 34px 0; }
+footer .ancho { display: flex; flex-wrap: wrap; gap: 12px 30px; justify-content: space-between; align-items: center; }
+footer a { color: var(--claro-2); }
+
+/* WhatsApp flotante en celular */
+.wa-flotante { display: none; }
+
+@media (max-width: 960px) {
+  .portada .ancho, .dos-col, .sat .ancho { grid-template-columns: 1fr; }
+  .portada .cel { width: 260px; }
+  .tres { grid-template-columns: 1fr; gap: 56px; }
+  .sat .mapa-sat { max-width: 320px; margin: 0 auto; }
+}
+@media (max-width: 760px) {
+  body { font-size: 16px; }
+  .ancho { padding: 0 20px; }
+  section { padding: 64px 0; }
+  .portada { padding-top: 44px; }
+  .portada .bajada { font-size: 18px; }
+  .portada .acciones .boton { flex: 1 1 100%; }
+  .portada .datos { margin-bottom: 48px; }
+  .lista-dos { grid-template-columns: 1fr; }
+  .lista-dos li:nth-child(2) { border-top: 1px solid var(--linea-osc); }
+  .precio-fila { grid-template-columns: 1fr; }
+  .precio-fila > div + div { border-left: 0; padding-left: 0; border-top: 1px solid var(--linea-osc); }
+  .pasos { grid-template-columns: 1fr; gap: 32px; }
+  .barra .boton span { display: none; }
+  .barra .boton { padding: 0 14px; }
+  .wa-flotante { display: grid; place-items: center; position: fixed; right: 16px; bottom: calc(16px + env(safe-area-inset-bottom)); z-index: 20; width: 58px; height: 58px; border-radius: 50%; background: #25D366; color: #fff; box-shadow: 0 8px 20px rgba(0, 0, 0, .3); }
+  .wa-flotante svg { width: 30px; height: 30px; }
+  .cierre .acciones .boton { flex: 1 1 100%; }
+}
+@media (max-width: 420px) {
+  .marca small { display: none; }
+  h2 { font-size: 26px; }
+  .portada h1 { font-size: 34px; }
+}
+</style>
+</head>
+<body>
+<!-- Íconos -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-wa" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2c0 1.3.9 2.5 1 2.7.1.2 1.8 2.8 4.4 3.9 1.6.7 2.3.8 3.1.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.3-.2-.5-.3Z"/></symbol>
+  <symbol id="i-vaca" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M4 5c.4 2.6 2 4 4.4 4M20 5c-.4 2.6-2 4-4.4 4M8 8.3h8l-.9 6.2a3.2 3.2 0 0 1-6.2 0zM10.2 15h3.6M5.6 8.1c-1.1 0-1.8.7-2 1.6 1.1.3 2.2.2 3.1-.4M18.4 8.1c1.1 0 1.8.7 2 1.6-1.1.3-2.2.2-3.1-.4"/></symbol>
+  <symbol id="i-dinero" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" d="M3 7h18v10H3zM12 14.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5ZM6 10v.01M18 14v.01"/></symbol>
+  <symbol id="i-mic" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" d="M12 3a3 3 0 0 0-3 3v6a3 3 0 0 0 6 0V6a3 3 0 0 0-3-3ZM5 11a7 7 0 0 0 14 0M12 18v3"/></symbol>
+  <symbol id="i-foto" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" d="M4 7h3l2-3h6l2 3h3v13H4zM12 17a4 4 0 1 0 0-8 4 4 0 0 0 0 8Z"/></symbol>
+  <symbol id="i-senal" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" d="M5 18v-2M9.5 18v-5M14 18V9M18.5 18V5M3 3l18 18"/></symbol>
+  <symbol id="i-reporte" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" d="M6 3h9l4 4v14H6zM14 3v5h5M9 17v-3M12 17v-6M15 17v-4"/></symbol>
+  <symbol id="i-candado" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" d="M5 11h14v10H5zM8 11V7a4 4 0 0 1 8 0v4"/></symbol>
+  <symbol id="i-potrero" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" d="m3 6 6-2 6 2 6-2v14l-6 2-6-2-6 2zM9 4v14M15 6v14"/></symbol>
+  <symbol id="i-historial" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" d="M3 12a9 9 0 1 0 3-6.7L3 8M3 3v5h5M12 7v5l3 2"/></symbol>
+</svg>
+
+<header class="barra">
+  <div class="ancho">
+    <a class="marca" href="#inicio"><img src="img/icono.png" alt="" width="38" height="38"><div><b>Rancho Vivo</b><small>VYNTRA Agro</small></div></a>
+    <a class="boton principal" href="https://wa.me/526142726674?text=Hola%2C%20quiero%20informaci%C3%B3n%20de%20Rancho%20Vivo" target="_blank" rel="noopener"><svg><use href="#i-wa"/></svg><span>Escríbanos</span></a>
+  </div>
+</header>
+
+<main id="inicio">
+<section class="oscuro portada">
+  <div class="ancho">
+    <div>
+      <span class="etiqueta">Ganado y dinero del rancho</span>
+      <h1>El control de su rancho, en su celular.</h1>
+      <p class="bajada">Cada animal con su historia, cada gasto y cada venta, y cómo va el rancho mes con mes. Se le dicta por voz o se le toma foto al ticket, y funciona aunque no haya señal.</p>
+      <div class="acciones">
+        <a class="boton principal" href="https://wa.me/526142726674?text=Hola%2C%20quiero%20probar%20Rancho%20Vivo" target="_blank" rel="noopener"><svg><use href="#i-wa"/></svg>Quiero probarla</a>
+        <a class="boton secundario" href="#satelite">Reporte gratis por satélite</a>
+      </div>
+      <ul class="datos"><li>Android y iPhone</li><li>Sin señal en el monte</li><li>Sus vaqueros no ven su dinero</li></ul>
+    </div>
+    <div class="cel"><img src="img/hato.webp" alt="Lista del hato en Rancho Vivo: cada animal con su arete y su último registro" width="540" height="1099"></div>
+  </div>
+  <svg class="lomas" viewBox="0 0 1200 90" preserveAspectRatio="none" aria-hidden="true"><path d="M0 40 C200 10 380 22 600 38 C820 54 1000 24 1200 12 V90 H0Z" fill="#4E3828" opacity=".75"/><path d="M0 66 C240 46 430 58 640 66 C850 74 1030 60 1200 54 V90 H0Z" fill="#7A4B2A"/></svg>
+</section>
+
+<section class="crema" id="como">
+  <div class="ancho">
+    <div class="cabeza-seccion">
+      <span class="etiqueta">Así se usa</span>
+      <h2>Tan fácil como mandar un mensaje.</h2>
+      <p>Nada de capturar formularios largos al final del día. Lo que pasa en el corral se anota en el momento, con la voz o con la cámara.</p>
+    </div>
+    <div class="tres">
+      <figure><div class="cel"><img src="img/voz.webp" alt="Rancho Vivo entendió lo dictado: pesaje de 520 kg y vacuna del arete 1061" width="540" height="1099" loading="lazy"></div>
+        <figcaption><b>Le dicta y se anota</b><span>"La 1061 pesó 520 y la vacunamos." Usted revisa y guarda.</span></figcaption></figure>
+      <figure><div class="cel"><img src="img/animal.webp" alt="Ficha de un animal con su historia: parto, pesajes y vacunas" width="540" height="1099" loading="lazy"></div>
+        <figcaption><b>La historia de cada animal</b><span>Madre, crías, pesos, vacunas, partos y en qué potrero ha estado.</span></figcaption></figure>
+      <figure><div class="cel"><img src="img/dinero.webp" alt="Gastos del mes en Rancho Vivo comparados con el mes anterior" width="540" height="1099" loading="lazy"></div>
+        <figcaption><b>Su dinero, al día</b><span>Gastos e ingresos en el momento, y en qué se le va el dinero cada mes.</span></figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<section class="blanco" id="incluye">
+  <div class="ancho">
+    <div class="cabeza-seccion">
+      <span class="etiqueta">Qué incluye</span>
+      <h2>Todo lo del rancho, en un solo lugar.</h2>
+    </div>
+    <ul class="lista-dos">
+      <li><span class="ico"><svg><use href="#i-vaca"/></svg></span><div><b>Registro de ganado</b><span>Arete, raza, color, pesos, vacunas, tratamientos, partos, preñez, destetes, compras, ventas y bajas.</span></div></li>
+      <li><span class="ico"><svg><use href="#i-potrero"/></svg></span><div><b>Potreros y agua</b><span>Cuántos animales hay en cada potrero, cuáles están sin agua, y mover ganado por lote o uno por uno.</span></div></li>
+      <li><span class="ico"><svg><use href="#i-dinero"/></svg></span><div><b>Gastos e ingresos</b><span>20 categorías del rancho (alimento, sal, medicinas, sueldos, diésel, cercos…) y las que usted cree.</span></div></li>
+      <li><span class="ico"><svg><use href="#i-reporte"/></svg></span><div><b>Estados financieros</b><span>Resultados por mes, trimestre o año, valor estimado del hato y flujo de efectivo. Se descarga en PDF.</span></div></li>
+      <li><span class="ico"><svg><use href="#i-mic"/></svg></span><div><b>Voz y foto del ticket</b><span>Dicte lo que pasó o tómele foto al ticket: monto, proveedor y fecha se llenan solos.</span></div></li>
+      <li><span class="ico"><svg><use href="#i-senal"/></svg></span><div><b>Funciona sin señal</b><span>Se guarda en el celular y se sube solo cuando regresa la señal. No se pierde nada.</span></div></li>
+      <li><span class="ico"><svg><use href="#i-historial"/></svg></span><div><b>Historial de cambios</b><span>Quién anotó, cambió o borró cada cosa y cuándo. Nadie lo puede alterar.</span></div></li>
+      <li><span class="ico"><svg><use href="#i-candado"/></svg></span><div><b>Respaldo diario</b><span>Su información se respalda todos los días y solo la ve la gente de su rancho.</span></div></li>
+    </ul>
+  </div>
+</section>
+
+<section class="arena" id="roles">
+  <div class="ancho dos-col">
+    <div>
+      <span class="etiqueta">Patrón y vaqueros</span>
+      <h2>Cada quien ve lo que le toca.</h2>
+      <ul class="roles">
+        <li><b>El patrón</b><span>Ve todo: ganado, gastos, sueldos, ventas, estados financieros e historial.</span></li>
+        <li><b>El encargado</b><span>Lleva el ganado y el dinero del día a día.</span></li>
+        <li><b>Los vaqueros</b><span>Anotan pesajes, vacunas, partos y movimientos. No ven el dinero ni los precios, y no pueden borrar.</span></li>
+      </ul>
+    </div>
+    <div class="cel"><img src="img/estados.webp" alt="Estados financieros del rancho en Rancho Vivo" width="540" height="1099" loading="lazy"></div>
+  </div>
+</section>
+
+<section class="oscuro sat" id="satelite">
+  <div class="ancho">
+    <div>
+      <span class="etiqueta">Sin costo</span>
+      <h2>Reporte gratis de su rancho por satélite.</h2>
+      <p>Le decimos cómo está el pasto y la humedad de sus potreros, visto desde el satélite, sin que usted capture nada.</p>
+      <ol class="pasos-sat">
+        <li>Mándenos por WhatsApp la ubicación de su rancho.</li>
+        <li>Revisamos las imágenes de satélite más recientes.</li>
+        <li>Le regresamos su reporte en unos días.</li>
+      </ol>
+      <a class="boton principal" href="https://wa.me/526142726674?text=Hola%2C%20quiero%20mi%20reporte%20gratis%20por%20sat%C3%A9lite.%20Mi%20rancho%20est%C3%A1%20en%3A%20" target="_blank" rel="noopener"><svg><use href="#i-wa"/></svg>Pedir mi reporte gratis</a>
+    </div>
+    <div class="mapa-sat" role="img" aria-label="Ilustración de potreros vistos desde el satélite"></div>
+  </div>
+</section>
+
+<section class="crema" id="precio">
+  <div class="ancho">
+    <div class="cabeza-seccion">
+      <span class="etiqueta">Precio claro</span>
+      <h2>Un pago para arrancar y una mensualidad.</h2>
+      <p>Sin letras chiquitas. La inversión del equipo (aretes, lectores, básculas) no va incluida; la app funciona sin ellos.</p>
+    </div>
+    <div class="precio-fila">
+      <div>
+        <h3>1. Pago inicial</h3>
+        <div class="num">$7,500 <small>una sola vez</small></div>
+        <ul>
+          <li>Damos de alta su rancho, potreros y usuarios</li>
+          <li><b>Capturamos su ganado</b>: nos pasa su libreta, Excel o fotos</li>
+          <li>Le enseñamos a usarla a usted y a sus vaqueros</li>
+          <li>Incluye el primer mes</li>
+        </ul>
+      </div>
+      <div>
+        <h3>2. Mensualidad</h3>
+        <div class="num">$950 <small>al mes</small></div>
+        <ul>
+          <li>Usuarios sin límite</li>
+          <li>Respaldo diario de su información</li>
+          <li>Soporte directo por WhatsApp</li>
+          <li>Los ajustes que vaya pidiendo</li>
+        </ul>
+        <p class="anual"><b>O el año completo:</b> $7,500 + $9,500 = $17,000. Se ahorra 2 mensualidades.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="blanco" id="empezar">
+  <div class="ancho">
+    <div class="cabeza-seccion">
+      <span class="etiqueta">Cómo empezamos</span>
+      <h2>En una semana lo tiene funcionando.</h2>
+    </div>
+    <ol class="pasos">
+      <li><b>Platicamos</b><span>Nos cuenta cómo trabaja su rancho y le damos acceso a un rancho de prueba para que la conozca.</span></li>
+      <li><b>Cargamos su ganado</b><span>Nos pasa lo que tenga (libreta, Excel o fotos) y nosotros lo subimos con sus potreros y usuarios.</span></li>
+      <li><b>A trabajar</b><span>Le enseñamos a usted y a sus vaqueros, y la vamos ajustando a como usted trabaja.</span></li>
+    </ol>
+  </div>
+</section>
+
+<!-- TESTIMONIO: cuando don Jesús (El Fuerte, Sinaloa) dé su testimonio real, poner aquí su foto, nombre, rancho y sus palabras textuales. No inventar. -->
+
+<section class="arena" id="preguntas">
+  <div class="ancho">
+    <div class="cabeza-seccion">
+      <span class="etiqueta">Preguntas frecuentes</span>
+      <h2>Lo que más nos preguntan.</h2>
+    </div>
+    <div class="preguntas">
+      <details><summary>¿Funciona donde no hay señal?</summary><p>Sí. Todo se guarda en el celular y se sube solo cuando hay señal otra vez. Aunque el celular se apague o se cierre la app, lo anotado no se pierde.</p></details>
+      <details><summary>¿Funciona en Android y en iPhone?</summary><p>Sí, en los dos. Se instala desde el navegador en un minuto y queda con su ícono en la pantalla, como cualquier app.</p></details>
+      <details><summary>¿Sirve para la trazabilidad del SINIIGA?</summary><p>Lleva la historia completa de cada animal por su número de arete (puede ser el del SINIIGA): nacimiento, madre, pesos, vacunas, movimientos, compra y venta. No sustituye el registro oficial ante SINIIGA ni la guía de movilización, pero tiene todo ordenado para cuando se lo pidan.</p></details>
+      <details><summary>¿Mis vaqueros van a ver mi dinero?</summary><p>No. Los vaqueros solo ven y anotan lo del ganado. Los gastos, ingresos, precios de venta y el historial solo los ven el patrón y el encargado.</p></details>
+      <details><summary>¿Quién más ve mi información?</summary><p>Solo la gente de su rancho. Cada rancho está separado y su información se respalda todos los días. Al terminar el servicio le entregamos sus datos en Excel.</p></details>
+      <details><summary>¿Cuántas personas la pueden usar?</summary><p>Las que usted necesite: patrón, encargados y vaqueros, sin costo extra por usuario.</p></details>
+      <details><summary>¿Y si quiero algo que no tiene?</summary><p>Nos dice y lo vemos. Los ajustes chicos van incluidos en la mensualidad; si es algo más grande, se lo cotizamos antes.</p></details>
+    </div>
+  </div>
+</section>
+
+<section class="oscuro cierre">
+  <div class="ancho">
+    <span class="etiqueta">Rancho Vivo</span>
+    <h2>Su ganado y su dinero, en orden.</h2>
+    <p>Escríbanos y le damos acceso a un rancho de prueba para que la conozca, sin compromiso.</p>
+    <div class="acciones">
+      <a class="boton principal" href="https://wa.me/526142726674?text=Hola%2C%20quiero%20probar%20Rancho%20Vivo" target="_blank" rel="noopener"><svg><use href="#i-wa"/></svg>Quiero probarla</a>
+      <a class="boton secundario" href="https://wa.me/526142726674?text=Hola%2C%20quiero%20mi%20reporte%20gratis%20por%20sat%C3%A9lite.%20Mi%20rancho%20est%C3%A1%20en%3A%20" target="_blank" rel="noopener">Reporte gratis por satélite</a>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="ancho">
+    <span>Rancho Vivo es de <b>VYNTRA Agro</b> · Chihuahua, México</span>
+    <span><a href="https://wa.me/526142726674">WhatsApp 614 272 6674</a> · <a href="mailto:vyntra.ex@gmail.com">vyntra.ex@gmail.com</a></span>
+  </div>
+</footer>
+
+<a class="wa-flotante" href="https://wa.me/526142726674?text=Hola%2C%20quiero%20informaci%C3%B3n%20de%20Rancho%20Vivo" target="_blank" rel="noopener" aria-label="Escríbanos por WhatsApp"><svg><use href="#i-wa"/></svg></a>
+</body>
+</html>
