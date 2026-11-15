@@ -7,7 +7,7 @@
   var sb = supabase.createClient(RV_CONFIG.url, RV_CONFIG.anonKey, { auth: { persistSession: true, autoRefreshToken: true } });
   var app = document.getElementById('app');
   var hoja = document.getElementById('hoja');
-  var VERSION = '2.10.0';
+  var VERSION = '2.11.0';
   var TABLAS = ['campo_potreros', 'campo_animales', 'campo_eventos', 'campo_finanzas'];
 
   var CATEGORIAS = {
@@ -62,7 +62,9 @@
     foto: '<path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/>',
     escribir: '<path d="M4 20h4L19 9l-4-4L4 16zM13 7l4 4"/>',
     clip: '<path d="m20 11.5-8.4 8.4a5 5 0 0 1-7.1-7.1l8.8-8.8a3.4 3.4 0 0 1 4.8 4.8l-8.8 8.8a1.7 1.7 0 0 1-2.4-2.4l8-8"/>',
-    enviar: '<path d="M5 12h13M12 5l7 7-7 7"/>'
+    enviar: '<path d="M5 12h13M12 5l7 7-7 7"/>',
+    ubicacion: '<path d="M12 21s-7-6.2-7-12a7 7 0 0 1 14 0c0 5.8-7 12-7 12z"/><circle cx="12" cy="9" r="2.5"/>',
+    collar: '<path d="M5 8c0 4 3 7 7 7s7-3 7-7"/><rect x="9.5" y="14" width="5" height="6" rx="1.2"/>'
   };
   var PELAJE = { negro: ['#2E2A27', '#F3EBDD'], colorado: ['#8E3F22', '#F8E8DA'], 'cara blanca': ['#9A4E2C', '#FBEBDD'], blanco: ['#E9E2D3', '#5A4C3E'], bayo: ['#C8A46B', '#3B2C1C'], pinto: ['#7A7068', '#F4EEE6'], gris: ['#8B8D8F', '#F4F4F2'] };
   function estiloPelaje(c) { var p = PELAJE[(c || '').toLowerCase().trim()]; return p ? ' style="background:' + p[0] + ';color:' + p[1] + '"' : ''; }
@@ -236,6 +238,7 @@
         d.campo_eventos.forEach(function (ev) { if (ev.monto == null && precios[ev.id] != null) ev.monto = precios[ev.id]; });
       }
       S.datos = d; S.ultimaCarga = Date.now(); persistir();
+      if (ubicacionVisible()) cargarAparatos();
       return true;
     } catch (x) { return false; }
   }
@@ -392,6 +395,10 @@
     if (v === 'dinero' && puedeDinero()) return vistaDinero(h[1]);
     if (v === 'estados' && puedeDinero()) return vistaEstados(h[1]);
     if (v === 'historial' && puedeDinero()) return vistaHistorial();
+    if (v === 'activar-ubicacion') { guardarLocal('rv:ubicacion-interno', 1); location.hash = '#/ubicacion'; return; }
+    if (v === 'ocultar-ubicacion') { try { localStorage.removeItem('rv:ubicacion-interno'); } catch (x) { } location.hash = '#/mas'; return; }
+    if (v === 'ubicacion' && ubicacionVisible()) return vistaUbicacion();
+    if (v === 'ubicacion' && puedeDinero()) return vistaUbicacionPronto();
     if (v === 'potreros') return vistaPotreros();
     if (v === 'potrero' && h[1]) return vistaPotrero(h[1]);
     if (v === 'mas') return vistaMas();
@@ -1083,6 +1090,8 @@
       (S.rechazados.length ? '<div class="panel"><ul class="lista">' + item('m-rech', 'alerta', S.rechazados.length + (S.rechazados.length === 1 ? ' cambio por revisar' : ' cambios por revisar'), 'No se guardaron en el servidor · toque para revisar') + '</ul></div>' : '') +
       (instalada() ? '' : '<div class="panel"><ul class="lista">' + item('m-inst', 'descargar', 'Instalar en el celular', 'Ícono en su pantalla y funciona sin señal') + '</ul></div>') +
       '<div class="panel"><ul class="lista">' + item('m-pot', 'potrero', 'Potreros', tabla('campo_potreros').length + ' registrados') +
+      (ubicacionVisible() ? item('m-ubi', 'ubicacion', 'Ubicación del ganado', aparatosDelRancho().length ? aparatosDelRancho().length + (aparatosDelRancho().length === 1 ? ' aparato' : ' aparatos') : 'Collares y rastreadores')
+        : puedeDinero() ? item('m-ubi', 'ubicacion', 'Ubicación del ganado', 'Próximamente') : '') +
       (puedeDinero() ? item('m-edos', 'reporte', 'Estados financieros', 'Resultados, valor del hato y flujo') : '') +
       (puedeDinero() ? item('m-hist', 'historial', 'Historial de cambios', 'Quién anotó, cambió o borró qué') : '') +
       item('m-csv-g', 'descargar', 'Descargar ganado', 'Archivo para Excel') +
@@ -1103,6 +1112,8 @@
     if (puedeDinero()) document.getElementById('m-csv-d').onclick = csvDinero;
     if (puedeDinero()) document.getElementById('m-edos').onclick = function () { location.hash = '#/estados/' + hoy().slice(0, 4); };
     if (puedeDinero()) document.getElementById('m-hist').onclick = function () { location.hash = '#/historial'; };
+    var mUbi = document.getElementById('m-ubi');
+    if (mUbi) mUbi.onclick = function () { location.hash = '#/ubicacion'; };
     document.getElementById('m-sync').onclick = async function () {
       if (!navigator.onLine) return aviso('Sin señal. Se subirá solo cuando vuelva.', true);
       await subir(); var ok = await cargar(true); aviso(ok ? 'Datos al día.' : 'No se pudo actualizar. Intente de nuevo.', !ok); ruta();
@@ -1111,6 +1122,147 @@
     app.querySelectorAll('[data-rancho]').forEach(function (b) {
       b.onclick = function () { var r = S.ranchos.filter(function (x) { return x.rancho_id === b.getAttribute('data-rancho'); })[0]; abrirRancho({ usuario: S.usuario.id, rancho: r.campo_ranchos, rol: r.rol, nombre: r.nombre }, !navigator.onLine); location.hash = '#/inicio'; };
     });
+  }
+
+  /* ---------- Ubicación del ganado (collares y rastreadores) ----------
+     Solo con señal y solo para dueño y encargado. Las posiciones las escribe el servidor
+     (Traccar → Edge Function campo-ubicaciones); la app solo las lee. Los aparatos se guardan
+     en el teléfono para poder avisar "quítele el collar" al vender aunque no haya señal. */
+  // Se muestra solo en ranchos que ya compraron collares (agregar aquí su id al venderlos).
+  // El demo NO va aquí: los prospectos no deben verla todavía. Para enseñarla en un teléfono de VYNTRA,
+  // abrir una vez #/activar-ubicacion en ese teléfono (y #/ocultar-ubicacion para quitarla).
+  var RANCHOS_UBICACION = [];
+  function ubicacionVisible() { return puedeDinero() && !!S.rancho && (RANCHOS_UBICACION.indexOf(S.rancho.id) > -1 || leerLocal('rv:ubicacion-interno') === 1); }
+  function aparatosDelRancho() { return (S.rancho && leerLocal('rv:aparatos:' + S.rancho.id)) || []; }
+  function aparatoDe(animalId) { return aparatosDelRancho().filter(function (x) { return x.activo && x.animal_id === animalId; })[0] || null; }
+  function nombreAparato(ap) { return ap.nombre || ('aparato ' + ap.identificador.slice(-4)); }
+  async function cargarAparatos() {
+    try {
+      var r = await sb.from('campo_aparatos').select('*').eq('rancho_id', S.rancho.id).order('nombre');
+      if (!r.error) guardarLocal('rv:aparatos:' + S.rancho.id, r.data);
+      return r;
+    } catch (x) { return { error: { message: 'red' } }; }
+  }
+  function hace(iso) {
+    var m = Math.round((Date.now() - Date.parse(iso)) / 60000);
+    if (m < 1) return 'ahora';
+    if (m < 60) return 'hace ' + m + ' min';
+    var h = Math.round(m / 60);
+    if (h < 48) return 'hace ' + h + (h === 1 ? ' hora' : ' horas');
+    return 'hace ' + Math.round(h / 24) + ' días';
+  }
+  function frescura(iso) { var h = (Date.now() - Date.parse(iso)) / 3600e3; return h <= 6 ? 'bien' : h <= 24 ? 'aviso' : 'mal'; }
+  var COLOR_FRESCURA = { bien: '#3E7C4A', aviso: '#C99A2E', mal: '#A33A2A' };
+  var mapaUbicacion = null;
+
+  async function vistaUbicacion() {
+    marco('Ubicación', '<div id="u-cuerpo"><div class="esqueleto"></div><div class="esqueleto"></div></div>', { atras: '#/mas', activa: 'mas', sub: 'Solo la ven el dueño y el encargado' });
+    var cuerpo = document.getElementById('u-cuerpo');
+    if (!navigator.onLine) { cuerpo.innerHTML = '<div class="vacio"><b>Sin señal</b>La ubicación se consulta en el servidor. Ábrala cuando tenga señal.</div>'; return; }
+    var ra = await cargarAparatos(), ru = await sb.rpc('campo_ultimas_ubicaciones', { r: S.rancho.id });
+    if (location.hash !== '#/ubicacion') return;
+    var falta = function (err) { return err && /42P01|PGRST20[25]|42883/.test(err.code || ''); };
+    if (falta(ra.error) || falta(ru.error)) { cuerpo.innerHTML = '<div class="vacio"><b>Aún no está activo</b>Falta activar la ubicación en el servidor. Escríbanos: WhatsApp 614 272 6674.</div>'; return; }
+    if (ra.error || ru.error) { cuerpo.innerHTML = '<div class="vacio"><b>No se pudo cargar</b>Intente de nuevo en un momento.</div>'; return; }
+    var aparatos = ra.data, ult = {};
+    (ru.data || []).forEach(function (u) { ult[u.aparato_id] = u; });
+    var activosAp = aparatos.filter(function (x) { return x.activo; }), conPos = activosAp.filter(function (x) { return ult[x.id]; });
+    var fila = function (ap) {
+      var u = ult[ap.id], an = ap.animal_id && buscarId('campo_animales', ap.animal_id), avisos = [];
+      if (!ap.activo) avisos.push('<span class="etiqueta">De baja</span>');
+      else if (!an) avisos.push('<span class="etiqueta aviso">Sin animal</span>');
+      else if (an.estado !== 'activo') avisos.push('<span class="etiqueta mal">' + (an.estado === 'vendido' ? 'Vendido: quitar collar' : 'Baja: quitar collar') + '</span>');
+      if (ap.activo && !u) avisos.push('<span class="etiqueta">Sin reportes</span>');
+      else if (ap.activo && frescura(u.cuando) === 'mal') avisos.push('<span class="etiqueta mal">Más de 24 h sin reportar</span>');
+      if (u && u.bateria != null && u.bateria <= 20) avisos.push('<span class="etiqueta mal">Batería ' + Math.round(u.bateria) + '%</span>');
+      return '<li><div class="fila u-fila"><span class="avatar" style="color:' + (u ? COLOR_FRESCURA[frescura(u.cuando)] : 'inherit') + '">' + ico('collar') + '</span>' +
+        '<span class="fila-cuerpo"><span class="fila-arriba"><b>' + e(nombreAparato(ap)) + '</b>' + (u ? '<time>' + hace(u.cuando) + '</time>' : '') + '</span>' +
+        '<span class="fila-sub">' + (an ? 'Arete ' + e(an.arete) + ' · ' + e(NOMBRE_CAT[an.categoria] || '') : 'Sin animal asignado') + (u && u.bateria != null ? ' · batería ' + Math.round(u.bateria) + '%' : '') + '</span>' +
+        (avisos.length ? '<span class="u-avisos">' + avisos.join('') + '</span>' : '') +
+        '<span class="u-acciones">' + (u ? '<a href="https://www.google.com/maps?q=' + u.lat + ',' + u.lon + '" target="_blank" rel="noopener">Abrir en mapas</a>' : '') +
+        '<button type="button" class="u-editar" data-ap="' + ap.id + '">Editar</button>' + (an ? '<a href="#/animal/' + an.id + '">Ver animal</a>' : '') + '</span></span></div></li>';
+    };
+    cuerpo.innerHTML =
+      (conPos.length ? '<div id="u-mapa" class="mapa-ganado" role="img" aria-label="Mapa con la última ubicación de cada aparato"></div>' +
+        '<p class="u-leyenda"><i style="background:' + COLOR_FRESCURA.bien + '"></i>Menos de 6 h <i style="background:' + COLOR_FRESCURA.aviso + '"></i>6 a 24 h <i style="background:' + COLOR_FRESCURA.mal + '"></i>Más de 24 h</p>' : '') +
+      (aparatos.length ? '<ul class="lista">' + aparatos.slice().sort(function (a, b) { return (b.activo - a.activo) || nombreAparato(a).localeCompare(nombreAparato(b), 'es', { numeric: true }); }).map(fila).join('') + '</ul>'
+        : '<div class="vacio"><b>Sin aparatos</b>Agregue un collar o rastreador con el número que trae impreso (IMEI) y póngaselo a un animal.</div>') +
+      '<div class="relleno" style="margin-top:16px"><button class="btn ancho sec" id="b-aparato">' + ico('mas') + 'Agregar aparato</button></div>' +
+      '<p class="nota-edo legal">La ubicación llega cada vez que el aparato reporta; no es en vivo. Sin señal en el monte, el aparato guarda los puntos y los manda después (según el modelo).</p>';
+    document.getElementById('b-aparato').onclick = function () { formAparato(null); };
+    cuerpo.querySelectorAll('[data-ap]').forEach(function (b) { b.onclick = function () { formAparato(aparatos.filter(function (x) { return x.id === b.dataset.ap; })[0]); }; });
+    if (conPos.length && window.L) {
+      if (mapaUbicacion) { try { mapaUbicacion.remove(); } catch (x) { } }
+      mapaUbicacion = L.map('u-mapa', { zoomControl: true, attributionControl: true });
+      L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 18, attribution: '© OpenStreetMap' }).addTo(mapaUbicacion);
+      var puntos = conPos.map(function (ap) {
+        var u = ult[ap.id], an = ap.animal_id && buscarId('campo_animales', ap.animal_id);
+        L.circleMarker([u.lat, u.lon], { radius: 9, color: '#fff', weight: 2, fillColor: COLOR_FRESCURA[frescura(u.cuando)], fillOpacity: 0.95 })
+          .addTo(mapaUbicacion).bindPopup('<b>' + e(an ? 'Arete ' + an.arete : nombreAparato(ap)) + '</b><br>' + e(hace(u.cuando)));
+        return [u.lat, u.lon];
+      });
+      if (puntos.length === 1) mapaUbicacion.setView(puntos[0], 15); else mapaUbicacion.fitBounds(puntos, { padding: [28, 28], maxZoom: 16 });
+    }
+  }
+
+  // Lo que ven los ranchos sin collares (y el demo): aviso general, sin mapa ni datos ni detalles del equipo.
+  function vistaUbicacionPronto() {
+    var msg = 'Hola, soy de ' + S.rancho.nombre + '. Me interesa la ubicación del ganado en Rancho Vivo, avísenme cuando esté lista.';
+    marco('Ubicación del ganado',
+      '<div class="pronto"><span class="pronto-ico">' + ico('ubicacion') + '</span><span class="etiqueta aviso">En construcción</span>' +
+      '<h2>Muy pronto: dónde anda su ganado</h2>' +
+      '<p>Estamos preparando una nueva función para ver en el mapa dónde anda cada animal, con avisos si uno se sale del potrero o se aparta del grupo.</p>' +
+      '<p>Si le interesa, avísenos y le contamos primero cuando esté lista.</p>' +
+      '<a class="btn ancho" href="https://wa.me/526142726674?text=' + encodeURIComponent(msg) + '" target="_blank" rel="noopener">Me interesa</a></div>',
+      { atras: '#/mas', activa: 'mas', sub: 'Próximamente' });
+  }
+
+  function formAparato(ap) {
+    var nuevo = !ap; ap = ap || { activo: true };
+    var ocupados = {};
+    aparatosDelRancho().forEach(function (x) { if (x.activo && x.animal_id && x.id !== ap.id) ocupados[x.animal_id] = 1; });
+    var opciones = activos().filter(function (a) { return !ocupados[a.id]; }).sort(function (a, b) { return a.arete.localeCompare(b.arete, 'es', { numeric: true }); });
+    var sel = '<select id="fap-animal"><option value="">Sin animal (guardado)</option>' + opciones.map(function (a) {
+      return '<option value="' + a.id + '"' + (a.id === ap.animal_id ? ' selected' : '') + '>Arete ' + e(a.arete) + ' · ' + e(NOMBRE_CAT[a.categoria]) + '</option>';
+    }).join('') + '</select>';
+    abrirHoja(nuevo ? 'Aparato nuevo' : 'Editar aparato',
+      campo('fap-nombre', 'Nombre', entrada('fap-nombre', 'text', ap.nombre, ' maxlength="40" placeholder="Ej. Collar 12"')) +
+      campo('fap-id', 'Número del aparato (IMEI)', entrada('fap-id', 'text', ap.identificador, ' maxlength="40" autocomplete="off" spellcheck="false"' + (nuevo ? ' required' : ' readonly')), nuevo ? 'Viene impreso en el aparato o en su caja. Debe ser igual al que se registre en el servidor.' : '') +
+      campo('fap-modelo', 'Modelo (opcional)', entrada('fap-modelo', 'text', ap.modelo, ' maxlength="60" placeholder="Ej. Oyster Edge"')) +
+      campo('fap-animal', 'Puesto en', sel, 'Si el animal se vende, la app le recordará quitarle el aparato.') +
+      (!nuevo && ap.activo ? '<button type="button" class="btn sec ancho" id="fap-baja">Dar de baja (perdido o dañado)</button>' : '') +
+      (!nuevo && !ap.activo ? '<button type="button" class="btn sec ancho" id="fap-alta">Volver a activar</button>' : ''),
+      '<button type="submit" class="btn ancho">Guardar</button>',
+      function (f) {
+        var enviar = async function (cambios, msg) {
+          if (!navigator.onLine) return aviso('Se necesita señal para guardar aparatos.', true);
+          var fila = Object.assign({ rancho_id: S.rancho.id }, nuevo ? {} : { id: ap.id }, cambios);
+          var r = nuevo ? await sb.from('campo_aparatos').insert(fila) : await sb.from('campo_aparatos').update(cambios).eq('id', ap.id);
+          if (r.error) {
+            var m = r.error.code === '23505' ? (/un_animal/.test(r.error.message || '') ? 'Ese animal ya trae otro aparato.' : 'Ese número de aparato ya está registrado.')
+              : r.error.code === '42501' ? 'Su usuario no tiene permiso para esto.' : 'No se pudo guardar. Intente de nuevo.';
+            return nuevo && r.error.code === '23505' && !/un_animal/.test(r.error.message || '') ? marcarError('fap-id', m) : aviso(m, true);
+          }
+          hoja.close(); aviso(msg); await cargarAparatos(); ruta();
+        };
+        var bb = hoja.querySelector('#fap-baja');
+        if (bb) bb.onclick = function () {
+          if (!bb.dataset.ok) { bb.dataset.ok = '1'; bb.textContent = 'Toque otra vez para dar de baja'; return; }
+          enviar({ activo: false, animal_id: null }, 'Aparato dado de baja.');
+        };
+        var ba = hoja.querySelector('#fap-alta');
+        if (ba) ba.onclick = function () { enviar({ activo: true }, 'Aparato activo de nuevo.'); };
+        f.onsubmit = function (ev) {
+          ev.preventDefault(); limpiarErrores();
+          var ident = v('fap-id').replace(/\s+/g, '');
+          if (nuevo && !/^[A-Za-z0-9_-]{4,40}$/.test(ident)) return marcarError('fap-id', 'Escriba el número del aparato (solo letras y números).');
+          var animal = v('fap-animal') || null;
+          var cambios = { nombre: v('fap-nombre') || null, modelo: v('fap-modelo') || null, animal_id: animal };
+          if (nuevo) cambios.identificador = ident;
+          if (animal !== (ap.animal_id || null)) cambios.asignado_en = animal ? new Date().toISOString() : null;
+          enviar(cambios, nuevo ? 'Aparato agregado.' : 'Cambios guardados.');
+        };
+      });
   }
 
   /* ---------- Hojas de formulario ---------- */
@@ -1187,6 +1339,9 @@
     guardar('campo_animales', { id: a.id, estado: 'vendido', potrero_id: null });
     evento(a, 'venta', { fecha: d.fecha, monto: d.precio, peso: d.peso, detalle: d.comprador ? 'A ' + d.comprador : null });
     if (puedeDinero()) guardar('campo_finanzas', { tipo: 'ingreso', categoria: 'Venta de ganado', concepto: 'Venta arete ' + a.arete + (d.peso ? ' · ' + kg(d.peso) : ''), monto: d.precio, fecha: d.fecha, proveedor: d.comprador || null, animal_id: a.id });
+    // Si traía collar, recordar quitárselo antes de cargarla (el collar es reutilizable)
+    var ap = aparatoDe(a.id);
+    if (ap) setTimeout(function () { aviso('Quítele ' + nombreAparato(ap) + ' al arete ' + a.arete + ' antes de cargarla.', true); }, 2800);
   }
   function regDestete(a, peso, fe) {
     evento(a, 'destete', { peso: peso, fecha: fe });
