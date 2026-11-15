@@ -994,6 +994,20 @@ async function cargarDatosReales() {
 let chatHistory = [];
 let chatUrl = (localStorage.getItem('vyntra_chat_url') || 'https://army-omission-drearily.ngrok-free.dev').replace(/\/$/, '');
 
+// La clave de acceso NO va escrita en esta página (es pública): se pide una vez y se guarda en este dispositivo.
+function novaKey() {
+  let k = '';
+  try { k = localStorage.getItem('vyntra_nova_key') || ''; } catch {}
+  if (!k) {
+    k = (prompt('Clave de acceso de Nova (te la da Alfredo, se pide solo una vez en este dispositivo):') || '').trim();
+    if (k) try { localStorage.setItem('vyntra_nova_key', k); } catch {}
+  }
+  return k;
+}
+function olvidarClave() {
+  try { localStorage.removeItem('vyntra_nova_key'); } catch {}
+}
+
 function updateUrlBar() {
   const dot = document.getElementById('urlDot');
   const txt = document.getElementById('urlText');
@@ -1060,7 +1074,7 @@ async function sendChat() {
   try {
     const res = await fetch(chatUrl + '/api/chat', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'ngrok-skip-browser-warning': 'true', 'Authorization': 'Bearer m87UuFkjCcHIaSL6XMxisgWVDYEGd5tf' },
+      headers: { 'Content-Type': 'application/json', 'ngrok-skip-browser-warning': 'true', 'Authorization': 'Bearer ' + novaKey() },
       body: JSON.stringify({ messages: chatHistory })
     });
     const data = await res.json();
@@ -1095,7 +1109,7 @@ const TIPO_LABEL = { reunion:'Reunión', llamada:'Llamada', cobro:'Cobro', segui
 let agendaPeriodo = 'hoy';
 
 function agendaAuth() {
-  return { 'Content-Type': 'application/json', 'ngrok-skip-browser-warning': 'true', 'Authorization': 'Bearer m87UuFkjCcHIaSL6XMxisgWVDYEGd5tf' };
+  return { 'Content-Type': 'application/json', 'ngrok-skip-browser-warning': 'true', 'Authorization': 'Bearer ' + novaKey() };
 }
 
 async function cargarAgenda(periodo, btn) {
@@ -1216,7 +1230,7 @@ async function initPush() {
     if (perm !== 'granted') return;
 
     // Obtener clave VAPID del servidor
-    const kr = await fetch(chatUrl + '/api/push/vapid-key', { headers: { Authorization: 'Bearer m87UuFkjCcHIaSL6XMxisgWVDYEGd5tf', 'ngrok-skip-browser-warning': 'true' } });
+    const kr = await fetch(chatUrl + '/api/push/vapid-key', { headers: { Authorization: 'Bearer ' + novaKey(), 'ngrok-skip-browser-warning': 'true' } });
     if (!kr.ok) return;
     const { publicKey } = await kr.json();
 
@@ -1229,7 +1243,7 @@ async function initPush() {
     // Registrar suscripción en el servidor
     await fetch(chatUrl + '/api/push/subscribe', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json', Authorization: 'Bearer m87UuFkjCcHIaSL6XMxisgWVDYEGd5tf', 'ngrok-skip-browser-warning': 'true' },
+      headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + novaKey(), 'ngrok-skip-browser-warning': 'true' },
       body: JSON.stringify(sub)
     });
     console.log('🔔 Push activado para Laura');
@@ -1242,7 +1256,7 @@ setInterval(async () => {
   if (!chatUrl) return;
   try {
     const r = await fetch(`${chatUrl}/api/push/inbox?since=${lastInboxCheck}`, {
-      headers: { Authorization: 'Bearer m87UuFkjCcHIaSL6XMxisgWVDYEGd5tf', 'ngrok-skip-browser-warning': 'true' }
+      headers: { Authorization: 'Bearer ' + novaKey(), 'ngrok-skip-browser-warning': 'true' }
     });
     if (!r.ok) return;
     const msgs = await r.json();
