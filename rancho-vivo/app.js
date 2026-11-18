@@ -7,7 +7,7 @@
   var sb = supabase.createClient(RV_CONFIG.url, RV_CONFIG.anonKey, { auth: { persistSession: true, autoRefreshToken: true } });
   var app = document.getElementById('app');
   var hoja = document.getElementById('hoja');
-  var VERSION = '2.11.0';
+  var VERSION = '2.12.0';
   var TABLAS = ['campo_potreros', 'campo_animales', 'campo_eventos', 'campo_finanzas'];
 
   var CATEGORIAS = {
@@ -254,10 +254,10 @@
     el.innerHTML = '<i></i><span>' + texto + '</span>';
     el.title = texto; el.setAttribute('aria-label', texto);
   }
-  window.addEventListener('online', function () { subir().then(function () { return cargar(true); }).then(function (c) { if (c) ruta(); }); pintarRed(); });
+  window.addEventListener('online', function () { subir().then(function () { return cargar(true); }).then(function (c) { if (c) ruta(); procesarPendientes(); }); pintarRed(); });
   window.addEventListener('offline', pintarRed);
   document.addEventListener('visibilitychange', function () {
-    if (document.visibilityState === 'visible' && S.rancho) cargar(false).then(function (c) { if (c && !hoja.open) ruta(); });
+    if (document.visibilityState === 'visible' && S.rancho) cargar(false).then(function (c) { if (c && !hoja.open) ruta(); procesarPendientes(); });
   });
 
   /* ---------- Sesión ---------- */
@@ -291,6 +291,7 @@
     } else if (!sinRed) { ruta(); await cargar(true); }
     ruta();
     subir();
+    if (!sinRed) setTimeout(procesarPendientes, 3000);
     setTimeout(function () { ofrecerInstalar(false); }, 1200);
   }
 
@@ -355,7 +356,7 @@
     });
   }
   async function salir() {
-    var sinSubir = S.cola.length + S.rechazados.length;
+    var sinSubir = S.cola.length + S.rechazados.length + pendientes().filter(function (p) { return p.tipo === 'dinero'; }).length;
     if (sinSubir && !confirmar.salir) { confirmar.salir = true; aviso('Hay ' + sinSubir + ' cambios que no están en el servidor y se perderían. Conéctese a señal primero. Toque otra vez solo si quiere salir de todos modos.', true); setTimeout(function () { confirmar.salir = false; }, 4000); return; }
     await sb.auth.signOut();
     try { Object.keys(localStorage).forEach(function (k) { if (k.indexOf('rv:') === 0) localStorage.removeItem(k); }); } catch (x) {}
@@ -376,11 +377,13 @@
       (opciones.derecha || '') + (activa === 'buscar' || chat ? '' : '<a class="btn-icono" href="#/buscar" aria-label="Buscar en todo">' + ico('buscar') + '</a>') +
       '<span id="red" class="estado-red"></span></div></header>' +
       (raiz ? '<div class="lomas" aria-hidden="true"></div>' : '') +
-      '<main class="contenido vista-entra">' + cuerpo + '</main>' +
+      '<main class="contenido vista-entra">' + (raiz ? bannerPendientes() : '') + cuerpo + '</main>' +
       (chat ? '<div class="composer">' + opciones.composer + '</div>'
         : '<nav class="tabs" aria-label="Secciones">' + tab('ganado', 'ganado', 'Hato') + (puedeDinero() ? tab('dinero', 'dinero', 'Dinero') : '') + tab('potreros', 'potrero', 'Potreros') + tab('mas', 'menu', 'Más') + '</nav>' +
           '<button class="fab" id="b-registrar" aria-label="Registrar">' + ico('mas') + '</button>') + '</div>';
     pintarRed();
+    var bp = document.getElementById('b-pend');
+    if (bp) bp.onclick = vistaPendientes;
     var reg = document.getElementById('b-registrar');
     if (reg) reg.onclick = menuRegistrar;
     var at = document.getElementById('b-atras');
@@ -701,18 +704,104 @@
       b.onclick = function () { ({ pesar: formPesaje, tratar: formTratamiento, parto: formParto, prenez: formPrenez, destete: formDestete, mover: formMover, nota: formNota, vender: formVenta, baja: formBaja })[b.dataset.acc](a); };
     });
   }
-  /* Lo que se escribe en la conversación se interpreta; si no hay señal o no se entiende, queda como nota */
+  /* Lo que se escribe en la conversación se interpreta. Si no hay señal, tarda o no se entiende, se guarda como nota
+     al instante y queda "por procesar": la app lo vuelve a intentar sola y avisa cuando está listo para confirmar. */
+  function camposGanado(a) { return { arete: a.arete, potreros: JSON.stringify(tabla('campo_potreros').map(function (p) { return p.nombre; })) }; }
+  function conTiempo(p, ms) { return Promise.race([p, new Promise(function (_, no) { setTimeout(function () { no(new Error('tardó')); }, ms); })]); }
   async function enviarTexto(a, texto, btn) {
-    var comoNota = function (msg) { evento(a, 'nota', { detalle: texto }); aviso(msg); ruta(); subir(); };
-    if (!navigator.onLine) return comoNota('Sin señal: se guardó como nota.');
+    var comoNota = function () {
+      var nota = evento(a, 'nota', { detalle: texto });
+      agregarPendiente({ tipo: 'ganado', texto: texto, animal_id: a.id, nota_id: nota.id });
+      aviso('Guardado como nota. Lo acomodo solo y le aviso para confirmar.'); ruta(); subir();
+    };
+    if (!navigator.onLine) return comoNota();
     btn.disabled = true; btn.innerHTML = '<span class="girando" style="width:20px;height:20px;margin:0;border-width:2px"></span>';
     try {
-      var r = await leerConIA('texto-ganado', null, '', { texto: texto, arete: a.arete, potreros: JSON.stringify(tabla('campo_potreros').map(function (p) { return p.nombre; })) });
-      if (!r.acciones || !r.acciones.length) return comoNota('Guardado como nota.');
+      var r = await conTiempo(leerConIA('texto-ganado', null, '', Object.assign({ texto: texto }, camposGanado(a))), 10000);
+      if (!r.acciones || !r.acciones.length) return comoNota();
       r.escrito = true;
       confirmarAcciones(r);
       btn.disabled = false; btn.innerHTML = ico('mic');
-    } catch (x) { comoNota('No se pudo interpretar: se guardó como nota.'); }
+    } catch (x) { comoNota(); }
+  }
+
+  /* ---------- Por procesar: lo que la IA no pudo leer al momento ---------- */
+  function clavePend() { return 'rv:porprocesar:' + S.rancho.id; }
+  function pendientes() { return leerLocal(clavePend()) || []; }
+  function guardarPend(l) { guardarLocal(clavePend(), l); }
+  function agregarPendiente(p) {
+    var l = pendientes();
+    l.push(Object.assign({ id: uuid(), estado: 'pendiente', intentos: 0, vacios: 0, creado: new Date().toISOString() }, p));
+    guardarPend(l); setTimeout(procesarPendientes, 4000);
+  }
+  function quitarPendiente(id) { guardarPend(pendientes().filter(function (p) { return p.id !== id; })); }
+  function pendVisibles() { return pendientes().filter(function (p) { return p.tipo === 'ganado' || puedeDinero(); }); }
+  var procesando = false;
+  async function procesarPendientes() {
+    if (procesando || !navigator.onLine || !S.rancho || !S.datos) return;
+    var cambio = false;
+    procesando = true;
+    try {
+      var l = pendientes().filter(function (p) { return p.estado === 'pendiente'; });
+      for (var i = 0; i < l.length; i++) {
+        var p = l[i], a = p.animal_id && buscarId('campo_animales', p.animal_id);
+        if (p.tipo === 'ganado' && (!a || (p.nota_id && !buscarId('campo_eventos', p.nota_id)))) { quitarPendiente(p.id); continue; } // animal o nota ya no existen
+        if (p.tipo === 'dinero' && !puedeDinero()) continue;
+        var r = null;
+        try {
+          r = p.tipo === 'ganado' ? await leerConIA('texto-ganado', null, '', Object.assign({ texto: p.texto }, camposGanado(a))) : await leerConIA('texto', null, '', { texto: p.texto });
+        } catch (x) { r = null; }
+        var todos = pendientes(), q = todos.filter(function (x) { return x.id === p.id; })[0];
+        if (!q) continue;
+        if (!r) q.intentos++;
+        else if (p.tipo === 'dinero') { q.estado = 'listo'; q.resultado = r; cambio = true; }
+        else if (r.acciones && r.acciones.length) { q.estado = 'listo'; q.resultado = r; cambio = true; }
+        else q.vacios++;
+        // La IA no lo entiende (2 veces) o lleva muchos intentos fallidos: en ganado se queda como nota; en dinero se deja listo para capturarlo a mano.
+        if (q.estado === 'pendiente' && (q.vacios >= 2 || q.intentos >= 15)) {
+          if (q.tipo === 'ganado') todos = todos.filter(function (x) { return x.id !== q.id; });
+          else { q.estado = 'listo'; q.resultado = { datos: { concepto: q.texto } }; }
+          cambio = true;
+        }
+        guardarPend(todos);
+      }
+    } finally { procesando = false; }
+    if (cambio && !hoja.open) { ruta(); var n = pendVisibles().filter(function (p) { return p.estado === 'listo'; }).length; if (n) aviso(n + (n === 1 ? ' registro listo' : ' registros listos') + ' para confirmar.'); }
+  }
+  function bannerPendientes() {
+    var l = pendVisibles(), listos = l.filter(function (p) { return p.estado === 'listo'; }).length, esperando = l.length - listos;
+    if (!l.length) return '';
+    return '<button type="button" class="fila banner-pend" id="b-pend"><span class="avatar">' + ico(listos ? 'nota' : 'sync') + '</span><span class="fila-cuerpo"><span class="fila-titulo">' +
+      (listos ? listos + (listos === 1 ? ' registro listo' : ' registros listos') + ' para confirmar' : esperando + (esperando === 1 ? ' nota' : ' notas') + ' por acomodar') + '</span><span class="fila-sub">' +
+      (listos ? 'Revise y confirme con un toque' + (esperando ? ' · ' + esperando + ' más en proceso' : '') : 'Se acomodan solas cuando hay señal') + '</span></span>' +
+      '<svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 6 6 6-6 6"/></svg></button>';
+  }
+  function resumenPend(p) {
+    if (p.estado !== 'listo') return 'En proceso…';
+    if (p.tipo === 'dinero') { var d = p.resultado.datos || {}; return d.monto ? (d.tipo === 'ingreso' ? 'Ingreso ' : 'Gasto ') + pesos(d.monto) + ' · ' + (d.categoria || '') : 'Falta el monto: complételo a mano'; }
+    return p.resultado.acciones.map(function (x) { return (EVENTOS[x.tipo] || EVENTOS.nota)[0] + ' · arete ' + x.arete; }).join(', ');
+  }
+  function vistaPendientes() {
+    var l = pendVisibles();
+    if (!l.length) { if (hoja.open) hoja.close(); ruta(); return; }
+    abrirHoja('Por confirmar', '<ul class="lista">' + l.map(function (p) {
+      var a = p.animal_id && buscarId('campo_animales', p.animal_id);
+      return '<li class="pend-item"><div class="fila-cuerpo"><span class="fila-titulo">' + e(resumenPend(p)) + '</span><span class="fila-sub">' + (a ? 'Arete ' + e(a.arete) + ' · ' : '') + '“' + e(p.texto) + '”</span></div>' +
+        '<div class="pend-botones">' + (p.estado === 'listo' ? '<button type="button" class="btn" data-ver="' + p.id + '">Revisar</button>' : '') +
+        '<button type="button" class="btn sec" data-quitar="' + p.id + '">' + (p.tipo === 'ganado' ? 'Dejar como nota' : 'Quitar') + '</button></div></li>';
+    }).join('') + '</ul>', '');
+    hoja.querySelectorAll('[data-quitar]').forEach(function (b) { b.onclick = function () { quitarPendiente(b.dataset.quitar); vistaPendientes(); }; });
+    hoja.querySelectorAll('[data-ver]').forEach(function (b) {
+      b.onclick = function () {
+        var p = pendientes().filter(function (x) { return x.id === b.dataset.ver; })[0];
+        if (!p) return vistaPendientes();
+        if (p.tipo === 'dinero') return formDinero(null, 'gasto', { datos: p.resultado.datos, icono: 'escribir', nota: 'Escribió: “' + p.texto + '”. Revise los datos antes de guardar.', alGuardar: function () { quitarPendiente(p.id); } });
+        confirmarAcciones(Object.assign({}, p.resultado, { texto: p.texto, escrito: true, alGuardar: function () {
+          quitarPendiente(p.id);
+          if (p.nota_id && buscarId('campo_eventos', p.nota_id)) borrar('campo_eventos', p.nota_id); // la nota ya se convirtió en el registro bueno
+        } }));
+      };
+    });
   }
 
   function vistaDinero(mesParam) {
@@ -1323,9 +1412,10 @@
   }
   function regParto(a, d) {
     var arete = d.arete || ('S/A-' + a.arete + '-' + d.fecha.replace(/-/g, '').slice(2));
-    var cria = guardar('campo_animales', { arete: arete, sexo: d.sexo, categoria: d.sexo === 'hembra' ? 'becerra' : 'becerro', nacimiento: d.fecha, peso: d.peso, madre_id: a.id, potrero_id: a.potrero_id, estado: 'activo', raza: a.raza || null });
-    evento(cria, 'alta', { fecha: d.fecha, peso: d.peso, detalle: 'Nació de arete ' + a.arete });
-    evento(a, 'parto', { fecha: d.fecha, detalle: (d.sexo === 'hembra' ? 'Becerra ' : 'Becerro ') + arete + (d.nota ? '. ' + d.nota : '') });
+    var padre = d.padre ? 'Padre: ' + d.padre + (d.servicio ? ' (' + d.servicio + ')' : '') : (d.servicio ? 'Servicio: ' + d.servicio : '');
+    var cria = guardar('campo_animales', { arete: arete, sexo: d.sexo, categoria: d.sexo === 'hembra' ? 'becerra' : 'becerro', nacimiento: d.fecha, peso: d.peso, madre_id: a.id, potrero_id: a.potrero_id, estado: 'activo', raza: a.raza || null, notas: padre || null });
+    evento(cria, 'alta', { fecha: d.fecha, peso: d.peso, detalle: 'Nació de arete ' + a.arete + (padre ? '. ' + padre : '') });
+    evento(a, 'parto', { fecha: d.fecha, detalle: (d.sexo === 'hembra' ? 'Becerra ' : 'Becerro ') + arete + (padre ? '. ' + padre : '') + (d.nota ? '. ' + d.nota : '') });
     if (a.categoria === 'vaquilla') guardar('campo_animales', { id: a.id, categoria: 'vaca' });
     return arete;
   }
@@ -1474,13 +1564,17 @@
         };
       });
   }
-  function formParto(a) {
+  function formParto(a, d0) {
+    d0 = d0 || {};
     abrirHoja('Parto de arete ' + a.arete,
-      campo('fpa-fecha', 'Fecha del parto', entrada('fpa-fecha', 'date', hoy(), ' max="' + hoy() + '"')) +
-      '<div class="campo"><span class="rotulo">Cría</span>' + seg('fpa-sexo', [['hembra', 'Becerra'], ['macho', 'Becerro']], 'hembra') + '</div>' +
+      (d0.aviso ? '<div class="leido"><span class="leido-ico">' + ico('cria') + '</span><p>' + e(d0.aviso) + '</p></div>' : '') +
+      campo('fpa-fecha', 'Fecha del parto', entrada('fpa-fecha', 'date', d0.fecha || hoy(), ' max="' + hoy() + '"')) +
+      '<div class="campo"><span class="rotulo">Cría</span>' + seg('fpa-sexo', [['hembra', 'Becerra'], ['macho', 'Becerro']], d0.sexo || 'hembra') + '</div>' +
       '<div class="dos-campos">' + campo('fpa-arete', 'Arete de la cría', entrada('fpa-arete', 'text', '', ' maxlength="30" autocomplete="off"'), 'Si aún no tiene, déjelo vacío.') +
       campo('fpa-peso', 'Peso al nacer (kg)', entrada('fpa-peso', 'number', '', ' inputmode="decimal" min="0" step="any"')) + '</div>' +
-      campo('fpa-nota', 'Notas', entrada('fpa-nota', 'text', '', ' maxlength="120" placeholder="Ej. Parto normal, ombligo limpio"')),
+      '<div class="campo"><span class="rotulo">Servicio (opcional)</span>' + seg('fpa-serv', [['Monta', 'Monta'], ['IATF', 'IATF'], ['Inseminación', 'Inseminación']], d0.servicio || '') + '</div>' +
+      campo('fpa-padre', 'Padre (opcional)', entrada('fpa-padre', 'text', d0.padre || '', ' maxlength="60" placeholder="Ej. Toro 444 o nombre de la pajilla"')) +
+      campo('fpa-nota', 'Notas', entrada('fpa-nota', 'text', d0.nota || '', ' maxlength="120" placeholder="Ej. Parto normal, ombligo limpio"')),
       '<button type="submit" class="btn ancho">Guardar parto</button>',
       function (f) {
         f.onsubmit = function (ev) {
@@ -1489,7 +1583,7 @@
           var arete = v('fpa-arete');
           if (arete && !areteLibre(arete)) return marcarError('fpa-arete', 'Ya hay un animal con ese arete.');
           if (peso !== null && !(peso > 0 && peso < 200)) return marcarError('fpa-peso', 'Revise el peso.');
-          arete = regParto(a, { fecha: fe, sexo: sexo, arete: arete, peso: peso, nota: v('fpa-nota') });
+          arete = regParto(a, { fecha: fe, sexo: sexo, arete: arete, peso: peso, nota: v('fpa-nota'), padre: v('fpa-padre'), servicio: grupo('fpa-serv') || null });
           listo('Parto guardado. Cría ' + arete + ' registrada.');
         };
       });
@@ -1720,6 +1814,12 @@
     extra = extra || {};
     var dd = extra.datos || {};
     var nuevo = !f0; f0 = f0 || { tipo: dd.tipo || tipo0 || 'gasto', fecha: dd.fecha || hoy(), monto: dd.monto, proveedor: dd.proveedor, concepto: dd.concepto, categoria: dd.categoria };
+    // Avisos sobre lo que leyó la IA: fecha de hace más de un mes y animales muertos (eso va en Baja, no solo en Dinero)
+    if (nuevo && extra.nota) {
+      var dias = (new Date(hoy()) - new Date(f0.fecha)) / 864e5;
+      if (dias > 31) extra.nota += ' Ojo: la fecha quedó en ' + fecha(f0.fecha) + '. Si fue hoy, cámbiela abajo.';
+      if (dd.muerte) extra.nota += ' Si se murió un animal, dé de baja también en su ficha (Hato → arete → Baja) para que salga del inventario.';
+    }
     // Las de la lista + las que el ganadero ya inventó antes (para que las vuelva a encontrar)
     var cats = function (t) {
       var base = (t === 'ingreso' ? CAT_INGRESO : CAT_GASTO).slice(), propias = [];
@@ -1779,6 +1879,7 @@
           if (!cat) return aviso('Elija una categoría.', true);
           guardar('campo_finanzas', { id: f0.id, tipo: grupo('fd-tipo') || 'gasto', monto: monto, categoria: cat, concepto: v('fd-concepto') || null, proveedor: v('fd-prov') || null, fecha: v('fd-fecha') || hoy(), animal_id: f0.animal_id || null,
             ticket_path: f0.ticket_path || extra.ticket_path || null, origen: f0.origen || extra.origen || 'manual' });
+          if (extra.alGuardar) extra.alGuardar();
           listo(nuevo ? 'Guardado.' : 'Cambios guardados.');
         };
       });
@@ -1877,15 +1978,14 @@
   }
   /* Lo escrito en la caja de Dinero ("diésel 2350") se convierte en un gasto para revisar */
   async function interpretarDinero(texto, btn) {
-    if (!navigator.onLine) return formDinero(null, 'gasto', { datos: { concepto: texto } });
+    // Sin señal o si la IA falla/tarda: se aparta para acomodarlo solo y el ganadero sigue con lo suyo
+    var aparte = function () { agregarPendiente({ tipo: 'dinero', texto: texto }); aviso('Guardado. Lo acomodo solo y le aviso para confirmar.'); ruta(); };
+    if (!navigator.onLine) return aparte();
     btn.disabled = true; btn.innerHTML = '<span class="girando" style="width:20px;height:20px;margin:0;border-width:2px"></span>';
     try {
-      var r = await leerConIA('texto', null, '', { texto: texto });
+      var r = await conTiempo(leerConIA('texto', null, '', { texto: texto }), 10000);
       formDinero(null, 'gasto', { datos: r.datos, icono: 'escribir', nota: 'Entendí: “' + texto + '”. Revise los datos antes de guardar.' });
-    } catch (x) {
-      formDinero(null, 'gasto', { datos: { concepto: texto } });
-      aviso(x.message, true);
-    }
+    } catch (x) { aparte(); }
     btn.disabled = false; btn.innerHTML = ico('mic');
   }
   function dictarGanado(arete) {
@@ -1942,7 +2042,7 @@
     if (x.tipo === 'pesaje' || x.tipo === 'destete') { d.sub = kg(x.peso); if (!x.peso) d.error = 'Falta el peso.'; }
     else if (x.tipo === 'vacuna' || x.tipo === 'tratamiento') { d.sub = x.producto || ''; if (!x.producto) d.error = 'Falta el producto.'; }
     else if (x.tipo === 'parto') {
-      d.sub = (x.cria_sexo === 'macho' ? 'Becerro' : 'Becerra') + (x.cria_arete ? ' ' + x.cria_arete : ' sin arete todavía');
+      d.sub = (x.cria_sexo === 'macho' ? 'Becerro' : 'Becerra') + (x.cria_arete ? ' ' + x.cria_arete : ' sin arete todavía') + (x.padre ? ' · padre ' + x.padre : '') + (x.servicio ? ' · ' + x.servicio : '');
       if (a.sexo !== 'hembra') d.error = 'El arete ' + a.arete + ' es macho.';
       else if (x.cria_arete && !areteLibre(x.cria_arete)) d.error = 'Ya existe un animal con el arete ' + x.cria_arete + '.';
     }
@@ -1964,7 +2064,7 @@
     if (x.tipo === 'pesaje') regPesaje(a, x.peso, fe);
     else if (x.tipo === 'destete') regDestete(a, x.peso, fe);
     else if (x.tipo === 'vacuna' || x.tipo === 'tratamiento') regTratamiento(a, x.tipo, x.producto, fe, null);
-    else if (x.tipo === 'parto') regParto(a, { fecha: fe, sexo: x.cria_sexo || 'hembra', arete: x.cria_arete || '', peso: null, nota: x.detalle });
+    else if (x.tipo === 'parto') regParto(a, { fecha: fe, sexo: x.cria_sexo || 'hembra', arete: x.cria_arete || '', peso: null, nota: x.detalle, padre: x.padre || '', servicio: x.servicio || null });
     else if (x.tipo === 'prenez') regPrenez(a, x.resultado || 'Preñada', x.meses, fe);
     else if (x.tipo === 'movimiento') regMover(a, buscarPotrero(x.potrero).id, fe);
     else if (x.tipo === 'nota') evento(a, 'nota', { fecha: fe, detalle: x.detalle });
@@ -2000,6 +2100,7 @@
           ev.preventDefault();
           var n = 0;
           cajas.forEach(function (c) { if (c.checked) { var i = l[+c.dataset.k]; aplicarAccion(i.x, buscarId('campo_animales', i.a.id) || i.a); n++; } });
+          if (r.alGuardar) r.alGuardar();
           listo(n + (n === 1 ? ' registro guardado.' : ' registros guardados.'));
         };
       });
@@ -2031,4 +2132,5 @@
   sb.auth.onAuthStateChange(function (ev) { if (ev === 'SIGNED_OUT' && S.rancho) location.reload(); });
   iniciar();
   setInterval(function () { if (S.cola.length && navigator.onLine) subir(); }, 20000);
+  setInterval(function () { if (S.rancho && document.visibilityState === 'visible') procesarPendientes(); }, 120000);
 })();

@@ -553,3 +553,20 @@ a.hist-fila:active { background: var(--fondo-2); }
 .pronto h2 { margin: 4px 0 0; font-size: 22px; }
 .pronto p { margin: 0; max-width: 420px; opacity: .85; line-height: 1.5; }
 .pronto .btn { margin-top: 10px; max-width: 360px; }
+
+/* Por confirmar: lo que la IA acomodó después */
+.banner-pend { margin: 8px 12px 4px; width: calc(100% - 24px); min-height: 64px; border-radius: 16px; background: var(--primario-suave); color: var(--primario-hondo); }
+.banner-pend::after { display: none; }
+.banner-pend .avatar { width: 42px; height: 42px; background: var(--primario); color: #fff; }
+.banner-pend .avatar svg { width: 22px; height: 22px; }
+.banner-pend .fila-titulo { font-weight: 700; }
+.banner-pend .fila-sub { color: var(--primario-hondo); opacity: .8; }
+.pend-item { padding: 12px 0; border-bottom: 1px solid var(--regla); }
+.pend-item:last-child { border-bottom: 0; }
+.pend-item .fila-titulo { display: block; font-weight: 650; }
+.pend-item .fila-sub { display: block; color: var(--tinta-2); font-size: 14px; margin-top: 2px; overflow-wrap: anywhere; }
+.pend-botones { display: flex; gap: 8px; margin-top: 10px; }
+.pend-botones .btn { flex: 1; height: 42px; padding: 0 12px; font-size: 15px; }
+.pend-item .fila-sub { white-space: normal; }
+.banner-pend .fila-sub { white-space: normal; }
+.acciones-voz .fila-sub { white-space: normal; }
