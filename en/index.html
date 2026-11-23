@@ -1,0 +1,1549 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Página generada por scripts/web-en.js desde la versión en español: no editar a mano -->
+<meta charset="UTF-8">
+<link rel="canonical" href="https://vyntra-agency.github.io/en/">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VYNTRA Intelligent Systems · Real intelligence for real businesses</title>
+<meta name="description" content="VYNTRA is a technology and artificial intelligence company. We build custom AI systems and put them to work in your business. Serving Texas, the US and Mexico, in English and Spanish.">
+<meta property="og:title" content="VYNTRA Intelligent Systems · Real intelligence for real businesses">
+<meta property="og:description" content="Technology and AI company. AI assistants, platforms, automation and AI-driven advertising, built around your business.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#0D1F40">
+<link rel="alternate" hreflang="es" href="https://vyntra-agency.github.io/">
+<link rel="alternate" hreflang="es" href="https://vyntra-agency.github.io/">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --marina:#0D1F40; --marina-2:#081430; --marina-3:#0f2550; --cobalto:#2563EB; --cobalto-h:#1d4ed8; --cobalto-s:#6BA8F5;
+  --arena:#F1EFE8; --negro:#111111; --blanco:#FFFFFF; --gris:#555; --gris-2:#777;
+  --linea:rgba(37,99,235,.15); --linea-osc:rgba(107,168,245,.16);
+  --serif:Georgia,'Times New Roman',serif; --sans:'Inter',Helvetica,Arial,sans-serif;
+  --pad-x:80px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:68px}
+body{font-family:var(--sans);background:var(--marina);color:var(--negro);overflow-x:hidden;line-height:1.6;-webkit-font-smoothing:antialiased}
+img{max-width:100%;display:block}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit}
+::selection{background:var(--cobalto);color:#fff}
+
+/* barra de avance */
+#avance{position:fixed;top:0;left:0;height:2px;width:0;background:linear-gradient(90deg,var(--cobalto),var(--cobalto-s));z-index:200}
+
+/* reveal */
+.rv{opacity:0;transform:translateY(34px);transition:opacity .8s cubic-bezier(.2,.7,.2,1),transform .8s cubic-bezier(.2,.7,.2,1)}
+.rv.on{opacity:1;transform:none}
+.d1{transition-delay:.08s}.d2{transition-delay:.16s}.d3{transition-delay:.24s}.d4{transition-delay:.32s}.d5{transition-delay:.4s}
+@media (prefers-reduced-motion:reduce){.rv{opacity:1;transform:none;transition:none}html{scroll-behavior:auto}.marq-in{animation:none!important}}
+
+/* header */
+header{position:fixed;inset:0 0 auto 0;z-index:100;height:68px;padding:0 var(--pad-x);display:flex;align-items:center;justify-content:space-between;transition:background .3s,box-shadow .3s,backdrop-filter .3s}
+header.solid{background:rgba(8,20,48,.82);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);box-shadow:0 1px 0 var(--linea-osc)}
+.logo{display:flex;align-items:center;gap:12px}
+.logo svg{width:34px;height:34px}
+.logo b{font-family:var(--serif);font-size:20px;letter-spacing:1.5px;color:var(--blanco)}
+nav.links{display:flex;align-items:center;gap:30px}
+nav.links a{font-size:13px;font-weight:500;color:rgba(255,255,255,.72);transition:color .2s;position:relative}
+nav.links a:not(.cta)::after{content:'';position:absolute;left:0;bottom:-6px;width:0;height:1.5px;background:var(--cobalto-s);transition:width .25s}
+nav.links a:not(.cta):hover::after{width:100%}
+nav.links a:hover{color:var(--blanco)}
+nav.links a.lang{border:1px solid rgba(255,255,255,.28);border-radius:6px;padding:5px 9px;font-size:11.5px;font-weight:700;letter-spacing:1.2px;color:#fff}
+nav.links a.lang::after{display:none}
+nav.links a.lang:hover{border-color:var(--cobalto-s);color:var(--cobalto-s)}
+.mmenu a.lang-m{color:var(--cobalto-s)}
+.burger{display:none;background:none;border:0;padding:8px;cursor:pointer}
+.burger span{display:block;width:22px;height:2px;background:var(--blanco);margin:5px 0;transition:transform .3s,opacity .3s}
+.burger.x span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.burger.x span:nth-child(2){opacity:0}
+.burger.x span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+.mmenu{display:none;position:fixed;top:68px;left:0;right:0;z-index:99;background:rgba(8,20,48,.97);backdrop-filter:blur(14px);padding:8px 24px 22px;flex-direction:column;border-top:1px solid var(--linea-osc)}
+.mmenu.open{display:flex}
+.mmenu a{color:rgba(255,255,255,.88);font-size:16px;padding:14px 0;border-bottom:1px solid rgba(255,255,255,.07)}
+.mmenu a:last-child{border:0;color:var(--cobalto-s);font-weight:600}
+
+/* base */
+section{padding:112px var(--pad-x);border-top:1px solid var(--linea);position:relative;overflow:hidden}
+.wrap{max-width:1180px;margin:0 auto;position:relative;z-index:1}
+.s-marina{background:var(--marina);color:var(--blanco);border-top-color:var(--linea-osc)}
+.s-blanco{background:var(--blanco)}
+.s-arena{background:var(--arena)}
+.cuadricula::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(107,168,245,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(107,168,245,.06) 1px,transparent 1px);background-size:56px 56px;mask-image:radial-gradient(ellipse 80% 70% at 50% 40%,#000 30%,transparent 100%);-webkit-mask-image:radial-gradient(ellipse 80% 70% at 50% 40%,#000 30%,transparent 100%);pointer-events:none}
+.brillo{position:absolute;border-radius:50%;filter:blur(90px);pointer-events:none;z-index:0}
+.eyebrow{display:inline-flex;align-items:center;gap:10px;font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--cobalto);margin-bottom:18px}
+.eyebrow::before{content:'';width:26px;height:1.5px;background:currentColor}
+.s-marina .eyebrow{color:var(--cobalto-s)}
+h2{font-family:var(--serif);font-size:48px;line-height:1.1;letter-spacing:-.5px;color:var(--marina);margin-bottom:18px;max-width:820px}
+h2 em{font-style:normal;color:var(--cobalto)}
+.s-marina h2{color:var(--blanco)}
+.s-marina h2 em{background:linear-gradient(90deg,#8fc0ff,var(--cobalto-s) 40%,#3b82f6);-webkit-background-clip:text;background-clip:text;color:transparent}
+.lead{font-size:17px;color:var(--gris);max-width:640px}
+.s-marina .lead{color:rgba(255,255,255,.64)}
+.btn{display:inline-flex;align-items:center;gap:10px;padding:15px 28px;border-radius:6px;font-size:14.5px;font-weight:600;border:0;cursor:pointer;transition:background .2s,transform .2s,box-shadow .2s;position:relative;overflow:hidden}
+.btn:hover{transform:translateY(-2px)}
+.btn-p{background:var(--cobalto);color:var(--blanco);box-shadow:0 10px 30px -8px rgba(37,99,235,.65)}
+.btn-p:hover{background:var(--cobalto-h);box-shadow:0 16px 38px -8px rgba(37,99,235,.8)}
+.btn-p::after{content:'';position:absolute;top:0;left:-120%;width:60%;height:100%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.28),transparent);transform:skewX(-20deg);transition:left .7s}
+.btn-p:hover::after{left:140%}
+.btn-o{background:rgba(255,255,255,.04);color:var(--blanco);border:1.5px solid rgba(255,255,255,.28)}
+.btn-o:hover{border-color:var(--blanco);background:rgba(255,255,255,.08)}
+.btn-o.dark{color:var(--marina);border-color:rgba(13,31,64,.28);background:transparent}
+.btn-o.dark:hover{border-color:var(--marina);background:rgba(13,31,64,.04)}
+.btn-wa{background:#25D366;color:#fff;box-shadow:0 10px 30px -8px rgba(37,211,102,.55)}
+.btn-wa:hover{background:#1ebe5d}
+.tlink{font-size:13.5px;font-weight:600;color:var(--cobalto);display:inline-flex;gap:6px;transition:gap .2s}
+.tlink:hover{gap:11px}
+.s-marina .tlink{color:var(--cobalto-s)}
+
+/* ── HERO ── */
+#inicio{min-height:100vh;min-height:100svh;padding:120px var(--pad-x) 80px;border-top:0;display:flex;align-items:center;background:radial-gradient(ellipse 70% 60% at 75% 45%,rgba(37,99,235,.28),transparent 70%),radial-gradient(ellipse 50% 50% at 10% 90%,rgba(107,168,245,.12),transparent 70%),var(--marina-2)}
+#red{position:absolute;inset:0;width:100%;height:100%;z-index:0;opacity:.75}
+#inicio .wrap{width:100%;display:grid;grid-template-columns:1.2fr .8fr;gap:40px;align-items:center}
+.chip{display:inline-flex;align-items:center;gap:10px;padding:7px 14px 7px 10px;border:1px solid var(--linea-osc);background:rgba(255,255,255,.04);border-radius:40px;font-size:12px;color:rgba(255,255,255,.78);margin-bottom:28px;backdrop-filter:blur(6px)}
+.chip i{width:8px;height:8px;border-radius:50%;background:#34d399;box-shadow:0 0 0 0 rgba(52,211,153,.6);animation:latido 2s infinite}
+@keyframes latido{0%{box-shadow:0 0 0 0 rgba(52,211,153,.55)}70%{box-shadow:0 0 0 9px rgba(52,211,153,0)}100%{box-shadow:0 0 0 0 rgba(52,211,153,0)}}
+.hero-h1{font-family:var(--serif);font-size:68px;line-height:1.02;letter-spacing:-1.5px;color:var(--blanco);margin-bottom:26px}
+@media (min-width:901px){.hero-h1{white-space:nowrap}}
+.hero-h1 em{font-style:normal;background:linear-gradient(95deg,#a8cdff 0%,var(--cobalto-s) 35%,#3b82f6 70%,#a8cdff 100%);background-size:200% auto;-webkit-background-clip:text;background-clip:text;color:transparent;animation:brilla 6s linear infinite}
+@keyframes brilla{to{background-position:200% center}}
+.hero-rot{font-size:19px;color:rgba(255,255,255,.72);margin-bottom:12px;min-height:30px}
+.hero-rot b{color:var(--blanco);font-weight:600;border-bottom:2px solid var(--cobalto);padding-bottom:2px}
+.hero-rot .cursor{display:inline-block;width:2px;height:20px;background:var(--cobalto-s);vertical-align:-3px;margin-left:3px;animation:parpadeo 1s steps(1) infinite}
+@keyframes parpadeo{50%{opacity:0}}
+.hero-sub{font-size:16px;color:rgba(255,255,255,.58);max-width:540px;margin-bottom:38px}
+.hero-btns{display:flex;gap:14px;flex-wrap:wrap}
+.hero-foot{margin-top:46px;display:flex;gap:30px;flex-wrap:wrap;font-size:12.5px;color:rgba(255,255,255,.5)}
+.hero-foot span{display:flex;align-items:center;gap:8px}
+.hero-foot svg{width:15px;height:15px;stroke:var(--cobalto-s)}
+
+/* composición visual del hero */
+.escena{position:relative;height:560px}
+.tel{position:absolute;width:250px;border-radius:34px;padding:9px;background:linear-gradient(160deg,#2a3b5f,#0b1630);box-shadow:0 40px 80px -20px rgba(0,0,0,.7),0 0 0 1px rgba(107,168,245,.22),inset 0 0 0 1px rgba(255,255,255,.06)}
+.tel img{border-radius:26px;width:100%;height:auto}
+.tel::before{content:'';position:absolute;top:16px;left:50%;transform:translateX(-50%);width:70px;height:6px;border-radius:6px;background:#0b1630;z-index:2;opacity:.0}
+.escena .tel{right:50px;top:0;transform:rotate(4deg);animation:flota 7s ease-in-out infinite}
+@keyframes flota{0%,100%{translate:0 0}50%{translate:0 -14px}}
+.burbuja{position:absolute;background:rgba(15,37,80,.95);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid rgba(107,168,245,.25);border-radius:14px;padding:14px 16px;color:#fff;box-shadow:0 24px 50px -16px rgba(0,0,0,.6)}
+.escena .chat{display:none}
+.toast,.metrica{white-space:nowrap;width:max-content}
+.tel .burbuja{z-index:4;transform:rotate(-4deg)}
+.tel .toast{left:-185px;right:auto;top:18px}
+.tel .metrica{left:-222px;right:auto;top:auto;bottom:60px}
+.toast{right:275px;top:120px;display:flex;align-items:center;gap:12px;animation:flota 8s ease-in-out infinite;animation-delay:-2s}
+.toast .ic{width:40px;height:40px;border-radius:10px;background:rgba(37,99,235,.25);display:flex;align-items:center;justify-content:center}
+.toast .ic svg{width:20px;height:20px;stroke:#8fc0ff}
+.toast b{display:block;font-size:14px}
+.toast span{font-size:11px;color:rgba(255,255,255,.6)}
+.chat{left:auto;right:268px;top:40px;width:222px;animation:flota 8s ease-in-out infinite;animation-delay:-2s}
+.chat-h{display:flex;align-items:center;gap:9px;font-size:12px;font-weight:600;margin-bottom:12px}
+.chat-h .av{width:26px;height:26px;border-radius:50%;background:var(--cobalto);display:flex;align-items:center;justify-content:center}
+.chat-h .av svg{width:15px;height:15px}
+.chat-h small{display:block;font-weight:500;color:#34d399;font-size:10.5px}
+.msg{font-size:12.5px;line-height:1.45;padding:8px 11px;border-radius:11px;margin-bottom:7px;max-width:88%;opacity:0;transform:translateY(6px);transition:opacity .4s,transform .4s}
+.msg.ver{opacity:1;transform:none}
+.msg.cli{background:rgba(255,255,255,.1);border-bottom-left-radius:3px}
+.msg.bot{background:var(--cobalto);margin-left:auto;border-bottom-right-radius:3px}
+.escribiendo{display:inline-flex;gap:4px;padding:10px 12px;background:var(--cobalto);border-radius:11px;margin-left:auto;opacity:0;transition:opacity .3s}
+.escribiendo.ver{opacity:1}
+.escribiendo i{width:6px;height:6px;border-radius:50%;background:#fff;animation:pt 1s infinite}
+.escribiendo i:nth-child(2){animation-delay:.15s}.escribiendo i:nth-child(3){animation-delay:.3s}
+@keyframes pt{0%,100%{opacity:.3}50%{opacity:1}}
+.metrica{left:auto;right:265px;bottom:70px;display:flex;align-items:center;gap:13px;animation:flota 9s ease-in-out infinite;animation-delay:-4s}
+.metrica .ic{width:40px;height:40px;border-radius:10px;background:rgba(52,211,153,.15);display:flex;align-items:center;justify-content:center}
+.metrica .ic svg{width:20px;height:20px;stroke:#34d399}
+.metrica b{display:block;font-size:20px;font-family:var(--serif)}
+.metrica span{font-size:11px;color:rgba(255,255,255,.6)}
+
+/* franja en movimiento */
+.marq{background:var(--cobalto);padding:18px 0;overflow:hidden;border:0;position:relative;z-index:2}
+.marq-in{display:flex;gap:0;width:max-content;animation:corre 38s linear infinite}
+.marq span{font-family:var(--serif);font-size:22px;color:#fff;white-space:nowrap;padding:0 28px;display:flex;align-items:center;gap:56px}
+.marq span::after{content:'';width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.55)}
+@keyframes corre{to{transform:translateX(-50%)}}
+
+/* quiénes */
+.que-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:80px;align-items:start;margin-top:10px}
+.que-grid p{font-size:16.5px;color:#3d3d3d;margin-bottom:18px}
+.que-grid p strong{color:var(--marina)}
+.cita{font-family:var(--serif);font-size:26px;line-height:1.35;color:var(--marina);padding-left:28px;border-left:3px solid var(--cobalto);margin-bottom:34px}
+.voz{display:grid;grid-template-columns:1fr 1fr;border-top:1px solid var(--linea)}
+.voz div{padding:20px 18px 20px 0;border-bottom:1px solid var(--linea)}
+.voz div:nth-child(even){padding-left:20px;border-left:1px solid var(--linea)}
+.voz b{display:block;font-family:var(--serif);font-size:19px;color:var(--marina);margin-bottom:3px}
+.voz span{font-size:13px;color:var(--gris-2)}
+
+/* qué hacemos */
+#que-hacemos{background:var(--marina)}
+.cap-grid{display:grid;grid-template-columns:repeat(3,1fr);margin-top:60px;border-top:1px solid var(--linea-osc)}
+.cap{padding:40px 34px 40px 0;border-bottom:1px solid var(--linea-osc);position:relative;transition:background .35s}
+.cap:not(:nth-child(3n+1)){padding-left:34px;border-left:1px solid var(--linea-osc)}
+.cap::before{content:'';position:absolute;top:-1px;left:0;width:0;height:2px;background:linear-gradient(90deg,var(--cobalto),var(--cobalto-s));transition:width .5s}
+.cap:hover::before{width:100%}
+.cap:hover{background:linear-gradient(180deg,rgba(37,99,235,.09),transparent 80%)}
+.cap-ic{width:52px;height:52px;border-radius:12px;background:rgba(37,99,235,.14);border:1px solid rgba(107,168,245,.25);display:flex;align-items:center;justify-content:center;margin-bottom:22px;transition:transform .3s,background .3s}
+.cap:hover .cap-ic{transform:translateY(-4px);background:var(--cobalto)}
+.cap-ic svg{width:24px;height:24px;stroke:var(--cobalto-s);transition:stroke .3s}
+.cap:hover .cap-ic svg{stroke:#fff}
+.cap h3{font-family:var(--serif);font-size:22px;color:var(--blanco);margin-bottom:10px;line-height:1.25}
+.cap p{font-size:14.5px;color:rgba(255,255,255,.6)}
+
+/* cifras */
+.cifras{background:linear-gradient(120deg,var(--cobalto) 0%,#1e40af 100%);padding:72px var(--pad-x);border-top:0}
+.cifras::before{content:'';position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.12) 1px,transparent 1px);background-size:22px 22px;pointer-events:none}
+.cif-grid{display:grid;grid-template-columns:repeat(4,1fr)}
+.cif{padding:0 28px;border-left:1px solid rgba(255,255,255,.22);color:#fff}
+.cif:first-child{border-left:0;padding-left:0}
+.cif b{display:block;font-family:var(--serif);font-size:62px;line-height:1;letter-spacing:-1px}
+.cif b small{font-size:30px}
+.cif b .cnt{display:inline;font-size:inherit;color:inherit;margin:0;max-width:none}
+.cif>span{display:block;font-size:13.5px;color:rgba(255,255,255,.8);margin-top:12px;max-width:220px}
+
+/* líneas */
+.lineas{margin-top:60px;border-top:1px solid var(--linea)}
+.linea{display:grid;grid-template-columns:90px 1fr 1.25fr 40px;gap:32px;align-items:center;padding:36px 20px 36px 0;border-bottom:1px solid var(--linea);position:relative;transition:padding .35s,background .35s;color:inherit}
+.linea::before{content:'';position:absolute;inset:0;background:linear-gradient(90deg,rgba(37,99,235,.07),transparent);opacity:0;transition:opacity .35s}
+.linea:hover{padding-left:18px}
+.linea:hover::before{opacity:1}
+.linea-n{font-family:var(--serif);font-size:56px;line-height:1;color:transparent;-webkit-text-stroke:1.2px rgba(37,99,235,.45);transition:color .35s}
+.linea:hover .linea-n{color:var(--cobalto);-webkit-text-stroke-color:var(--cobalto)}
+.linea h3{font-family:var(--serif);font-size:27px;color:var(--marina);line-height:1.2;margin-bottom:6px}
+.linea .para{font-size:12.5px;font-weight:600;color:var(--cobalto)}
+.linea p{font-size:14.5px;color:var(--gris);position:relative}
+.flecha{width:40px;height:40px;border-radius:50%;border:1px solid var(--linea);display:flex;align-items:center;justify-content:center;transition:all .35s;position:relative}
+.flecha svg{width:16px;height:16px;stroke:var(--cobalto);transition:stroke .35s,transform .35s}
+.linea:hover .flecha{background:var(--cobalto);border-color:var(--cobalto)}
+.linea:hover .flecha svg{stroke:#fff;transform:rotate(-45deg)}
+.pill{display:inline-block;font-size:10px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;padding:4px 9px;background:rgba(37,99,235,.1);color:var(--cobalto);border-radius:3px;margin-top:10px}
+
+/* prueba */
+#prueba{background:radial-gradient(ellipse 60% 70% at 85% 50%,rgba(37,99,235,.22),transparent 70%),var(--marina-2)}
+.prueba-grid{display:grid;grid-template-columns:1fr 1fr;gap:70px;align-items:center;margin-top:20px}
+.casa{display:grid;grid-template-columns:44px 1fr;gap:18px;padding:24px 0;border-bottom:1px solid var(--linea-osc)}
+.casa:first-child{border-top:1px solid var(--linea-osc)}
+.casa .ci{width:44px;height:44px;border-radius:10px;background:rgba(37,99,235,.16);border:1px solid rgba(107,168,245,.25);display:flex;align-items:center;justify-content:center}
+.casa .ci svg{width:20px;height:20px;stroke:var(--cobalto-s)}
+.casa h3{font-family:var(--serif);font-size:20px;color:#fff;margin-bottom:5px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.casa h3 small{font-family:var(--sans);font-size:10px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:#34d399;display:inline-flex;align-items:center;gap:6px}
+.casa h3 small::before{content:'';width:6px;height:6px;border-radius:50%;background:#34d399}
+.casa p{font-size:14px;color:rgba(255,255,255,.6)}
+.teles{position:relative;height:600px}
+.teles .tel{width:255px}
+.teles .t1{left:6%;top:30px;transform:rotate(-5deg)}
+.teles .t2{right:6%;top:0;transform:rotate(5deg);animation:flota 7s ease-in-out infinite}
+.teles .etq{position:absolute;bottom:18px;left:50%;transform:translateX(-50%);white-space:nowrap;font-size:12px;color:rgba(255,255,255,.6);display:flex;align-items:center;gap:8px}
+.teles .etq a{color:var(--cobalto-s);font-weight:600}
+
+/* cómo */
+.pasos{display:grid;grid-template-columns:repeat(4,1fr);gap:30px;margin-top:70px;position:relative}
+.pasos::before{content:'';position:absolute;top:27px;left:28px;right:28px;height:2px;background:linear-gradient(90deg,var(--cobalto),var(--cobalto-s),rgba(37,99,235,.2))}
+.paso{position:relative}
+.paso-n{width:56px;height:56px;border-radius:50%;background:var(--blanco);border:2px solid var(--cobalto);display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-size:20px;font-weight:700;color:var(--cobalto);margin-bottom:24px;position:relative;z-index:1;transition:background .3s,color .3s}
+.paso:hover .paso-n{background:var(--cobalto);color:#fff}
+.paso h3{font-family:var(--serif);font-size:21px;color:var(--marina);margin-bottom:8px;line-height:1.25}
+.paso p{font-size:14px;color:var(--gris)}
+.compromisos{display:grid;grid-template-columns:repeat(3,1fr);margin-top:64px;background:var(--marina);border-radius:10px;overflow:hidden}
+.comp{padding:30px 30px;display:flex;gap:16px;align-items:flex-start}
+.comp:not(:first-child){border-left:1px solid var(--linea-osc)}
+.comp svg{width:22px;height:22px;stroke:var(--cobalto-s);flex-shrink:0;margin-top:2px}
+.comp b{display:block;font-size:15px;color:var(--blanco);margin-bottom:4px}
+.comp span{font-size:13px;color:rgba(255,255,255,.58)}
+
+/* precios */
+.tabs{display:inline-flex;gap:4px;margin-top:44px;padding:5px;background:var(--arena);border-radius:10px;max-width:100%;overflow-x:auto;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab{background:none;border:0;padding:11px 20px;font-size:14px;font-weight:600;color:var(--gris-2);cursor:pointer;border-radius:7px;white-space:nowrap;transition:all .2s}
+.tab.on{background:var(--blanco);color:var(--marina);box-shadow:0 2px 10px rgba(13,31,64,.1)}
+.panel{display:none;padding-top:40px}
+.panel.on{display:block;animation:aparece .5s ease}
+@keyframes aparece{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.toggle{display:flex;align-items:center;gap:12px;margin-bottom:28px;font-size:13px;color:var(--gris-2)}
+.toggle .on{color:var(--marina);font-weight:600}
+.sw{width:46px;height:25px;border-radius:13px;background:#d6d3ca;position:relative;cursor:pointer;border:0}
+.sw::after{content:'';position:absolute;top:3px;left:3px;width:19px;height:19px;border-radius:50%;background:#fff;transition:transform .25s}
+.sw.on{background:var(--cobalto)}
+.sw.on::after{transform:translateX(21px)}
+.badge{font-size:10px;font-weight:700;color:#fff;background:#2a9e6a;padding:3px 8px;border-radius:10px}
+.planes{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--linea)}
+.plan{padding:36px 30px 36px 0;display:flex;flex-direction:column}
+.plan:not(:first-child){padding-left:30px;border-left:1px solid var(--linea)}
+.plan.dest{background:var(--marina);border-left:0!important;padding-left:30px;padding-right:30px;position:relative}
+.plan.dest::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--cobalto),var(--cobalto-s))}
+.plan.dest+.plan{border-left:0}
+.plan .tipo{font-size:10px;font-weight:700;letter-spacing:1.6px;text-transform:uppercase;color:var(--cobalto)}
+.plan h3{font-family:var(--serif);font-size:28px;color:var(--marina);margin:4px 0 2px}
+.plan .plat{font-size:12px;color:var(--gris-2);margin-bottom:20px}
+.precio{font-family:var(--serif);font-size:44px;color:var(--marina);line-height:1;letter-spacing:-.5px}
+.precio small{font-family:var(--sans);font-size:13px;color:var(--gris-2);font-weight:400;letter-spacing:0}
+.precio-sem{font-size:12px;color:#2a9e6a;font-weight:600;min-height:18px;margin:6px 0 14px}
+.plan ul{list-style:none;flex:1;margin-bottom:24px}
+.plan li{font-size:13.5px;color:#3d3d3d;padding:8px 0 8px 24px;position:relative;border-bottom:1px solid rgba(13,31,64,.06)}
+.plan li::before{content:'';position:absolute;left:2px;top:13px;width:9px;height:5px;border:solid var(--cobalto);border-width:0 0 2px 2px;transform:rotate(-45deg)}
+.plan.dest .tipo{color:var(--cobalto-s)}
+.plan.dest h3,.plan.dest .precio{color:#fff}
+.plan.dest .plat,.plan.dest .precio small{color:rgba(255,255,255,.55)}
+.plan.dest .precio-sem{color:#34d399}
+.plan.dest li{color:rgba(255,255,255,.8);border-color:rgba(255,255,255,.08)}
+.plan.dest li::before{border-color:var(--cobalto-s)}
+.plan .btn{justify-content:center}
+.nota{font-size:12.5px;color:var(--gris-2);margin-top:26px}
+.lista{border-top:1px solid var(--linea)}
+.fila{display:grid;grid-template-columns:28px 1fr auto;gap:18px;align-items:center;padding:16px 10px;border-bottom:1px solid var(--linea);cursor:pointer;transition:background .15s}
+.fila:hover{background:rgba(37,99,235,.04)}
+.fila.sel{background:rgba(37,99,235,.06)}
+.cb{width:20px;height:20px;border:1.5px solid #bbb;border-radius:5px;display:flex;align-items:center;justify-content:center;transition:all .15s}
+.fila.sel .cb{background:var(--cobalto);border-color:var(--cobalto)}
+.fila.sel .cb::after{content:'';width:5px;height:9px;border:solid #fff;border-width:0 2px 2px 0;transform:rotate(45deg) translate(-1px,-1px)}
+.fila b{display:block;font-size:14px;color:var(--marina)}
+.fila span{font-size:12.5px;color:var(--gris-2)}
+.fila .pr{font-size:13px;font-weight:600;color:var(--cobalto);text-align:right;white-space:nowrap}
+.grupo{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gris-2);padding:26px 0 8px}
+.plan-box{display:grid;grid-template-columns:1.35fr .65fr;gap:48px;align-items:start}
+.resumen{position:sticky;top:92px;background:var(--marina);color:#fff;padding:28px;border-radius:10px;box-shadow:0 30px 60px -25px rgba(13,31,64,.6)}
+.resumen h4{font-family:var(--serif);font-size:20px;margin-bottom:4px}
+.resumen .sub{font-size:12px;color:var(--cobalto-s);margin-bottom:18px}
+.res-items{font-size:12.5px;color:rgba(255,255,255,.8);max-height:240px;overflow:auto}
+.res-items div{display:flex;justify-content:space-between;gap:12px;padding:6px 0;border-bottom:1px solid rgba(255,255,255,.07)}
+.res-items div span:last-child{color:var(--cobalto-s);white-space:nowrap}
+.res-vacio{font-size:12.5px;color:rgba(255,255,255,.4);font-style:italic;padding:14px 0}
+.res-tot{display:flex;justify-content:space-between;align-items:baseline;margin-top:16px}
+.res-tot b{font-family:var(--serif);font-size:26px}
+.res-tot span{font-size:11px;color:rgba(255,255,255,.5)}
+.res-setup{display:flex;justify-content:space-between;font-size:12px;color:rgba(255,255,255,.55);margin-top:4px}
+.resumen .btn{width:100%;justify-content:center;margin-top:20px}
+.res-limpiar{display:block;width:100%;margin-top:10px;background:none;border:0;color:rgba(255,255,255,.4);font-size:12px;cursor:pointer}
+.res-nota{font-size:11px;color:rgba(255,255,255,.4);margin-top:12px;text-align:center}
+
+/* diagnóstico */
+#diagnostico{background:linear-gradient(120deg,#1e40af 0%,var(--cobalto) 60%,#3b82f6 100%);border-top:0;color:#fff}
+#diagnostico::before{content:'';position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.12) 1px,transparent 1px);background-size:22px 22px;pointer-events:none}
+.diag{display:grid;grid-template-columns:1.2fr .8fr;gap:64px;align-items:center}
+#diagnostico .eyebrow{color:rgba(255,255,255,.85)}
+#diagnostico h2{color:#fff}
+#diagnostico .lead{color:rgba(255,255,255,.82);margin-bottom:30px}
+.btn-b{background:#fff;color:var(--cobalto);box-shadow:0 14px 30px -10px rgba(0,0,0,.35)}
+.btn-b:hover{background:var(--arena)}
+.diag ol{list-style:none;counter-reset:q;background:rgba(8,20,48,.25);border:1px solid rgba(255,255,255,.18);border-radius:12px;padding:8px 24px;backdrop-filter:blur(6px)}
+.diag li{counter-increment:q;padding:13px 0 13px 40px;border-bottom:1px solid rgba(255,255,255,.12);font-size:14px;color:rgba(255,255,255,.9);position:relative}
+.diag li:last-child{border:0;font-weight:600;color:#fff}
+.diag li::before{content:counter(q,decimal-leading-zero);position:absolute;left:0;top:13px;font-family:var(--serif);color:rgba(255,255,255,.55);font-size:14px}
+
+/* contacto */
+#contacto{text-align:center;padding:130px var(--pad-x);background:radial-gradient(ellipse 60% 70% at 50% 100%,rgba(37,99,235,.3),transparent 70%),var(--marina-2)}
+#contacto h2{margin:0 auto 18px;font-size:58px}
+#contacto .lead{margin:0 auto 40px}
+#contacto .eyebrow{justify-content:center}
+.c-btns{display:flex;justify-content:center;gap:14px;flex-wrap:wrap}
+.c-datos{margin-top:52px;display:flex;justify-content:center;gap:36px;flex-wrap:wrap;font-size:13px;color:rgba(255,255,255,.55)}
+.c-datos a:hover{color:#fff}
+
+/* casos (al final, estilo reseñas) */
+#casos{padding:60px var(--pad-x) 68px}
+.rs-head{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;margin-bottom:24px}
+.rs-h{font-family:var(--serif);font-size:24px;color:var(--marina);line-height:1.25}
+.rs-hint{display:none;font-size:12px;color:var(--gris-2);white-space:nowrap}
+.rs{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.r{background:var(--blanco);border:1px solid rgba(13,31,64,.08);border-radius:10px;padding:18px 18px 16px;display:flex;flex-direction:column;transition:transform .25s,box-shadow .25s}
+.r:hover{transform:translateY(-3px);box-shadow:0 14px 30px -14px rgba(13,31,64,.25)}
+.r-top{display:flex;align-items:center;gap:11px;margin-bottom:10px}
+.r-av{width:36px;height:36px;border-radius:50%;background:var(--marina);color:var(--cobalto-s);font-family:var(--serif);font-size:15px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.r-top b{display:block;font-size:14px;color:var(--marina);line-height:1.2}
+.r-top span{font-size:11.5px;color:var(--gris-2)}
+.r p{font-size:13px;color:#3d3d3d;line-height:1.55;flex:1}
+.r p strong{color:var(--marina)}
+.r-tag{margin-top:12px;font-size:11px;font-weight:600;color:var(--cobalto)}
+.rs-nota{font-size:11.5px;color:var(--gris-2);margin-top:16px}
+
+footer{background:var(--marina-2);padding:36px var(--pad-x);border-top:1px solid var(--linea-osc)}
+footer .wrap{display:flex;justify-content:space-between;align-items:center;gap:24px;flex-wrap:wrap}
+.f-marca b{font-family:var(--serif);font-size:18px;letter-spacing:1.5px;color:#fff;display:block}
+.f-marca span{font-size:9px;font-weight:600;letter-spacing:2.8px;text-transform:uppercase;color:var(--cobalto-s)}
+.f-links{display:flex;gap:22px;flex-wrap:wrap;font-size:12px;color:rgba(255,255,255,.45)}
+.f-links a:hover{color:#fff}
+.f-copy{font-size:11px;color:rgba(255,255,255,.3)}
+
+.fab{position:fixed;right:24px;bottom:24px;z-index:90;width:58px;height:58px;border-radius:50%;background:#25D366;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 26px rgba(0,0,0,.3);transition:transform .2s}
+.fab::before{content:'';position:absolute;inset:0;border-radius:50%;border:2px solid #25D366;animation:onda 2.4s infinite}
+@keyframes onda{from{transform:scale(1);opacity:.7}to{transform:scale(1.6);opacity:0}}
+.fab:hover{transform:scale(1.08)}
+.fab{transition:transform .2s,opacity .3s}
+body.sin-fab .fab{opacity:0;pointer-events:none}
+
+/* pantallas que rotan en el hero */
+.pant{position:relative;aspect-ratio:540/1099;border-radius:26px;overflow:hidden;background:#F1EFE8}
+.pant .sl{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:0;opacity:0;transform:scale(1.04);transition:opacity .9s ease,transform 1.2s ease}
+.pant .sl.on{opacity:1;transform:none}
+.sl-etq{position:absolute;left:50%;bottom:-16px;transform:translateX(-50%);white-space:nowrap;background:var(--cobalto);color:#fff;font-size:11px;font-weight:600;padding:6px 12px;border-radius:20px;box-shadow:0 8px 20px -6px rgba(37,99,235,.7);z-index:3}
+.tablero{background:#f6f8fc;display:flex;flex-direction:column;font-family:var(--sans)}
+.tb-h{background:var(--marina);color:#fff;padding:22px 14px 14px}
+.tb-h b{display:block;font-family:var(--serif);font-size:15px}
+.tb-h span{font-size:9.5px;color:var(--cobalto-s)}
+.tb-c{padding:14px;flex:1}
+.tb-c small{font-size:9.5px;color:#667}
+.tb-big{font-family:var(--serif);font-size:27px;color:var(--marina);line-height:1.1}
+.tb-up{display:inline-block;font-size:9.5px;font-weight:700;color:#15803d;background:#dcfce7;padding:2px 7px;border-radius:9px;margin-top:4px}
+.tb-graf{width:100%;height:70px;margin:12px 0}
+.tb-tiles{display:grid;grid-template-columns:1fr 1fr;gap:7px}
+.tb-tiles div{background:#fff;border:1px solid #e3e8f2;border-radius:9px;padding:8px}
+.tb-tiles small{display:block;font-size:8.5px;line-height:1.2}
+.tb-tiles b{font-family:var(--serif);font-size:17px;color:var(--marina)}
+
+/* antes y después */
+.ad{position:relative;margin-top:44px;border-radius:14px;overflow:hidden;box-shadow:0 40px 80px -30px rgba(13,31,64,.45);user-select:none;-webkit-user-select:none;touch-action:pan-y}
+.ad-capa{padding:58px 26px 26px}
+.ad-hoy{background:#e4e0d6}
+.ad-con{position:absolute;inset:0;background:var(--marina);clip-path:inset(0 0 0 50%)}
+.ad-et{position:absolute;top:18px;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:6px 12px;border-radius:20px}
+.ad-hoy .ad-et{left:20px;background:#fff;color:#8a5a2b}
+.ad-con .ad-et{right:20px;background:var(--cobalto);color:#fff}
+.ad-grid{display:grid;grid-template-columns:1.1fr 1fr .8fr;gap:16px}
+.ad-pan{border-radius:10px;padding:14px;height:268px;overflow:hidden}
+.ad-hoy .ad-pan{background:#f6f3ec;border:1px solid #d6d0c2}
+.ad-con .ad-pan{background:rgba(255,255,255,.05);border:1px solid var(--linea-osc)}
+.ad-tit{font-size:12px;font-weight:700;margin-bottom:10px;display:flex;justify-content:space-between;align-items:center;gap:8px}
+.ad-hoy .ad-tit{color:#5a5145}
+.ad-con .ad-tit{color:#fff}
+.ad-tit em{font-style:normal;font-size:10px;padding:2px 8px;border-radius:10px}
+.rojo{background:#fde2e1;color:#b42318}
+.verde{background:rgba(52,211,153,.15);color:#34d399}
+.wa-f{display:grid;grid-template-columns:30px 1fr auto;gap:9px;align-items:center;padding:8px 0;border-bottom:1px solid rgba(0,0,0,.06);position:relative}
+.ad-con .wa-f{border-color:rgba(255,255,255,.07)}
+.wa-f i{width:30px;height:30px;border-radius:50%;font-style:normal;font-size:9.5px;font-weight:700;display:flex;align-items:center;justify-content:center;background:#cfc8b8;color:#5a5145}
+.ad-con .wa-f i{background:rgba(37,99,235,.3);color:#cfe2ff}
+.wa-f b{display:block;font-size:12px;color:#3a342c}
+.ad-con .wa-f b{color:#fff}
+.wa-f span{display:block;font-size:11px;color:#7a7266;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ad-con .wa-f span{color:rgba(255,255,255,.65)}
+.wa-f small{font-size:10px;color:#9a917f;align-self:start}
+.ad-con .wa-f small{color:#34d399;font-weight:700}
+.wa-f em{position:absolute;right:0;bottom:8px;font-style:normal;font-size:9.5px;font-weight:700;background:#25D366;color:#fff;min-width:17px;height:17px;border-radius:9px;display:flex;align-items:center;justify-content:center}
+.xl{font-size:10.5px;font-family:Consolas,monospace;border:1px solid #cfc8b8;background:#fff}
+.xl div{display:grid;grid-template-columns:.8fr 1.4fr .9fr}
+.xl div>*{padding:7px 6px;border-right:1px solid #e5e0d4;border-bottom:1px solid #e5e0d4;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:#5a5145}
+.xl b{background:#efebe2;font-weight:700}
+.xl .err{color:#b42318;font-weight:700}
+.nota-p{background:#fff3a8;color:#5d4d00;font-family:'Comic Sans MS','Segoe Print',cursive;font-size:12.5px;line-height:1.5;padding:14px;transform:rotate(-2deg);box-shadow:0 6px 14px -6px rgba(0,0,0,.3);margin-bottom:16px}
+.reloj{border-radius:8px;padding:10px 12px;background:#3a342c;color:#fff}
+.reloj b{display:block;font-family:var(--serif);font-size:18px}
+.reloj span{font-size:10.5px;color:rgba(255,255,255,.65)}
+.reloj.ok{background:rgba(52,211,153,.12);border:1px solid rgba(52,211,153,.3)}
+.reloj.ok span{color:#a7f3d0}
+.noti{background:rgba(255,255,255,.08);border:1px solid var(--linea-osc);border-radius:9px;padding:9px 11px;font-size:11.5px;color:rgba(255,255,255,.85);margin-bottom:9px}
+.noti b{display:block;font-size:10px;color:var(--cobalto-s);letter-spacing:.5px}
+.mini-tb small{display:block;font-size:10px;color:rgba(255,255,255,.55)}
+.mini-tb b{font-family:var(--serif);font-size:26px;color:#fff;margin-right:8px}
+.mini-tb svg{width:100%;height:60px;margin:10px 0}
+.mini-2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.mini-2 div{background:rgba(255,255,255,.06);border-radius:8px;padding:8px}
+.mini-2 b{font-size:18px}
+.ad-barra{position:absolute;top:0;bottom:0;left:50%;width:3px;margin-left:-1.5px;background:#fff;pointer-events:none;z-index:3;box-shadow:0 0 18px rgba(37,99,235,.8)}
+.ad-barra span{position:absolute;top:50%;left:50%;width:46px;height:46px;margin:-23px 0 0 -23px;border-radius:50%;background:var(--cobalto);color:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 0 0 5px rgba(255,255,255,.9),0 10px 24px rgba(0,0,0,.35)}
+.ad-barra svg{width:20px;height:20px}
+#ad-rango{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:ew-resize;z-index:4;margin:0;touch-action:pan-y}
+.ad-pie{font-size:11.5px;color:var(--gris-2);margin-top:14px}
+
+/* demo nexo */
+.demo-grid{display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:center}
+.demo-lista{list-style:none;margin:28px 0 34px}
+.demo-lista li{padding:11px 0 11px 30px;position:relative;font-size:15px;color:#3d3d3d;border-bottom:1px solid var(--linea)}
+.demo-lista li::before{content:'';position:absolute;left:4px;top:17px;width:11px;height:6px;border:solid var(--cobalto);border-width:0 0 2.2px 2.2px;transform:rotate(-45deg)}
+.dm{background:#fff;border-radius:18px;box-shadow:0 40px 80px -28px rgba(13,31,64,.45),0 0 0 1px rgba(13,31,64,.08);overflow:hidden;display:flex;flex-direction:column;max-width:440px;margin-left:auto;width:100%}
+.dm-h{background:var(--marina);color:#fff;padding:14px 16px;display:flex;align-items:center;gap:12px}
+.dm-av{width:38px;height:38px;border-radius:50%;background:var(--cobalto);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.dm-av svg{width:20px;height:20px}
+.dm-h b{display:block;font-size:14.5px}
+.dm-h small{font-size:11px;color:#34d399}
+.dm-badge{margin-left:auto;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:4px 9px;border-radius:10px;background:rgba(255,255,255,.12);color:var(--cobalto-s)}
+.dm-body{height:360px;overflow-y:auto;padding:16px;background:#f3f1ea;display:flex;flex-direction:column;gap:8px;scroll-behavior:smooth}
+.dm-m{max-width:82%;padding:9px 13px;border-radius:14px;font-size:13.5px;line-height:1.45;animation:aparece .3s ease;white-space:pre-line}
+.dm-m.bot{background:#fff;color:#222;border-bottom-left-radius:4px;box-shadow:0 1px 2px rgba(0,0,0,.06)}
+.dm-m.yo{background:var(--cobalto);color:#fff;margin-left:auto;border-bottom-right-radius:4px}
+.dm-m.sis{align-self:center;max-width:92%;background:rgba(13,31,64,.07);color:var(--marina);font-size:11.5px;font-weight:600;text-align:center;border-radius:8px}
+.dm-m a{display:inline-flex;margin-top:8px;background:#25D366;color:#fff;font-weight:600;font-size:12.5px;padding:7px 12px;border-radius:7px}
+.dm-esc{display:inline-flex;gap:4px;padding:12px 14px;background:#fff;border-radius:14px;border-bottom-left-radius:4px;width:max-content}
+.dm-esc i{width:6px;height:6px;border-radius:50%;background:#9aa3b5;animation:pt 1s infinite}
+.dm-esc i:nth-child(2){animation-delay:.15s}.dm-esc i:nth-child(3){animation-delay:.3s}
+.dm-chips{display:flex;gap:7px;padding:10px 12px;overflow-x:auto;background:#f3f1ea;border-top:1px solid rgba(13,31,64,.06);scrollbar-width:none;min-height:50px}
+.dm-chips::-webkit-scrollbar{display:none}
+.dm-chips button{flex-shrink:0;border:1px solid rgba(37,99,235,.35);background:#fff;color:var(--cobalto);font-size:12.5px;font-weight:600;padding:7px 12px;border-radius:16px;cursor:pointer;transition:background .15s,color .15s}
+.dm-chips button:hover{background:var(--cobalto);color:#fff}
+.dm-form{display:flex;gap:8px;padding:10px 12px;border-top:1px solid rgba(13,31,64,.08)}
+.dm-form input{flex:1;border:1px solid rgba(13,31,64,.15);border-radius:22px;padding:10px 16px;font-size:14px;font-family:inherit;outline:none}
+.dm-form input:focus{border-color:var(--cobalto)}
+.dm-form button{width:42px;height:42px;border-radius:50%;border:0;background:var(--cobalto);cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.dm-form button svg{width:18px;height:18px}
+.dm-pie{font-size:10.5px;color:var(--gris-2);text-align:center;padding:0 12px 10px}
+
+/* mapa */
+#mapa{padding-bottom:90px}
+.mapa-grid{display:grid;grid-template-columns:.85fr 1.15fr;gap:56px;align-items:center}
+.ciu{display:flex;flex-wrap:wrap;gap:8px;margin-top:28px}
+.ciu span{font-size:13px;font-weight:600;padding:7px 14px;border-radius:20px;border:1px solid var(--linea-osc);color:rgba(255,255,255,.82);background:rgba(255,255,255,.04)}
+.ciu .base{background:var(--cobalto);border-color:var(--cobalto);color:#fff}
+.ciu .mas{border-style:dashed;color:var(--cobalto-s)}
+.mapa{width:100%;height:auto;overflow:visible}
+.pais-us{fill:rgba(107,168,245,.07);stroke:rgba(107,168,245,.4);stroke-width:.9}
+.pais-mx{fill:rgba(37,99,235,.2);stroke:rgba(107,168,245,.7);stroke-width:1.1}
+.ruta{fill:none;stroke:#6BA8F5;stroke-width:1.6;stroke-dasharray:500;stroke-dashoffset:500;opacity:.85}
+.mapa-box.on .ruta{animation:dibuja 1.6s ease forwards}
+@keyframes dibuja{to{stroke-dashoffset:0}}
+.pto{opacity:0}
+.mapa-box.on .pto{animation:fade .5s ease forwards}
+.pto text{fill:#fff;font-family:var(--sans);font-size:13px;font-weight:600;paint-order:stroke;stroke:#0D1F40;stroke-width:4px}
+.sede{fill:#fff;font-family:var(--serif);font-size:17px;font-weight:700;paint-order:stroke;stroke:#0D1F40;stroke-width:4px}
+.sede-s{fill:var(--cobalto-s);font-family:var(--sans);font-size:9px;font-weight:700;letter-spacing:2px;paint-order:stroke;stroke:#0D1F40;stroke-width:3px}
+.onda{fill:none;stroke:#6BA8F5;stroke-width:1.5;transform-box:fill-box;transform-origin:center;animation:radar 2.4s ease-out infinite}
+.onda.o2{stroke:#fff;animation-duration:2s}
+@keyframes fade{to{opacity:1}}
+@keyframes radar{from{transform:scale(1);opacity:.9}to{transform:scale(3.2);opacity:0}}
+
+/* qué necesita tu negocio */
+.nc{margin-top:44px;background:#fff;border-radius:14px;padding:34px;box-shadow:0 30px 60px -32px rgba(13,31,64,.35)}
+.nc-paso+.nc-paso{margin-top:30px;padding-top:28px;border-top:1px solid var(--linea)}
+.nc-tit{display:flex;align-items:center;gap:12px;font-family:var(--serif);font-size:20px;color:var(--marina);margin-bottom:18px}
+.nc-tit span{width:30px;height:30px;border-radius:50%;background:var(--cobalto);color:#fff;font-family:var(--sans);font-size:14px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.nc-ops{display:flex;flex-wrap:wrap;gap:10px}
+.nc-ops button{border:1.5px solid rgba(13,31,64,.14);background:#fff;border-radius:30px;padding:11px 18px;font-size:14px;font-weight:600;color:var(--marina);cursor:pointer;transition:all .18s;display:inline-flex;align-items:center;gap:8px}
+.nc-ops button svg{width:17px;height:17px;stroke:var(--cobalto)}
+.nc-ops button:hover{border-color:var(--cobalto);transform:translateY(-1px)}
+.nc-ops button.on{background:var(--cobalto);border-color:var(--cobalto);color:#fff}
+.nc-ops button.on svg{stroke:#fff}
+.nc-res{margin-top:30px;padding-top:30px;border-top:1px solid var(--linea);animation:aparece .45s ease}
+.nc-res h3{font-family:var(--serif);font-size:26px;color:var(--marina);margin-bottom:6px}
+.nc-res>p{color:var(--gris);margin-bottom:22px;max-width:720px}
+.nc-recs{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:24px}
+.nc-rec{background:var(--arena);border-radius:10px;padding:20px;border-top:3px solid var(--cobalto)}
+.nc-rec b{display:block;font-family:var(--serif);font-size:17px;color:var(--marina);margin-bottom:6px}
+.nc-rec p{font-size:13.5px;color:#4a4a4a;margin-bottom:10px}
+.nc-rec span{font-size:12px;font-weight:700;color:var(--cobalto)}
+.nc-acc{display:flex;gap:18px;flex-wrap:wrap;align-items:center}
+
+/* calculadora */
+.calc{display:grid;grid-template-columns:1.1fr .9fr;margin-top:48px;border-radius:14px;overflow:hidden;border:1px solid var(--linea-osc)}
+.calc-in{padding:34px;background:rgba(255,255,255,.03)}
+.cr{display:block;margin-bottom:28px}
+.cr:last-child{margin-bottom:0}
+.cr>span{display:flex;justify-content:space-between;align-items:baseline;gap:12px;font-size:15px;color:#fff;margin-bottom:12px}
+.cr b{font-family:var(--serif);font-size:22px;color:var(--cobalto-s);white-space:nowrap}
+.cr small{display:block;font-size:12px;color:rgba(255,255,255,.45);margin-top:8px}
+.cr input{width:100%;-webkit-appearance:none;appearance:none;height:6px;border-radius:4px;background:linear-gradient(90deg,var(--cobalto) var(--p,30%),rgba(255,255,255,.14) var(--p,30%));outline:none;cursor:pointer}
+.cr input::-webkit-slider-thumb{-webkit-appearance:none;width:24px;height:24px;border-radius:50%;background:#fff;border:4px solid var(--cobalto);box-shadow:0 4px 12px rgba(0,0,0,.35)}
+.cr input::-moz-range-thumb{width:18px;height:18px;border-radius:50%;background:#fff;border:4px solid var(--cobalto)}
+.calc-out{padding:34px;background:linear-gradient(160deg,var(--cobalto),#1e3a8a);color:#fff;display:flex;flex-direction:column}
+.calc-out>small{font-size:13px;color:rgba(255,255,255,.8)}
+.calc-big{font-family:var(--serif);font-size:62px;line-height:1.05;letter-spacing:-1px;margin-top:6px}
+.calc-per{font-size:15px;color:rgba(255,255,255,.8);margin-bottom:22px}
+.calc-fila{display:flex;justify-content:space-between;padding:11px 0;border-top:1px solid rgba(255,255,255,.18);font-size:14px}
+.calc-fila b{font-family:var(--serif);font-size:19px}
+.calc-cuenta{font-size:12px;color:rgba(255,255,255,.75);margin:14px 0 22px;padding:10px 12px;background:rgba(8,20,48,.25);border-radius:8px}
+.calc-out .btn{background:#fff;color:var(--cobalto);justify-content:center;box-shadow:0 14px 30px -10px rgba(0,0,0,.35)}
+.calc-out .btn:hover{background:var(--arena)}
+.calc-nota{font-size:11.5px;color:rgba(255,255,255,.65);margin-top:14px}
+
+/* ── Precios por país ── */
+html.usd [data-solo-mx]{display:none!important}
+.planes-2{grid-template-columns:repeat(2,1fr);max-width:820px;margin-left:auto;margin-right:auto}
+@media (max-width:900px){.planes-2{grid-template-columns:1fr}}
+
+/* ── Preguntas frecuentes ── */
+.faq-grid{display:grid;grid-template-columns:.8fr 1.2fr;gap:64px;align-items:start}
+.faq-grid>div:first-child{position:sticky;top:110px}
+.faq{border-top:1px solid rgba(37,99,235,.15)}
+.faq details{border-bottom:1px solid rgba(37,99,235,.15)}
+.faq summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:20px;padding:22px 4px;font-family:var(--serif);font-size:20px;font-weight:700;color:var(--marina);transition:color .2s}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary:hover{color:var(--cobalto)}
+.faq summary svg{flex:none;width:22px;height:22px;stroke:var(--cobalto);transition:transform .3s}
+.faq details[open] summary svg{transform:rotate(45deg)}
+.faq details p{padding:0 40px 24px 4px;font-size:16px;line-height:1.7;color:#4a5568;max-width:640px}
+.faq details[open] p{animation:faqIn .35s ease}
+@keyframes faqIn{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
+@media (max-width:900px){.faq-grid{grid-template-columns:1fr;gap:28px}.faq-grid>div:first-child{position:static}.faq summary{font-size:17px;padding:18px 2px}.faq details p{padding:0 8px 20px 2px;font-size:15px}}
+
+/* ── Responsive ── */
+@media (max-width:1300px){.hero-h1{font-size:58px}.tel .toast{left:-150px}.tel .metrica{display:none}}
+@media (max-width:1100px){
+  :root{--pad-x:44px}
+  .hero-h1{font-size:54px}
+  h2{font-size:40px}
+  .escena{height:520px}
+  .escena .tel{right:40px;width:215px}
+  .toast{right:235px}
+  .metrica{right:228px}
+  .linea{grid-template-columns:70px 1fr 1.2fr 40px;gap:24px}
+  .linea-n{font-size:44px}
+  .cif b{font-size:50px}
+  .pasos{grid-template-columns:repeat(2,1fr);row-gap:44px}
+  .pasos::before{display:none}
+  .teles .tel{width:220px}
+}
+@media (max-width:900px){
+  :root{--pad-x:24px}
+  header{padding:0 20px}
+  nav.links{display:none}
+  .burger{display:block}
+  section{padding:76px var(--pad-x)}
+  h2{font-size:34px}
+  .lead{font-size:16px}
+  #inicio{padding:100px var(--pad-x) 56px}
+  #inicio .wrap{grid-template-columns:1fr;gap:10px}
+  .hero-h1{font-size:44px;letter-spacing:-.8px}
+  .hero-rot{font-size:17px}
+  .escena{height:400px;margin-top:20px}
+  .escena .tel{width:190px;right:auto;left:50%;margin-left:-95px;top:0}
+  .escena .chat,.tel .burbuja{display:none}
+  .chat{width:235px;top:40px;left:0;min-height:0}
+  .metrica{left:0;right:auto;bottom:40px}
+  .toast{right:auto;left:0;top:60px}
+  .marq span{font-size:18px;padding:0 20px;gap:40px}
+  .que-grid,.diag,.plan-box,.prueba-grid{grid-template-columns:1fr;gap:36px}
+  .cita{font-size:21px}
+  .cap-grid,.planes,.compromisos{grid-template-columns:1fr}
+  .cap,.cap:not(:nth-child(3n+1)){padding:30px 0;border-left:0}
+  .plan,.plan:not(:first-child){padding-left:0;padding-right:0;border-left:0}
+  .plan:not(:first-child){border-top:1px solid var(--linea)}
+  .plan.dest{margin:0 -24px;padding:36px 24px}
+  .comp:not(:first-child){border-left:0;border-top:1px solid var(--linea-osc)}
+  .cifras{padding:56px var(--pad-x)}
+  .cif-grid{grid-template-columns:1fr 1fr;row-gap:36px}
+  .cif{padding:0 0 0 18px}
+  .cif:nth-child(odd){border-left:0;padding-left:0}
+  .cif b{font-size:42px}
+  .cif b small{font-size:22px}
+  .linea{grid-template-columns:1fr 40px;gap:12px;padding:28px 0}
+  .linea:hover{padding-left:0}
+  .linea-n{font-size:34px;grid-column:1}
+  .linea>div:nth-child(2){grid-column:1/-1}
+  .linea p{grid-column:1/-1}
+  .linea .flecha{grid-row:1;grid-column:2}
+  .teles{height:430px}
+  .teles .tel{width:175px}
+  .teles .t1{left:0}
+  .teles .t2{right:0}
+  .pasos{grid-template-columns:1fr;row-gap:0}
+  .paso{display:grid;grid-template-columns:56px 1fr;column-gap:20px;padding-bottom:30px}
+  .paso::before{content:'';position:absolute;left:27px;top:56px;bottom:0;width:2px;background:rgba(37,99,235,.25)}
+  .paso:last-child::before{display:none}
+  .paso-n{grid-row:span 2;margin-bottom:0}
+  .resumen{position:static}
+  .demo-grid,.mapa-grid{grid-template-columns:1fr;gap:40px}
+  .nc{padding:22px 18px}
+  .nc-recs{grid-template-columns:1fr}
+  .nc-ops button{padding:10px 14px;font-size:13.5px}
+  .calc{grid-template-columns:1fr}
+  .calc-in,.calc-out{padding:24px 20px}
+  .calc-big{font-size:46px}
+  .pto text{font-size:15px}
+  .dm{margin:0 auto}
+  .dm-body{height:330px}
+  .ad-capa{padding:54px 12px 12px}
+  .ad-grid{grid-template-columns:1fr;gap:10px}
+  .ad-pan{height:250px}
+  .ad-pan:nth-child(2){display:none}
+  .ad-et{top:14px}
+  .ad-hoy .ad-et{left:12px}
+  .ad-con .ad-et{right:12px}
+  #contacto{padding:90px var(--pad-x)}
+  #contacto h2{font-size:38px}
+  .c-datos{flex-direction:column;gap:10px}
+  .rs{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;margin:0 -24px;padding:0 24px 8px;scrollbar-width:none}
+  .rs::-webkit-scrollbar{display:none}
+  .r{flex:0 0 80%;scroll-snap-align:start}
+  .rs-hint{display:block}
+  #casos{padding:50px var(--pad-x) 54px}
+  footer .wrap{flex-direction:column;text-align:center}
+  .f-links{justify-content:center}
+}
+@media (max-width:420px){
+  .hero-h1{font-size:39px}
+  .btn{width:100%;justify-content:center}
+  .escena{height:370px}
+  .escena .tel{width:170px;margin-left:-85px}
+  .chat{width:215px}
+  .fila{grid-template-columns:24px 1fr}
+  .fila .pr{grid-column:2;text-align:left}
+}
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How long does it take?","acceptedAnswer":{"@type":"Answer","text":"A Nexo assistant takes 2 to 3 weeks. A website, 3 to 4 weeks. Ad campaigns go live about a week after you give us access. Your plan includes the dates in writing."}},{"@type":"Question","name":"Do I sign a contract?","acceptedAnswer":{"@type":"Answer","text":"Yes, always in writing: what's included, how fast we respond and what we deliver. Advertising is a 6-month agreement. Development work (websites, assistants, systems) is billed per project, with a deposit."}},{"@type":"Question","name":"Is ad spend included?","acceptedAnswer":{"@type":"Answer","text":"No. You pay Meta or Google directly, from your own account and with your own card. We charge for management, strategy and reporting, so you always see where every dollar goes."}},{"@type":"Question","name":"Do I need to be tech-savvy?","acceptedAnswer":{"@type":"Answer","text":"No. We set everything up and train you and your team to use it. If anything is unclear, just message us."}},{"@type":"Question","name":"What happens to my customers' data?","acceptedAnswer":{"@type":"Answer","text":"It's yours. We don't sell it or share it, and we only use it for the service you hired us for."}},{"@type":"Question","name":"What does the assistant do if it doesn't know an answer?","acceptedAnswer":{"@type":"Answer","text":"It doesn't make things up. It hands the conversation to someone on your team and lets you know."}},{"@type":"Question","name":"Do you work in English?","acceptedAnswer":{"@type":"Answer","text":"Yes. We work in English and Spanish, with businesses across the US and Mexico. Almost everything is done online, and we can meet in person when needed."}},{"@type":"Question","name":"How much is the assessment?","acceptedAnswer":{"@type":"Answer","text":"Nothing. We review your business, tell you what we would do and what it would cost, and you decide. If it doesn't make sense for you, we'll tell you that too."}},{"@type":"Question","name":"Can I pay in US dollars?","acceptedAnswer":{"@type":"Answer","text":"Yes. You can pay in US dollars or in Mexican pesos, by bank transfer. Your plan states the currency and amount in writing."}}]}</script>
+</head>
+<body>
+<div id="avance"></div>
+
+<header id="hdr">
+  <a class="logo" href="#inicio" aria-label="VYNTRA, home">
+    <svg viewBox="0 0 80 80" aria-hidden="true">
+      <g stroke="#2563EB" stroke-width="1.6"><line x1="40" y1="40" x2="64" y2="8"/><line x1="40" y1="40" x2="11" y2="13"/><line x1="40" y1="40" x2="75" y2="47"/><line x1="40" y1="40" x2="58" y2="73"/><line x1="40" y1="40" x2="13" y2="70"/><line x1="40" y1="40" x2="7" y2="43"/></g>
+      <g stroke="#6BA8F5" stroke-width=".9"><line x1="40" y1="40" x2="46" y2="4"/><line x1="40" y1="40" x2="73" y2="22"/><line x1="40" y1="40" x2="69" y2="63"/><line x1="40" y1="40" x2="43" y2="78"/><line x1="40" y1="40" x2="25" y2="75"/><line x1="40" y1="40" x2="5" y2="27"/><line x1="40" y1="40" x2="21" y2="5"/></g>
+      <g fill="#2563EB"><circle cx="64" cy="8" r="3.2"/><circle cx="11" cy="13" r="2.8"/><circle cx="75" cy="47" r="2.8"/><circle cx="58" cy="73" r="3.2"/><circle cx="13" cy="70" r="2.8"/></g>
+      <g fill="#6BA8F5"><circle cx="7" cy="43" r="2.8"/><circle cx="46" cy="4" r="1.8"/><circle cx="73" cy="22" r="1.8"/><circle cx="69" cy="63" r="1.8"/><circle cx="43" cy="78" r="1.8"/><circle cx="25" cy="75" r="1.8"/><circle cx="5" cy="27" r="1.4"/><circle cx="21" cy="5" r="1.4"/></g>
+      <circle cx="40" cy="40" r="5" fill="#fff"/>
+    </svg>
+    <b>VYNTRA</b>
+  </a>
+  <nav class="links">
+    <a href="#que-hacemos">What we do</a>
+    <a href="#como">How we work</a>
+    <a href="#precios">Pricing</a>
+    <a href="#preguntas">FAQ</a>
+    <a href="#casos">Results</a>
+    <a href="../" class="lang" hreflang="es" lang="es" aria-label="Versión en español">ES</a>
+    <a href="#contacto" class="btn btn-p" style="padding:10px 20px;font-size:13px">Free assessment</a>
+  </nav>
+  <button class="burger" id="burger" aria-label="Open menu" aria-expanded="false"><span></span><span></span><span></span></button>
+</header>
+<div class="mmenu" id="mmenu">
+  <a href="#que-hacemos">What we do</a>
+  <a href="#como">How we work</a>
+  <a href="#precios">Pricing</a>
+  <a href="#preguntas">FAQ</a>
+  <a href="#casos">Results</a>
+  <a href="#contacto">Free assessment</a>
+  <a href="../" class="lang-m">Español</a>
+</div>
+
+<!-- ═══ HERO ═══ -->
+<section id="inicio" class="s-marina">
+  <canvas id="red" aria-hidden="true"></canvas>
+  <div class="wrap">
+    <div>
+      <div class="chip"><i></i>Technology &amp; AI company · Texas and Mexico</div>
+      <h1 class="hero-h1">Real intelligence<br><em>for real businesses.</em></h1>
+      <p class="hero-rot">AI systems to <b id="rot">sell more</b><span class="cursor"></span></p>
+      <p class="hero-sub">We build custom assistants, apps, platforms and automations, and put them to work inside your business, with results you can measure.</p>
+      <div class="hero-btns">
+        <a href="#contacto" class="btn btn-p">Get your free assessment
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        <a href="#que-hacemos" class="btn btn-o">See what we do</a>
+      </div>
+      <div class="hero-foot">
+        <span><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 0 1 0 20M12 2a15 15 0 0 0 0 20"/></svg>The US and Mexico</span>
+        <span><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>English and Spanish</span>
+      </div>
+    </div>
+
+    <div class="escena" aria-hidden="true">
+      <div class="tel">
+        <div class="pant" id="pant">
+          <img class="sl on" src="../agro/img/dinero.webp" alt="" width="540" height="1099">
+          <div class="sl tablero">
+            <div class="tb-h"><b>Your business</b><span>November · sample</span></div>
+            <div class="tb-c">
+              <small>Sales this month</small>
+              <div class="tb-big">$18,400</div>
+              <span class="tb-up">+18% vs. October</span>
+              <svg class="tb-graf" viewBox="0 0 200 70" preserveAspectRatio="none"><defs><linearGradient id="tbg" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#2563EB" stop-opacity=".35"/><stop offset="1" stop-color="#2563EB" stop-opacity="0"/></linearGradient></defs><path d="M0 60 L20 55 L40 57 L60 46 L80 48 L100 38 L120 40 L140 27 L160 30 L180 16 L200 10 L200 70 L0 70Z" fill="url(#tbg)"/><path d="M0 60 L20 55 L40 57 L60 46 L80 48 L100 38 L120 40 L140 27 L160 30 L180 16 L200 10" fill="none" stroke="#2563EB" stroke-width="2.5"/></svg>
+              <div class="tb-tiles">
+                <div><small>New customers</small><b>37</b></div>
+                <div><small>Messages answered</small><b>100%</b></div>
+                <div><small>Confirmed appointments</small><b>52</b></div>
+                <div><small>Average reply</small><b>8 s</b></div>
+              </div>
+            </div>
+          </div>
+          <img class="sl" src="../agro/img/hato.webp" alt="" width="540" height="1099">
+          <img class="sl" src="../agro/img/voz.webp" alt="" width="540" height="1099">
+          <img class="sl" src="../agro/img/potreros.webp" alt="" width="540" height="1099">
+        </div>
+        <div class="sl-etq"><span id="sl-txt">Rancho Vivo · ranch finances</span></div>
+        <div class="burbuja toast"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18M9 16l2 2 4-4"/></svg></div><div><b>Appointment booked</b><span>Nexo · Thursday 12:30 PM</span></div></div>
+      <div class="burbuja metrica">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div>
+        <div><b>24/7</b><span>answering even when you're closed</span></div>
+      </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- franja -->
+<div class="marq" aria-hidden="true">
+  <div class="marq-in">
+    <span>AI assistants</span><span>Custom apps</span><span>Automation</span><span>AI-driven advertising</span><span>Data dashboards</span><span>Websites &amp; stores</span><span>Process consulting</span><span>Technology for agriculture</span>
+    <span>AI assistants</span><span>Custom apps</span><span>Automation</span><span>AI-driven advertising</span><span>Data dashboards</span><span>Websites &amp; stores</span><span>Process consulting</span><span>Technology for agriculture</span>
+  </div>
+</div>
+
+<!-- ═══ ANTES Y DESPUÉS ═══ -->
+<section id="antes" class="s-arena" style="border-top:0">
+  <div class="wrap">
+    <span class="eyebrow">Before and after</span>
+    <h2 class="rv">The same business, <em>with and without VYNTRA.</em></h2>
+    <p class="lead rv d1">Drag the bar to see the difference.</p>
+    <div class="ad rv d2" id="ad">
+      <!-- HOY (abajo) -->
+      <div class="ad-capa ad-hoy">
+        <span class="ad-et">Today</span>
+        <div class="ad-grid">
+          <div class="ad-pan">
+            <div class="ad-tit">WhatsApp <em class="rojo">14 unread</em></div>
+            <div class="wa-f"><i>MG</i><div><b>María G.</b><span>Are you still open?</span></div><small>3 h ago</small><em>2</em></div>
+            <div class="wa-f"><i>JR</i><div><b>Jorge R.</b><span>Can you send me prices?</span></div><small>yesterday</small><em>4</em></div>
+            <div class="wa-f"><i>LP</i><div><b>Lupita P.</b><span>I wanted to book for...</span></div><small>yesterday</small><em>3</em></div>
+            <div class="wa-f"><i>+1</i><div><b>915 ••• 2210</b><span>Hello?? anyone?</span></div><small>Mon</small><em>5</em></div>
+          </div>
+          <div class="ad-pan">
+            <div class="ad-tit">SALES_final_final2.xlsx</div>
+            <div class="xl">
+              <div><b>Date</b><b>Customer</b><b>Total</b></div>
+              <div><span>11/03</span><span>?</span><span>120</span></div>
+              <div><span>11/04</span><span>lady from 4pm</span><span class="err">#REF!</span></div>
+              <div><span></span><span>pending</span><span>???</span></div>
+              <div><span>11/09</span><span>Jorge</span><span>85</span></div>
+              <div><span>—</span><span>—</span><span class="err">#VALUE!</span></div>
+            </div>
+          </div>
+          <div class="ad-pan ad-nota">
+            <div class="nota-p">How much did we sell this month??<br>Call Lupita<br>who still owes us?</div>
+            <div class="reloj"><b>11:48 p.m.</b><span>Still answering messages</span></div>
+          </div>
+        </div>
+      </div>
+      <!-- CON VYNTRA (arriba, recortada) -->
+      <div class="ad-capa ad-con" id="ad-con">
+        <span class="ad-et">With VYNTRA</span>
+        <div class="ad-grid">
+          <div class="ad-pan">
+            <div class="ad-tit">WhatsApp <em class="verde">all answered</em></div>
+            <div class="wa-f ok"><i>MG</i><div><b>María G.</b><span>Yes, we're open until 7. Want to book?</span></div><small>8 s</small></div>
+            <div class="wa-f ok"><i>JR</i><div><b>Jorge R.</b><span>I sent you our price list.</span></div><small>12 s</small></div>
+            <div class="wa-f ok"><i>LP</i><div><b>Lupita P.</b><span>Confirmed: Thursday 12:30 PM</span></div><small>9 s</small></div>
+            <div class="wa-f ok"><i>+1</i><div><b>915 ••• 2210</b><span>Hi! How can I help?</span></div><small>5 s</small></div>
+          </div>
+          <div class="ad-pan">
+            <div class="ad-tit">Business dashboard</div>
+            <div class="mini-tb">
+              <div><small>Sales this month</small><b>$18,400</b><span class="tb-up">+18%</span></div>
+              <svg viewBox="0 0 200 60" preserveAspectRatio="none"><path d="M0 52 L25 48 L50 50 L75 38 L100 40 L125 28 L150 30 L175 14 L200 8" fill="none" stroke="#6BA8F5" stroke-width="2.5"/></svg>
+              <div class="mini-2"><div><small>New customers</small><b>37</b></div><div><small>Receivables</small><b>$2,150</b></div></div>
+            </div>
+          </div>
+          <div class="ad-pan ad-nota">
+            <div class="noti"><b>Nexo</b>3 appointments confirmed for tomorrow</div>
+            <div class="noti"><b>Nexo</b>Jorge asked for a quote: already sent</div>
+            <div class="reloj ok"><b>8:00 p.m.</b><span>Business closed, Nexo still answering</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="ad-barra" id="ad-barra"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l-6 6 6 6M15 6l6 6-6 6"/></svg></span></div>
+      <input type="range" min="0" max="100" value="50" id="ad-rango" aria-label="Compare before and after">
+    </div>
+    <p class="ad-pie">Illustration with sample data.</p>
+  </div>
+</section>
+
+<!-- ═══ QUIÉNES ═══ -->
+<section id="quienes" class="s-blanco" style="border-top:0">
+  <div class="wrap">
+    <span class="eyebrow">Who we are</span>
+    <h2 class="rv">We build the technology. <em>You decide where it goes to work.</em></h2>
+    <div class="que-grid">
+      <div class="rv d1">
+        <p>VYNTRA is a technology and artificial intelligence company born in Chihuahua, right on the Texas border. We design and build <strong>AI assistants, apps, platforms and automations</strong> for specific business problems, and leave them running inside your operation.</p>
+        <p>First we learn how your business works, measure what each problem is costing you, and then build what solves it. Every result is shown to you in numbers.</p>
+      </div>
+      <div class="rv d2">
+        <p class="cita">We don't sell generic packages or promise miracles. We build what your business needs.</p>
+        <div class="voz">
+          <div><b>Precise</b><span>Data, not guesses.</span></div>
+          <div><b>Direct</b><span>We tell you what's worth it and what isn't.</span></div>
+          <div><b>Reliable</b><span>Commitments in writing.</span></div>
+          <div><b>Border-born</b><span>From Chihuahua, for the US and Mexico.</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ QUÉ HACEMOS ═══ -->
+<section id="que-hacemos" class="s-marina cuadricula">
+  <div class="brillo" style="width:520px;height:520px;background:rgba(37,99,235,.22);top:-160px;right:-120px"></div>
+  <div class="wrap">
+    <span class="eyebrow">What we do</span>
+    <h2 class="rv">AI technology, <em>built around</em> your business.</h2>
+    <p class="lead rv d1">This is what we know how to build. We combine it based on what your business needs, not on a catalog.</p>
+    <div class="cap-grid">
+      <div class="cap rv">
+        <div class="cap-ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><path d="M8 9h8M8 13h5"/></svg></div>
+        <h3>AI assistants (Nexo)</h3><p>They answer, qualify and book on WhatsApp and on your website around the clock, using your business information. When needed, they hand the conversation to a person.</p></div>
+      <div class="cap rv d1">
+        <div class="cap-ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="14" rx="2"/><path d="M8 21h8M12 17v4M7 8h4M7 12h10"/></svg></div>
+        <h3>Custom systems and platforms</h3><p>Customer portals, internal systems, mobile apps and dashboards with your numbers on one screen. Built on your real data.</p></div>
+      <div class="cap rv d2">
+        <div class="cap-ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="3"/><circle cx="18" cy="18" r="3"/><path d="M9 6h5a4 4 0 0 1 4 4v5M15 18h-5a4 4 0 0 1-4-4V9"/></svg></div>
+        <h3>Automation</h3><p>We connect the tools you already use so information flows on its own and your team stops doing by hand what repeats every day.</p></div>
+      <div class="cap rv">
+        <div class="cap-ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 15l4-4 3 3 6-7"/></svg></div>
+        <h3>AI-driven digital advertising</h3><p>Meta, Google and TikTok campaigns under constant monitoring: we spot what isn't performing, move the budget and scale what works. A clear report every week.</p></div>
+      <div class="cap rv d1">
+        <div class="cap-ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 9h20M6 6.5h.01M9 6.5h.01"/></svg></div>
+        <h3>Websites and online stores</h3><p>Pages that turn visits into customers, full websites and stores with online payments. Fast, mobile-first and with direct WhatsApp.</p></div>
+      <div class="cap rv d2">
+        <div class="cap-ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3M8 11h6M11 8v6"/></svg></div>
+        <h3>Data and market analysis</h3><p>Competitor, location and market studies with official, verified data, so you know where to invest before you spend.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ DEMO NEXO ═══ -->
+<section id="demo" class="s-blanco">
+  <div class="wrap demo-grid">
+    <div>
+      <span class="eyebrow">Try it</span>
+      <h2 class="rv">This is how Nexo <em>talks to your customers.</em></h2>
+      <p class="lead rv d1">This is a sample dental office. Type a message or tap a question: it books appointments, answers questions and knows when to hand the conversation to a person.</p>
+      <ul class="demo-lista rv d2">
+        <li>Replies in seconds, day and night</li>
+        <li>Books and confirms appointments without you stepping in</li>
+        <li>If it's urgent or it doesn't know, it hands the conversation to you</li>
+        <li>We adapt it to your business: restaurant, store, clinic, shop…</li>
+      </ul>
+      <a class="btn btn-p rv d3" href="https://wa.me/526142726674?text=Hi%20VYNTRA%2C%20I%20tried%20the%20Nexo%20demo%20and%20I%20want%20one%20for%20my%20business" target="_blank" rel="noopener">I want a Nexo for my business
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+    </div>
+    <div class="dm rv d2">
+      <div class="dm-h">
+        <div class="dm-av"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3c-2.5 0-4 2-4 4.5 0 3 1.5 4 2 7S6 21 7.5 21c1.3 0 1.5-2.5 2-4.5.3-1.2 1-1.5 2.5-1.5s2.2.3 2.5 1.5c.5 2 .7 4.5 2 4.5C18 21 18.5 17.5 19 14.5s2-4 2-7C21 5 19.5 3 17 3c-2 0-3 1-5 1S9 3 7 3z"/></svg></div>
+        <div><b>Dental Office</b><small>Nexo · online</small></div>
+        <span class="dm-badge">Demo</span>
+      </div>
+      <div class="dm-body" id="dm-body" aria-live="polite"></div>
+      <div class="dm-chips" id="dm-chips"></div>
+      <form class="dm-form" id="dm-form" autocomplete="off">
+        <input id="dm-in" type="text" maxlength="160" placeholder="Type a message…" aria-label="Type a message to the sample assistant">
+        <button type="submit" aria-label="Send"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4z"/></svg></button>
+      </form>
+      <div class="dm-pie">Demo with sample answers. Nothing you type is saved.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ CALCULADORA ═══ -->
+<section id="calculadora" class="s-marina cuadricula">
+  <div class="brillo" style="width:520px;height:520px;background:rgba(37,99,235,.2);top:-180px;left:-160px"></div>
+  <div class="wrap">
+    <span class="eyebrow">Calculator</span>
+    <h2 class="rv">What does it cost you <em>to reply late?</em></h2>
+    <p class="lead rv d1">Move the sliders to match your business. They're your numbers: we just do the math.</p>
+    <div class="calc rv d2">
+      <div class="calc-in">
+        <label class="cr"><span>Messages you get per day <b id="v-msj">30</b></span><input type="range" id="c-msj" min="1" max="200" value="30"><small>WhatsApp, Facebook, Instagram and calls</small></label>
+        <label class="cr"><span>Answered late or never <b id="v-pct">30%</b></span><input type="range" id="c-pct" min="0" max="100" step="5" value="30"><small>More than an hour later counts as late</small></label>
+        <label class="cr"><span>Average sale per customer <b id="v-tk">$80</b></span><input type="range" id="c-tk" min="10" max="2000" step="10" value="80"><small>What they spend each time they buy</small></label>
+        <label class="cr"><span>Out of 10 who ask, how many buy <b id="v-cv">2</b></span><input type="range" id="c-cv" min="1" max="10" value="2"><small>When they do get a reply in time</small></label>
+      </div>
+      <div class="calc-out">
+        <small>You could be losing about</small>
+        <div class="calc-big" id="c-mes">$0</div>
+        <div class="calc-per">a month</div>
+        <div class="calc-fila"><span>Customers lost per month</span><b id="c-cli">0</b></div>
+        <div class="calc-fila"><span>In a year</span><b id="c-ano">$0</b></div>
+        <div class="calc-cuenta" id="c-cuenta"></div>
+        <button class="btn btn-p" id="c-wa">I want those customers back</button>
+        <p class="calc-nota">This is an estimate based on your numbers, not a promise. Nexo replies in seconds; how many customers you win back depends on your business.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ CIFRAS ═══ -->
+<section class="cifras" aria-label="Results">
+  <div class="wrap cif-grid">
+    <div class="cif rv"><b><span class="cnt" data-n="120">120</span></b><span>enrollments in 2 weeks for a school</span></div>
+    <div class="cif rv d1"><b><span class="cnt" data-n="3">3</span><small>×</small></b><span>more applicants for the same ad spend in a recruiting campaign</span></div>
+    <div class="cif rv d2"><b>24<small>/7</small></b><span>assistants answering even when the business is closed</span></div>
+    <div class="cif rv d3"><b><span class="cnt" data-n="2">2</span></b><span>languages: we work in English and Spanish</span></div>
+  </div>
+</section>
+
+<!-- ═══ LA PRUEBA ═══ -->
+<section id="prueba" class="s-marina cuadricula">
+  <div class="wrap">
+    <div class="prueba-grid">
+      <div>
+        <span class="eyebrow">The proof</span>
+        <h2 class="rv">We built it <em>for ourselves first.</em></h2>
+        <p class="lead rv d1" style="margin-bottom:34px">Before we offer you a system, we use it every day. This is what runs VYNTRA today:</p>
+        <div class="casa rv">
+          <div class="ci"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg></div>
+          <div><h3>Customer portal <small>in daily use</small></h3><p>Each customer sees their live campaigns, payments and receipts. Our team runs leads, tasks and finances from it.</p></div>
+        </div>
+        <div class="casa rv d1">
+          <div class="ci"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><path d="M12 12l5-5"/></svg></div>
+          <div><h3>Prospecting radar <small>every night</small></h3><p>Finds companies in Chihuahua, Juárez and Monterrey using official data, and verifies the information before anyone sees it.</p></div>
+        </div>
+        <div class="casa rv d2">
+          <div class="ci"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a7 7 0 0 1 7 7c0 5-7 13-7 13S5 14 5 9a7 7 0 0 1 7-7z"/><circle cx="12" cy="9" r="2.5"/></svg></div>
+          <div><h3>Nexo, internal assistant <small>24/7</small></h3><p>Delivers the daily briefing with real data, flags appointments and to-dos, and updates records only after a confirmation.</p></div>
+        </div>
+        <div class="casa rv d3">
+          <div class="ci"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2" width="12" height="20" rx="2"/><path d="M11 18h2"/></svg></div>
+          <div><h3>Rancho Vivo <small>on the ranch</small></h3><p>A cattle and expense app that works with no signal, with calving alerts and voice entry.</p></div>
+        </div>
+      </div>
+      <div class="teles rv d2" aria-label="Real screenshots of the Rancho Vivo app">
+        <div class="tel t1"><img src="../agro/img/hato.webp" alt="Herd screen in Rancho Vivo" width="540" height="1099"></div>
+        <div class="tel t2"><img src="../agro/img/dinero.webp" alt="Expenses screen in Rancho Vivo" width="540" height="1099"></div>
+        <div class="etq">Real screenshots of Rancho Vivo, our ranch app (in Spanish)</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ CÓMO TRABAJAMOS ═══ -->
+<section id="como" class="s-arena">
+  <div class="wrap">
+    <span class="eyebrow">How we work</span>
+    <h2 class="rv">First we understand. <em>Then we build.</em></h2>
+    <p class="lead rv d1">The same process for an assistant, a campaign or a full system.</p>
+    <div class="pasos">
+      <div class="paso rv"><div class="paso-n">1</div><h3>Free assessment</h3><p>We review your business and give you, in writing, what we see, what we would do and what isn't worth doing.</p></div>
+      <div class="paso rv d1"><div class="paso-n">2</div><h3>A plan with numbers</h3><p>What we'll build, how long it takes, what it costs and how we'll measure whether it worked.</p></div>
+      <div class="paso rv d2"><div class="paso-n">3</div><h3>We build it and get it running</h3><p>Custom-built, tested with your team, and we stay with you for the first 30 days.</p></div>
+      <div class="paso rv d3"><div class="paso-n">4</div><h3>We measure and adjust</h3><p>Clear reports on what happened and what's next. What doesn't perform gets fixed; what does gets scaled.</p></div>
+    </div>
+    <div class="compromisos rv">
+      <div class="comp"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M9 15l2 2 4-4"/></svg><div><b>Commitments in writing</b><span>Response times and deliverables in your contract.</span></div></div>
+      <div class="comp"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg><div><b>Your accounts are yours</b><span>Your ads are paid from your own account, with your card.</span></div></div>
+      <div class="comp"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg><div><b>Flexible payment</b><span>A fixed monthly fee, or a lower fee plus a percentage of sales.</span></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ PRICING ═══ -->
+<section id="precios" class="s-blanco">
+  <div class="wrap">
+    <span class="eyebrow">Pricing</span>
+    <h2 class="rv">Clear pricing <em>from day one.</em></h2>
+    <p class="lead rv d1">All prices in US dollars (USD). Custom development and process consulting are quoted after the free assessment.</p>
+
+    <div class="tabs" role="tablist">
+      <button class="tab on" data-tab="ads" role="tab">Advertising (Ads)</button>
+      <button class="tab" data-tab="nexo" role="tab">Nexo AI assistants</button>
+      <button class="tab" data-tab="arma" role="tab">Build your plan</button>
+    </div>
+
+    <div class="panel on" id="p-ads">
+      <div class="planes planes-2">
+        <div class="plan dest">
+          <span class="tipo">Recommended</span>
+          <h3>Professional</h3>
+          <div class="plat">Meta + Google Ads</div>
+          <div class="precio">$650<small> USD/mo</small></div>
+          <div class="precio-sem"></div>
+          <ul>
+            <li>Full management of your Meta and Google campaigns</li>
+            <li>Google Search, Display and Performance Max</li>
+            <li>Hour-by-hour review of active campaigns</li>
+            <li>Ads for people who already visited or messaged you</li>
+            <li>Weekly report and monthly competitor analysis</li>
+            <li>2 meetings a month, replies within 12 hours</li>
+          </ul>
+          <button class="btn btn-p" data-cotizar="the Professional plan">Get a quote</button>
+        </div>
+        <div class="plan">
+          <span class="tipo">All in</span>
+          <h3>Full</h3>
+          <div class="plat">Meta + Google + TikTok + organic social</div>
+          <div class="precio">$1,150<small> USD/mo</small></div>
+          <div class="precio-sem"></div>
+          <ul>
+            <li>Everything in Professional</li>
+            <li>TikTok campaigns</li>
+            <li>Social media management: Instagram, Facebook, TikTok and LinkedIn</li>
+            <li>Monthly content calendar</li>
+            <li>Scripts for short videos</li>
+            <li>Weekly meeting and report, replies within 4 hours</li>
+          </ul>
+          <button class="btn btn-o dark" data-cotizar="the Full plan">Get a quote</button>
+        </div>
+      </div>
+      <p class="nota">6-month agreement. Ad spend (Meta, Google, TikTok) is separate and you pay it directly to each platform from your own account.</p>
+    </div>
+
+    <div class="panel" id="p-nexo">
+      <div class="planes">
+        <div class="plan">
+          <span class="tipo">Support</span>
+          <h3>Nexo Support</h3>
+          <div class="plat">Setup from $1,200 USD</div>
+          <div class="precio">$450<small> USD/mo</small></div>
+          <div class="precio-sem"></div>
+          <ul>
+            <li>Answers on WhatsApp 24/7</li>
+            <li>Handles your business's frequent questions</li>
+            <li>Books appointments and qualifies leads</li>
+            <li>Hands off to a person when needed</li>
+            <li>Weekly summary of conversations</li>
+          </ul>
+          <button class="btn btn-o dark" data-cotizar="Nexo Support">Get a quote</button>
+        </div>
+        <div class="plan dest">
+          <span class="tipo">Sales</span>
+          <h3>Nexo Sales</h3>
+          <div class="plat">Setup from $1,500 USD</div>
+          <div class="precio">$550<small> USD/mo</small></div>
+          <div class="precio-sem"></div>
+          <ul>
+            <li>Follows up with every lead</li>
+            <li>Spots who is ready to buy</li>
+            <li>Connects to your customer system</li>
+            <li>Tells you when it's time to close</li>
+            <li>Weekly report of deals in progress</li>
+          </ul>
+          <button class="btn btn-p" data-cotizar="Nexo Sales">Get a quote</button>
+        </div>
+        <div class="plan">
+          <span class="tipo">Operations</span>
+          <h3>Nexo Operations</h3>
+          <div class="plat">Setup from $900 USD</div>
+          <div class="precio">$380<small> USD/mo</small></div>
+          <div class="precio-sem"></div>
+          <ul>
+            <li>Confirms appointments automatically</li>
+            <li>Reminders one day and one hour before</li>
+            <li>Reschedules without you stepping in</li>
+            <li>Connects to your calendar</li>
+          </ul>
+          <button class="btn btn-o dark" data-cotizar="Nexo Operations">Get a quote</button>
+        </div>
+      </div>
+      <p class="nota"><strong>Nexo 360</strong> (all three, connected): from $1,200 USD a month. "From" prices: the final cost depends on how many channels and processes are connected.</p>
+    </div>
+
+    <div class="panel" id="p-arma">
+      <div class="plan-box">
+        <div id="addons"></div>
+        <aside class="resumen" aria-live="polite">
+          <h4>Your plan</h4>
+          <div class="sub">Check what you're interested in</div>
+          <div id="res-items"><div class="res-vacio">Nothing selected yet.</div></div>
+          <div id="res-tot" hidden>
+            <div class="res-tot"><span>Monthly from</span><b id="res-m">$0</b></div>
+            <div class="res-setup"><span>One-time from</span><span id="res-s">$0</span></div>
+          </div>
+          <button class="btn btn-p" id="res-wa">Request a quote on WhatsApp</button>
+          <button class="res-limpiar" id="res-clear">Clear</button>
+          <div class="res-nota">This is an estimate in USD. The final price is set after the assessment.</div>
+        </aside>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FAQ ═══ -->
+<section id="preguntas" class="s-blanco">
+  <div class="wrap faq-grid">
+    <div class="rv">
+      <span class="eyebrow">FAQ</span>
+      <h2>What almost everyone <em>asks us.</em></h2>
+      <p class="lead">Have another question? Message us and we'll get back to you the same day.</p>
+      <a href="https://wa.me/526142726674?text=Hi%20VYNTRA%2C%20I%20have%20a%20question" target="_blank" rel="noopener" class="tlink">Ask on WhatsApp →</a>
+    </div>
+    <div class="faq rv d1">
+      <details><summary><span>How long does it take?</span><svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></summary><p>A Nexo assistant takes 2 to 3 weeks. A website, 3 to 4 weeks. Ad campaigns go live about a week after you give us access. Your plan includes the dates in writing.</p></details>
+      <details><summary><span>Do I sign a contract?</span><svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></summary><p>Yes, always in writing: what's included, how fast we respond and what we deliver. Advertising is a 6-month agreement. Development work (websites, assistants, systems) is billed per project, with a deposit.</p></details>
+      <details><summary><span>Is ad spend included?</span><svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></summary><p>No. You pay Meta or Google directly, from your own account and with your own card. We charge for management, strategy and reporting, so you always see where every dollar goes.</p></details>
+      <details><summary><span>Do I need to be tech-savvy?</span><svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></summary><p>No. We set everything up and train you and your team to use it. If anything is unclear, just message us.</p></details>
+      <details><summary><span>What happens to my customers' data?</span><svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></summary><p>It's yours. We don't sell it or share it, and we only use it for the service you hired us for.</p></details>
+      <details><summary><span>What does the assistant do if it doesn't know an answer?</span><svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></summary><p>It doesn't make things up. It hands the conversation to someone on your team and lets you know.</p></details>
+      <details><summary><span>Do you work in English?</span><svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></summary><p>Yes. We work in English and Spanish, with businesses across the US and Mexico. Almost everything is done online, and we can meet in person when needed.</p></details>
+      <details><summary><span>How much is the assessment?</span><svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></summary><p>Nothing. We review your business, tell you what we would do and what it would cost, and you decide. If it doesn't make sense for you, we'll tell you that too.</p></details>
+      <details><summary><span>Can I pay in US dollars?</span><svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></summary><p>Yes. You can pay in US dollars or in Mexican pesos, by bank transfer. Your plan states the currency and amount in writing.</p></details>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ CONTACTO ═══ -->
+<section id="contacto" class="s-marina cuadricula">
+  <div class="wrap">
+    <span class="eyebrow">Let's talk</span>
+    <h2 class="rv">Tell us what's holding <em>your business back.</em></h2>
+    <p class="lead rv d1">We start with a free assessment: what we would do, what it would cost and what results to expect. If it doesn't make sense for you, we'll tell you that too.</p>
+    <div class="c-btns rv d2">
+      <a href="https://wa.me/526142726674?text=Hi%20VYNTRA%2C%20I'm%20interested%20in%20a%20free%20assessment%20for%20my%20business" target="_blank" rel="noopener" class="btn btn-wa">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        Message us on WhatsApp
+      </a>
+      <a href="mailto:vyntra.ex@gmail.com?subject=Free%20assessment%20for%20my%20business" class="btn btn-o">Send an email</a>
+    </div>
+    <div class="c-datos">
+      <a href="https://wa.me/526142726674" target="_blank" rel="noopener">+52 614 272 6674</a>
+      <a href="mailto:vyntra.ex@gmail.com">vyntra.ex@gmail.com</a>
+      <a href="https://instagram.com/vyntra.ex" target="_blank" rel="noopener">@vyntra.ex</a>
+      <span>Chihuahua, Mexico · Serving Texas, the US and Mexico</span>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ CASOS (anónimos, estilo reseñas) ═══ -->
+<section id="casos" class="s-arena">
+  <div class="wrap">
+    <div class="rs-head">
+      <div>
+        <span class="eyebrow">Results</span>
+        <h3 class="rs-h">What we've achieved with our clients</h3>
+      </div>
+      <span class="rs-hint">Swipe →</span>
+    </div>
+    <div class="rs">
+      <article class="r">
+        <div class="r-top"><div class="r-av">E</div><div><b>High school</b><span>Chihuahua, Mexico</span></div></div>
+        <p>Campaign aimed at local parents: <strong>120 enrollments in 2 weeks</strong> on MX$63 a day in ads.</p>
+        <div class="r-tag">AI-driven advertising</div>
+      </article>
+      <article class="r">
+        <div class="r-top"><div class="r-av">S</div><div><b>Private security company</b><span>Monterrey, Mexico</span></div></div>
+        <p>Staff recruiting across 3 campaigns: <strong>144 applicants</strong>, and cost per applicant dropped from <strong>MX$77 to MX$25</strong>.</p>
+        <div class="r-tag">AI-driven advertising</div>
+      </article>
+      <article class="r">
+        <div class="r-top"><div class="r-av">R</div><div><b>Equipment rental</b><span>Chihuahua, Mexico</span></div></div>
+        <p>Quote page and WhatsApp campaigns: <strong>21 conversations in 30 days</strong> at MX$31 each.</p>
+        <div class="r-tag">Website + advertising</div>
+      </article>
+      <article class="r">
+        <div class="r-top"><div class="r-av">A</div><div><b>Architecture studio</b><span>Chihuahua, Mexico</span></div></div>
+        <p>They had no website. Full site with <strong>20+ projects</strong> and WhatsApp quotes, in <strong>under 4 weeks</strong>.</p>
+        <div class="r-tag">Website</div>
+      </article>
+      <article class="r">
+        <div class="r-top"><div class="r-av">C</div><div><b>Footwear brand</b><span>Chihuahua, Mexico</span></div></div>
+        <p>They only sold through direct messages. Now they have an <strong>online store</strong> with catalog, cart and their own domain.</p>
+        <div class="r-tag">Online store</div>
+      </article>
+      <article class="r">
+        <div class="r-top"><div class="r-av">M</div><div><b>Mobile retail business</b><span>Chihuahua, Mexico</span></div></div>
+        <p>Where to set up: <strong>14 competitors mapped</strong> plus official traffic counts, to decide with data.</p>
+        <div class="r-tag">Location analysis</div>
+      </article>
+    </div>
+    <p class="rs-nota">For confidentiality, we don't publish our clients' names.</p>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="f-marca"><b>VYNTRA</b><span>Intelligent Systems</span></div>
+    <div class="f-links">
+      <a href="#que-hacemos">What we do</a>
+      <a href="#precios">Pricing</a>
+      <a href="#preguntas">FAQ</a>
+      <a href="../">Español</a>
+      <a href="../privacy.html">Privacy notice</a>
+    </div>
+    <div class="f-copy">© 2026 VYNTRA Intelligent Systems · Real intelligence for real businesses.</div>
+  </div>
+</footer>
+
+<a class="fab" href="https://wa.me/526142726674?text=Hi%20VYNTRA%2C%20I'd%20like%20more%20information" target="_blank" rel="noopener" aria-label="Message us on WhatsApp">
+  <svg width="27" height="27" viewBox="0 0 24 24" fill="#fff" aria-hidden="true" style="position:relative"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+</a>
+
+<script>
+// ==COMUN-INICIO==
+const WA = 'https://wa.me/526142726674?text=';
+const abrirWA = t => window.open(WA + encodeURIComponent(t), '_blank', 'noopener');
+const quieto = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+// Precios por país: se decide con el nombre de la zona horaria del aparato (Juárez = "America/Ciudad_Juarez",
+// El Paso = "America/Denver"), sin servicios externos ni pedir permiso. México ve pesos; el resto, dólares.
+// Solo aplica a las páginas en español (la de inglés siempre está en dólares). Para probar: ?precios=usd o ?precios=mxn
+const enEEUU = (() => {
+  const q = new URLSearchParams(location.search).get('precios'); if (q) return q === 'usd';
+  try {
+    const z = Intl.DateTimeFormat().resolvedOptions().timeZone || ''; if (!z) return false;
+    return !(/^America\/(Mexico_City|Monterrey|Chihuahua|Ciudad_Juarez|Ojinaga|Tijuana|Ensenada|Santa_Isabel|Hermosillo|Mazatlan|Bahia_Banderas|Matamoros|Merida|Cancun)$/.test(z) || /^Mexico\//.test(z));
+  } catch (_) { return false; }
+})();
+const USD = document.documentElement.lang === 'es' && enEEUU;
+if (USD) {
+  document.documentElement.classList.add('usd');
+  document.querySelectorAll('[data-usd-html]').forEach(el => el.innerHTML = el.dataset.usdHtml);
+  document.querySelectorAll('[data-usd-clase]').forEach(el => el.classList.add(el.dataset.usdClase));
+}
+
+// Header, menú y barra de avance
+const hdr = document.getElementById('hdr'), burger = document.getElementById('burger'), mm = document.getElementById('mmenu'), avance = document.getElementById('avance');
+const onScroll = () => {
+  hdr.classList.toggle('solid', scrollY > 30 || mm.classList.contains('open'));
+  const h = document.documentElement.scrollHeight - innerHeight;
+  avance.style.width = (h > 0 ? scrollY / h * 100 : 0) + '%';
+};
+addEventListener('scroll', onScroll, {passive:true}); onScroll();
+burger.addEventListener('click', () => {
+  const open = mm.classList.toggle('open');
+  burger.classList.toggle('x', open); burger.setAttribute('aria-expanded', open); onScroll();
+});
+mm.querySelectorAll('a').forEach(a => a.addEventListener('click', () => { mm.classList.remove('open'); burger.classList.remove('x'); burger.setAttribute('aria-expanded', false); onScroll(); }));
+
+// Aparecer al bajar + contadores
+const contar = el => {
+  const n = +el.dataset.n, t0 = performance.now(), dur = 1600;
+  const paso = t => { const k = Math.min((t - t0) / dur, 1); el.textContent = Math.round(n * (1 - Math.pow(1 - k, 3))); if (k < 1) requestAnimationFrame(paso); };
+  quieto ? el.textContent = n : requestAnimationFrame(paso);
+};
+const io = new IntersectionObserver(es => es.forEach(e => {
+  if (!e.isIntersecting) return;
+  e.target.classList.add('on');
+  e.target.querySelectorAll('.cnt').forEach(contar);
+  io.unobserve(e.target);
+}), {threshold:.12});
+document.querySelectorAll('.rv').forEach(el => io.observe(el));
+
+// ==COMUN-FIN==
+
+// Frase que cambia
+const frases = ['sell more', 'answer 24/7', 'run a tighter operation', 'decide with data', 'stop doing everything by hand'];
+const rot = document.getElementById('rot');
+if (!quieto) {
+  let i = 0, j = frases[0].length, borrando = true;
+  const tick = () => {
+    const f = frases[i];
+    if (borrando) { j--; if (j <= 0) { borrando = false; i = (i + 1) % frases.length; } }
+    else { j++; if (j >= frases[i].length) { borrando = true; rot.textContent = frases[i]; return setTimeout(tick, 2200); } }
+    rot.textContent = frases[i].slice(0, Math.max(j, 0)) || ' ';
+    setTimeout(tick, borrando ? 35 : 65);
+  };
+  setTimeout(tick, 2600);
+}
+
+// Chat animado del hero
+const chat = document.getElementById('chat');
+if (chat) {
+  const piezas = [...chat.querySelectorAll('.msg, .escribiendo')];
+  const correr = () => {
+    piezas.forEach(p => p.classList.remove('ver'));
+    piezas.forEach((p, k) => setTimeout(() => {
+      p.classList.add('ver');
+      if (p.classList.contains('escribiendo')) setTimeout(() => p.classList.remove('ver'), 1100);
+    }, 500 + k * 1100));
+  };
+  if (quieto) piezas.forEach(p => !p.classList.contains('escribiendo') && p.classList.add('ver'));
+  else { correr(); setInterval(correr, 11000); }
+}
+
+// Red de puntos del hero
+(() => {
+  const cv = document.getElementById('red'); if (!cv || quieto) return;
+  const ctx = cv.getContext('2d'); let W, H, pts = [], ratón = {x:-999, y:-999}, activo = true;
+  const tam = () => {
+    const r = devicePixelRatio || 1; W = cv.offsetWidth; H = cv.offsetHeight;
+    cv.width = W * r; cv.height = H * r; ctx.setTransform(r, 0, 0, r, 0, 0);
+    const n = Math.min(90, Math.round(W * H / 16000));
+    pts = Array.from({length:n}, () => ({x:Math.random()*W, y:Math.random()*H, vx:(Math.random()-.5)*.35, vy:(Math.random()-.5)*.35, r:Math.random()*1.6+.8}));
+  };
+  tam(); addEventListener('resize', tam);
+  cv.parentElement.addEventListener('mousemove', e => { const b = cv.getBoundingClientRect(); ratón = {x:e.clientX-b.left, y:e.clientY-b.top}; });
+  cv.parentElement.addEventListener('mouseleave', () => ratón = {x:-999, y:-999});
+  new IntersectionObserver(([e]) => activo = e.isIntersecting).observe(cv);
+  const D = 130;
+  const dibuja = () => {
+    requestAnimationFrame(dibuja); if (!activo) return;
+    ctx.clearRect(0, 0, W, H);
+    for (const p of pts) {
+      p.x += p.vx; p.y += p.vy;
+      if (p.x < 0 || p.x > W) p.vx *= -1; if (p.y < 0 || p.y > H) p.vy *= -1;
+      const dx = ratón.x - p.x, dy = ratón.y - p.y, d = Math.hypot(dx, dy);
+      if (d < 180) { p.x += dx * .006; p.y += dy * .006; }
+    }
+    for (let a = 0; a < pts.length; a++) {
+      for (let b = a + 1; b < pts.length; b++) {
+        const d = Math.hypot(pts[a].x - pts[b].x, pts[a].y - pts[b].y);
+        if (d < D) { ctx.strokeStyle = `rgba(107,168,245,${(1 - d / D) * .32})`; ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(pts[a].x, pts[a].y); ctx.lineTo(pts[b].x, pts[b].y); ctx.stroke(); }
+      }
+      const dm = Math.hypot(pts[a].x - ratón.x, pts[a].y - ratón.y);
+      if (dm < 180) { ctx.strokeStyle = `rgba(37,99,235,${(1 - dm / 180) * .7})`; ctx.beginPath(); ctx.moveTo(pts[a].x, pts[a].y); ctx.lineTo(ratón.x, ratón.y); ctx.stroke(); }
+    }
+    for (const p of pts) { ctx.fillStyle = 'rgba(107,168,245,.85)'; ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, 7); ctx.fill(); }
+  };
+  dibuja();
+})();
+
+// Pantallas que rotan en el hero
+(() => {
+  const sls = [...document.querySelectorAll('#pant .sl')], txt = document.getElementById('sl-txt');
+  const nombres = ['Rancho Vivo · ranch finances', 'Your business dashboard', 'Rancho Vivo · the herd', 'Rancho Vivo · voice entry', 'Rancho Vivo · pastures'];
+  if (!sls.length || quieto) return;
+  let k = 0;
+  setInterval(() => {
+    sls[k].classList.remove('on'); k = (k + 1) % sls.length; sls[k].classList.add('on');
+    txt.textContent = nombres[k];
+  }, 3200);
+})();
+
+// Antes y después
+(() => {
+  const r = document.getElementById('ad-rango'), con = document.getElementById('ad-con'), barra = document.getElementById('ad-barra');
+  if (!r) return;
+  const pon = v => { con.style.clipPath = `inset(0 0 0 ${v}%)`; barra.style.left = v + '%'; };
+  r.addEventListener('input', () => pon(r.value));
+  // pequeña invitación a moverla cuando aparece
+  let hecho = false;
+  new IntersectionObserver(([e], o) => {
+    if (!e.isIntersecting || hecho || quieto) return; hecho = true; o.disconnect();
+    const pasos = [50, 30, 70, 50]; let i = 0;
+    const sig = () => { if (i >= pasos.length) return; con.style.transition = barra.style.transition = 'all .7s ease'; pon(pasos[i]); r.value = pasos[i]; i++; setTimeout(sig, 750); };
+    setTimeout(sig, 500); setTimeout(() => con.style.transition = barra.style.transition = '', 3600);
+  }, {threshold:.5}).observe(r);
+})();
+
+// ==CFG-DENTAL-INICIO==
+const DEMO_DENTAL = {
+  inicio: ['I need an appointment', 'How much is a cleaning?', 'What are your hours?', 'I have a toothache', 'Do you take cards?'],
+  saludo: 'Hi! I\'m the dental office assistant. How can I help you?',
+  finChips: ['I need an appointment', 'Can I get this for my business?'],
+  noEntiende: 'At a real practice, Nexo would pass your question to someone on the team right here. Would you like an assistant like this for your business?',
+  reglas: [
+    {k:/hurt|pain|ache|urgent|emergenc|bleed|swoll|broke|crack/, t:'I\'m sorry you\'re in pain. Since it\'s urgent, I\'m letting the front desk know right now so they can see you today.', sis:'Nexo handed the conversation to a person at the office', c:['What are your hours?']},
+    {k:/^(10:00 am|12:30 pm|5:00 pm)$/, t:'Done, you\'re booked for tomorrow at {m}. I\'ll send you a reminder one day before and another one an hour before. Anything else?', c:['Where are you located?', 'Do you take cards?', 'No, thanks']},
+    {k:/appointment|book|schedul|consult|visit|check.?up|yes/, t:'Sure. These are the times available tomorrow:', c:['10:00 AM', '12:30 PM', '5:00 PM']},
+    {k:/how much|price|cost|charge|fee/, t:'It depends on what you need, and the dentist sets it at your evaluation. Want me to book one?', c:['Yes, book it', 'No, thanks']},
+    {k:/hour|open|close|when|saturday|sunday|weekend/, t:'We\'re open Monday to Friday from 9 AM to 7 PM and Saturdays from 9 AM to 2 PM. Want me to book you in?', c:['I need an appointment', 'No, thanks']},
+    {k:/where|locat|address|direction|park/, t:'Here the assistant sends you the address and a map, with landmarks and where to park.', c:['I need an appointment', 'No, thanks']},
+    {k:/card|pay|cash|transfer|insurance|receipt/, t:'We accept cash, cards and bank transfers. Anything else I can help with?', c:['I need an appointment', 'No, thanks']},
+  ]
+};
+// ==CFG-DENTAL-FIN==
+
+// ==DEMO-INICIO==
+// Demo de Nexo: respuestas escritas de antemano. No usa IA ni gasta saldo.
+function demoNexo(CFG) {
+  const body = document.getElementById('dm-body'), chips = document.getElementById('dm-chips'), form = document.getElementById('dm-form'), inp = document.getElementById('dm-in');
+  if (!body) return;
+  const WA_VYNTRA = WA + encodeURIComponent('Hi VYNTRA, I tried the Nexo demo and I want one for my business');
+  const COMUNES = [
+    {k:/^(hi|hello|hey|good (morning|afternoon|evening))/, t:'Hi! How can I help?', c:CFG.inicio.slice(0, 3)},
+    {k:/thank|that'?s all|nothing else|^no\b|bye/, t:'You\'re welcome! I\'m here whenever you need me, day or night.', fin:true},
+    {k:/vyntra|nexo|my business|want one|get this|\bbot\b|robot|artificial intelligence/, t:'Here\'s the deal: this is a demo of Nexo, the assistant VYNTRA builds. We adapt it to your business and quote it in a free assessment.', wa:true},
+  ];
+  const REGLAS = [...CFG.reglas, ...COMUNES];
+  const baja = () => body.scrollTop = body.scrollHeight;
+  const burbuja = (t, quien) => { const d = document.createElement('div'); d.className = 'dm-m ' + quien; d.textContent = t; body.appendChild(d); baja(); return d; };
+  const ponChips = lista => { chips.innerHTML = ''; (lista || []).forEach(c => { const b = document.createElement('button'); b.type = 'button'; b.textContent = c; b.onclick = () => envia(c); chips.appendChild(b); }); };
+  let ocupado = false;
+  const contesta = res => {
+    const esc = document.createElement('div'); esc.className = 'dm-esc'; esc.innerHTML = '<i></i><i></i><i></i>'; body.appendChild(esc); baja();
+    setTimeout(() => {
+      esc.remove();
+      const b = burbuja(res.t, 'bot');
+      if (res.wa) { const a = document.createElement('a'); a.href = WA_VYNTRA; a.target = '_blank'; a.rel = 'noopener'; a.textContent = 'I want one for my business'; b.appendChild(document.createElement('br')); b.appendChild(a); }
+      if (res.sis) setTimeout(() => burbuja(res.sis, 'sis'), 500);
+      ponChips(res.fin ? CFG.finChips : res.c || CFG.inicio);
+      ocupado = false;
+    }, quieto ? 200 : 700 + Math.min(res.t.length * 12, 1100));
+  };
+  const envia = texto => {
+    texto = (texto || '').trim(); if (!texto || ocupado) return;
+    ocupado = true; burbuja(texto, 'yo'); ponChips([]);
+    const m = texto.toLowerCase();
+    const hit = REGLAS.find(x => x.k.test(m));
+    if (hit) return contesta({...hit, t: hit.t.replace('{m}', texto)});
+    contesta({t: CFG.noEntiende, wa: true, c: CFG.inicio.slice(0, 3)});
+  };
+  if (matchMedia('(max-width:900px)').matches) new IntersectionObserver(([e]) => document.body.classList.toggle('sin-fab', e.isIntersecting), {threshold:.15}).observe(document.querySelector('.dm'));
+  form.addEventListener('submit', e => { e.preventDefault(); envia(inp.value); inp.value = ''; });
+  let iniciado = false;
+  new IntersectionObserver(([e], o) => {
+    if (!e.isIntersecting || iniciado) return; iniciado = true; o.disconnect();
+    contesta({t: CFG.saludo, c: CFG.inicio});
+  }, {threshold:.3}).observe(body);
+}
+// ==DEMO-FIN==
+demoNexo(DEMO_DENTAL);
+
+// Calculadora
+(() => {
+  const $id = id => document.getElementById(id); if (!$id('c-msj')) return;
+  const mx = n => '$' + Math.round(n).toLocaleString('en-US');
+  const ins = ['c-msj', 'c-pct', 'c-tk', 'c-cv'].map($id);
+  if (USD) { Object.assign($id('c-tk'), {min: 10, max: 2000, step: 10, value: 80}); document.querySelector('.calc-per').textContent = 'dólares al mes'; }
+  const calc = () => {
+    const [msj, pct, tk, cv] = ins.map(i => +i.value);
+    ins.forEach(i => i.style.setProperty('--p', ((i.value - i.min) / (i.max - i.min) * 100) + '%'));
+    $id('v-msj').textContent = msj; $id('v-pct').textContent = pct + '%'; $id('v-tk').textContent = mx(tk); $id('v-cv').textContent = cv;
+    const perdidos = msj * (pct / 100) * 30, clientes = perdidos * cv / 10, mes = clientes * tk;
+    $id('c-mes').textContent = mx(mes); $id('c-ano').textContent = mx(mes * 12); $id('c-cli').textContent = Math.round(clientes).toLocaleString('en-US');
+    $id('c-cuenta').textContent = `${msj} messages × ${pct}% unanswered × 30 days = ${Math.round(perdidos).toLocaleString('en-US')} people a month. If ${cv} out of 10 bought at ${mx(tk)}, that's ${mx(mes)}.`;
+    return {msj, pct, mes};
+  };
+  ins.forEach(i => i.addEventListener('input', calc)); calc();
+  $id('c-wa').addEventListener('click', () => { const r = calc(); abrirWA(`Hi VYNTRA, I used the calculator: I get ${r.msj} messages a day and ${r.pct}% get a late reply. It says I could be losing ${mx(r.mes)} a month. Can you help?`); });
+})();
+
+// Pricing tabs
+document.querySelectorAll('.tab').forEach(t => t.addEventListener('click', () => {
+  document.querySelectorAll('.tab').forEach(x => x.classList.toggle('on', x === t));
+  document.querySelectorAll('.panel').forEach(p => p.classList.toggle('on', p.id === 'p-' + t.dataset.tab));
+}));
+document.querySelectorAll('[data-cotizar]').forEach(b => b.addEventListener('click', () => abrirWA(`Hi VYNTRA, I'd like a quote for ${b.dataset.cotizar}. Can you send me more information?`)));
+
+// Build your plan (USD)
+const GRUPOS = { A:'AI assistants', C:'Websites & online stores', D:'Automation & conversion', B:'Content', F:'Data & training', E:'Brand' };
+const ADDONS = [
+  {g:'A', n:'Nexo Support', d:'Answers and books on WhatsApp 24/7.', m:450, s:1200},
+  {g:'A', n:'Nexo Sales', d:'Follows up with leads until they close.', m:550, s:1500},
+  {g:'A', n:'Nexo Operations', d:'Confirms, reminds and reschedules.', m:380, s:900},
+  {g:'A', n:'Voice assistant', d:'Answers phone calls with a natural voice.', m:750, s:2500},
+  {g:'C', n:'Landing page', d:'One page built to bring in customers.', m:0, s:2200},
+  {g:'C', n:'Full website', d:'5 to 7 sections, ready for Google.', m:0, s:4500},
+  {g:'C', n:'Online store', d:'Catalog, cart and online payments.', m:0, s:5500},
+  {g:'C', n:'Website maintenance', d:'Updates, backups and support.', m:200, s:0},
+  {g:'C', n:'ADA / WCAG accessibility', d:'Audit, fixes and monthly monitoring.', m:180, s:1500},
+  {g:'D', n:'Customer system (CRM)', d:'Your leads and sales in order.', m:0, s:2800},
+  {g:'D', n:'Custom automation', d:'Per workflow: connects your tools.', m:0, s:650},
+  {g:'D', n:'WhatsApp Business API', d:'Connected to your workflows and customers.', m:280, s:700},
+  {g:'D', n:'Email marketing', d:'Email campaigns to your customers.', m:350, s:700},
+  {g:'D', n:'SMS marketing', d:'Text campaigns with proper opt-in consent.', m:280, s:300},
+  {g:'D', n:'Local SEO & Google profile', d:'Your Google listing working for you.', m:450, s:0},
+  {g:'D', n:'Online reputation', d:'Reviews on Google and Yelp, managed.', m:350, s:0},
+  {g:'D', n:'Tracking setup', d:'GA4 + Meta Conversions API.', m:0, s:600},
+  {g:'B', n:'Social media images', d:'30 images a month.', m:200, s:0},
+  {g:'B', n:'Short videos', d:'8 videos a month for Reels and TikTok.', m:350, s:0},
+  {g:'B', n:'Social media posting', d:'20 posts a month on 3 networks.', m:280, s:0},
+  {g:'B', n:'Blog articles for Google', d:'4 articles a month.', m:280, s:0},
+  {g:'B', n:'Content calendar', d:'Monthly posting plan.', m:180, s:0},
+  {g:'B', n:'Creators & influencers', d:'Content with real people.', m:450, s:0},
+  {g:'F', n:'Business dashboard', d:'Sales, inventory and team on one screen.', m:320, s:2500},
+  {g:'F', n:'Competitor analysis', d:'Monthly report on ads and prices.', m:650, s:0},
+  {g:'F', n:'Market study', d:'Industry data to make decisions.', m:0, s:2800},
+  {g:'F', n:'Team training', d:'Applied AI session for your team.', m:0, s:550},
+  {g:'F', n:'Show up in AI answers', d:'Be found in ChatGPT, Copilot and similar.', m:300, s:0},
+  {g:'E', n:'Logo & basic identity', d:'Logo, colors and typography.', m:0, s:850},
+  {g:'E', n:'Full brand manual', d:'Identity, rules and templates.', m:0, s:3200},
+];
+const $ = n => '$' + n.toLocaleString('en-US');
+const precioTxt = a => a.m ? `from ${$(a.m)}/mo` + (a.s ? ` + ${$(a.s)}` : '') : `from ${$(a.s)} one-time`;
+const cont = document.getElementById('addons'), sel = new Set();
+Object.entries(GRUPOS).forEach(([g, nombre]) => {
+  const h = document.createElement('div'); h.className = 'grupo'; h.textContent = nombre; cont.appendChild(h);
+  const l = document.createElement('div'); l.className = 'lista';
+  ADDONS.forEach((a, i) => {
+    if (a.g !== g) return;
+    const f = document.createElement('div'); f.className = 'fila'; f.tabIndex = 0; f.setAttribute('role','checkbox'); f.setAttribute('aria-checked','false');
+    f.innerHTML = `<div class="cb"></div><div><b>${a.n}</b><span>${a.d}</span></div><div class="pr">${precioTxt(a)}</div>`;
+    const tog = () => { sel.has(i) ? sel.delete(i) : sel.add(i); f.classList.toggle('sel', sel.has(i)); f.setAttribute('aria-checked', sel.has(i)); pinta(); };
+    f.addEventListener('click', tog);
+    f.addEventListener('keydown', e => { if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); tog(); } });
+    l.appendChild(f);
+  });
+  cont.appendChild(l);
+});
+function pinta() {
+  const box = document.getElementById('res-items'), tot = document.getElementById('res-tot');
+  if (!sel.size) { box.innerHTML = '<div class="res-vacio">Nothing selected yet.</div>'; tot.hidden = true; return; }
+  let m = 0, s = 0, h = '<div class="res-items">';
+  sel.forEach(i => { const a = ADDONS[i]; m += a.m; s += a.s; h += `<div><span>${a.n}</span><span>${a.m ? $(a.m) + '/mo' : $(a.s)}</span></div>`; });
+  box.innerHTML = h + '</div>'; tot.hidden = false;
+  document.getElementById('res-m').textContent = m ? $(m) : '—';
+  document.getElementById('res-s').textContent = $(s);
+}
+document.getElementById('res-clear').addEventListener('click', () => { sel.clear(); document.querySelectorAll('.fila').forEach(f => { f.classList.remove('sel'); f.setAttribute('aria-checked','false'); }); pinta(); });
+document.getElementById('res-wa').addEventListener('click', () => {
+  const items = [...sel].map(i => ADDONS[i].n).join(', ');
+  abrirWA(items ? `Hi VYNTRA, I'd like a quote for: ${items}. Can you send me more information?` : 'Hi VYNTRA, I want to build a plan for my business. Can you help?');
+});
+</script>
+</body>
+</html>
