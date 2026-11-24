@@ -1,0 +1,33 @@
+<!doctype html>
+<!-- Mi Hogar · © 2026 VYNTRA Intelligent Systems. Todos los derechos reservados. -->
+<html lang="es-MX">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' blob:; style-src 'self' 'unsafe-inline'; img-src 'self' blob: data:; connect-src 'self'; manifest-src 'self'; worker-src 'self'; base-uri 'none'; form-action 'none';">
+<meta name="referrer" content="no-referrer">
+<meta name="theme-color" content="#F3F6F4">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Mi Hogar">
+<title>Mi Hogar</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/icon-180.png">
+<link rel="stylesheet" href="acceso.css">
+</head>
+<body>
+<main class="acc">
+  <img src="icons/icon-192.png" width="84" height="84" alt="">
+  <h1>Mi Hogar</h1>
+  <p id="estado" role="status">Abriendo</p>
+  <form id="f" hidden>
+    <label for="codigo">Código de acceso</label>
+    <input id="codigo" type="password" autocomplete="current-password" autocapitalize="characters" spellcheck="false" required>
+    <label class="ver"><input id="ver" type="checkbox"> Mostrar código</label>
+    <button>Entrar</button>
+  </form>
+</main>
+<script src="acceso.js"></script>
+</body>
+</html>
